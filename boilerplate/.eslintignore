@@ -1,0 +1,10 @@
+node_modules
+expo
+.vscode
+@types
+androind
+coverage
+ios
+web-build
+!index.js
+config/jest/jestSetup.ts
