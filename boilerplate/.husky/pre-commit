@@ -1,0 +1,4 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+yarn run lint-staged && yarn run typecheck && yarn run check-circular-deps && yarn run sort-package-json "package.json"
