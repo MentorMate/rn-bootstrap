@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
-    "allowSyntheticDefaultImports": false,
     "experimentalDecorators": true,
     "lib": [
+      "ESNext",
       "es2015",
       "scripthost",
       "es2015.promise",
@@ -13,15 +13,18 @@
     "module": "commonjs",
     "moduleResolution": "node",
     "noImplicitAny": false,
-    "noImplicitThis": true,
-    "noUnusedLocals": true,
+    "noImplicitThis": false,
     "sourceMap": false,
     "inlineSourceMap": true,
     "outDir": "build",
     "strict": true,
     "target": "es5",
     "declaration": true,
-    "declarationDir": "build/types"
+    "declarationDir": "build/types",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "noUnusedParameters": false,
+    "noUnusedLocals": false,
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules"]

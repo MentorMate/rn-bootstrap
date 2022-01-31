@@ -1,7 +1,6 @@
 import 'react-native-gesture-handler';
 import React from 'react';
-import { SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, useColorScheme, View } from 'react-native';
-
+import { SafeAreaView, ScrollView, StatusBar, {{#unless hasStyledComponents}}StyleSheet, {{/unless}}Text, useColorScheme, View } from 'react-native';
 import {
   Colors,
   DebugInstructions,
@@ -9,34 +8,29 @@ import {
   LearnMoreLinks,
   ReloadInstructions
 } from 'react-native/Libraries/NewAppScreen';
+{{#if hasStyledComponents}}
+import styled from 'styled-components/native';
+{{/if}}
+{{#if hasReduxToolkit}}
+import { store } from './app/store';
+import { Provider } from 'react-redux';
+{{/if}}
 
 const Section: React.FC<{
   title: string;
 }> = ({ children, title }) => {
-  const isDarkMode = useColorScheme() === 'dark';
   return (
+    {{#if hasStyledComponents}}
+    <StyledSectionContainer>
+      <Text>{title}</Text>
+      <Text>{children}</Text>
+    </StyledSectionContainer>
+    {{else}}
     <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black
-          }
-        ]}
-      >
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark
-          }
-        ]}
-      >
-        {children}
-      </Text>
+      <Text>{title}</Text>
+      <Text>{children}</Text>
     </View>
+    {{/if}}
   );
 };
 
@@ -48,17 +42,14 @@ const App = () => {
   };
 
   return (
+    {{#if hasReduxToolkit}}<Provider store={store}>{{/if}}
     <SafeAreaView style={backgroundStyle}>
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
       <ScrollView contentInsetAdjustmentBehavior="automatic" style={backgroundStyle}>
         <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white
-          }}
-        >
+        <View>
           <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this screen and then come back to see your
+            Edit {{#if hasStyledComponents}}<HighlightedText>App.tsx</HighlightedText>{{else}}<Text style={styles.highlight}>App.tsx</Text>{{/if}} to change this screen and then come back to see your
             edits.
           </Section>
           <Section title="See Your Changes">
@@ -72,26 +63,29 @@ const App = () => {
         </View>
       </ScrollView>
     </SafeAreaView>
+    {{#if hasReduxToolkit}}</Provider>{{/if}}
   );
 };
 
+{{#if hasStyledComponents}}
+const StyledSectionContainer = styled.View`
+  margin-top: 32px;
+  padding-horizontal: 24px;
+`;
+
+const HighlightedText = styled.Text`
+  font-weight: 700;
+`;
+{{else}}
 const styles = StyleSheet.create({
   sectionContainer: {
     marginTop: 32,
     paddingHorizontal: 24
   },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600'
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400'
-  },
   highlight: {
     fontWeight: '700'
   }
 });
+{{/if}}
 
 export default App;
