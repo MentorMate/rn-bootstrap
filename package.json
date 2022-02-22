@@ -51,7 +51,7 @@
     "testEnvironment": "node"
   },
   "prettier": {
-    "semi": false,
+    "semi": true,
     "singleQuote": true
   }
 }
