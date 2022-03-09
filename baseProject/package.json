@@ -24,12 +24,25 @@
     "prettier:format": "prettier --write",
     "setup": "yarn install && yarn pod-install",
     "start": "react-native start",
+    "start:reset-cache": "react-native start --reset-cache",
     "test": "jest --maxWorkers=2",
     "test:clear:cache": "jest --clearCache",
     "test:coverage": "jest --maxWorkers=2 --collectCoverage",
+    "test:open-coverage-report": "open ./coverage/lcov-report/index.html",
     "test:watch": "jest --watch",
+    "test:debug": "node --inspect-brk ./node_modules/jest/bin/jest.js --runInBand --watch",
+    "test:ci": "yarn test:coverage --ci --silent --maxWorkers=2",
     "typecheck": "tsc --noEmit",
-    "validate:commit-message": "commitlint --edit $1"
+    "validate:commit-message": "commitlint --edit $1",
+    "npm:version:patch": "npm version patch --no-git-tag-version",
+    "npm:version:minor": "npm version minor --no-git-tag-version",
+    "npm:version:major": "npm version major --no-git-tag-version",
+    "fastlane:update-versions": "bundle exec fastlane update_versions",
+    "version:build": "yarn fastlane:update-versions",
+    "version:patch": "yarn npm:version:patch --no-git-tag-version && yarn fastlane:update-versions",
+    "version:minor": "yarn npm:version:minor --no-git-tag-version && yarn fastlane:update-versions",
+    "version:major": "yarn npm:version:major && yarn fastlane:update-versions",
+    "postinstall": "patch-package"
   },
   "dependencies": {
     "@react-native-community/async-storage": "^1.12.1",
@@ -65,7 +78,8 @@
     "prettier": "^2.5.1",
     "react-test-renderer": "17.0.2",
     "sort-package-json": "^1.53.1",
-    "typescript": "^4.4.4"
+    "typescript": "^4.4.4",
+    "patch-package": "^6.4.7"
   },
   "resolutions": {
     "@types/react": "^17"
