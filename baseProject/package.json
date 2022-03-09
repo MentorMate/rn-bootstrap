@@ -6,6 +6,15 @@
     "android": "react-native run-android",
     "check-circular-deps": "yarn dpdm --circular --tsconfig tsconfig.json --tree=false --warning=false --exit-code circular:1 ./*",
     "ios": "react-native run-ios",
+    "ios-dev": "react-native run-ios --scheme \"baseProjectDev\"",
+    "ios-stage": "react-native run-ios --scheme \"baseProjectStage\"",
+    "ios-prod": "react-native run-ios --scheme \"baseProject\"",
+    "android:dev": "react-native run-android --variant=devDebug",
+    "android:dev-release": "react-native run-android --variant=devRelease",
+    "android:stage": "react-native run-android --variant=stageDebug",
+    "android:stage-release": "react-native run-android --variant=stageRelease",
+    "android:prod": "react-native run-android --variant=prodDebug",
+    "android:prod-release": "react-native run-android --variant=prodRelease",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "lint:fix": "yarn lint --fix",
     "pod-clean-install": "(cd ios && rm -rf Pods && pod install)",
@@ -30,6 +39,7 @@
     "@react-navigation/stack": "^6.0.11",
     "react": "17.0.2",
     "react-native": "0.67.2",
+    "react-native-config": "^1.4.5",
     "react-native-gesture-handler": "^2.1.1"
   },
   "devDependencies": {
