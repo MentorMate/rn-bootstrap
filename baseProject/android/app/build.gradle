@@ -1,5 +1,15 @@
 apply plugin: "com.android.application"
 
+project.ext.envConfigFiles = [
+  devDebug: ".env.development",
+  devRelease: ".env.development",
+  stageDebug: ".env.staging",
+  stageRelease: ".env.staging",
+  prodDebug: ".env.production",
+  prodRelease: ".env.production"
+];
+
+apply from: project(":react-native-config").projectDir.getPath() + "/dotenv.gradle"
 import com.android.build.OutputFile
 
 /**
@@ -136,6 +146,7 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
+        resValue "string", "build_config_package", "com.baseproject"
     }
     splits {
         abi {
@@ -161,6 +172,7 @@ android {
                     abiFilters nativeArchitectures.split(',')
                 }
             }
+            matchingFallbacks = ['debug', 'release']
         }
         release {
             // Caution! In production, you need to generate your own keystore file.
@@ -169,6 +181,13 @@ android {
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
+    }
+
+    flavorDimensions "environment"
+    productFlavors {
+        dev {}
+        stage {}
+        prod {}
     }
 
     // applicationVariants are e.g. debug, release
