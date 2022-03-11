@@ -1,41 +1,55 @@
-import { LibrarySelectionPrompts } from '../tools/options';
+import { SelectionPrompts } from '../tools/options';
 import {
   getDependenciesToInstallFromSelectedOptions,
   getTemplateParamsFromSelectedOptions,
   getOptionalFilePathsFromSelectedOptions,
-  getFilePathsToExclude,
+  getFilePathsToExclude
 } from '../tools/option-utils';
 import { yarn } from '../tools/yarn';
 import { MMRNCliCommand, OptionSelectionResult } from '../types/types';
 
 const command: MMRNCliCommand = {
   name: 'start-project',
-  run: async (toolbox) => {
-    const { meta, filesystem, prompt, print } = toolbox;
+  run: async toolbox => {
+    const { meta, filesystem, prompt, print, CLI_PATH } = toolbox;
     const { path } = filesystem;
 
     const projectName = toolbox.getProjectName();
     const bundleId = toolbox.getBundleId();
     const selectedOptions = await prompt.ask<OptionSelectionResult>(
-      LibrarySelectionPrompts
+      SelectionPrompts
     );
 
-    const cliPath = path(`${meta.src}`, '..');
-    const boilerplatePath = path(cliPath, 'baseProject');
-
-    const optionalFilesFromSelection =
-      getOptionalFilePathsFromSelectedOptions(selectedOptions);
+    const optionalFilesFromSelection = getOptionalFilePathsFromSelectedOptions(
+      selectedOptions
+    );
     const filesToExclude = getFilePathsToExclude(optionalFilesFromSelection);
 
+    const boilerplatePath = path(CLI_PATH, 'baseProject'); // This can be (re)moved from here
     toolbox.copyBoilerplate({
       boilerplatePath,
       projectName,
-      excluded: filesToExclude,
+      excluded: filesToExclude
     });
+
+    // From here on we operate within the actual project directory.
     process.chdir(projectName);
 
-    const dependenciesToInstall =
-      getDependenciesToInstallFromSelectedOptions(selectedOptions);
+    const templateParams = getTemplateParamsFromSelectedOptions(
+      selectedOptions
+    );
+
+    toolbox
+      .getSourceFilesInCurrentDir()
+      .forEach(sourceFile =>
+        toolbox.compileTemplate([sourceFile], templateParams)
+      );
+
+    print.success('Compiled templates.');
+
+    const dependenciesToInstall = getDependenciesToInstallFromSelectedOptions(
+      selectedOptions
+    );
 
     await yarn.install();
     await yarn.add(dependenciesToInstall.dependencies);
@@ -49,12 +63,8 @@ const command: MMRNCliCommand = {
     );
     print.info('Screenshot for reference: https://bit.ly/ios-bundle-id-change');
 
-    const templateParams =
-      getTemplateParamsFromSelectedOptions(selectedOptions);
-    toolbox.compileTemplate(['App.tsx'], templateParams);
-    print.success('Compiled templates.');
     print.success('Setup done.');
-  },
+  }
 };
 
 module.exports = command;
