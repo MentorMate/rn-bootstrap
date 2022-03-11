@@ -52,7 +52,14 @@ export const SelectionToTemplateParamsMap: Partial<Record<
 
 // When the user selects an option, the corresponding files are NOT skipped when copying
 export const SelectionToOptionalFilePathsMap = {
-  [StateLibraryChoice.ReduxToolkit]: ['src/store/hooks.ts', 'src/store/store.ts']
+  [StateLibraryChoice.ReduxToolkit]: [
+    'src/store/hooks.ts',
+    'src/store/store.ts'
+  ],
+  [ReactNavigationExampleChoice.WithReactNavigationExample]: [
+    'src/common/navigation/bottomTab/BottomTabNavigator.tsx',
+    'src/common/navigation/stack/StackNavigator.tsx'
+  ]
 };
 
 export const DefaultTemplateParams: TemplateParams = {
