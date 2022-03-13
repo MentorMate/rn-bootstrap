@@ -94,7 +94,6 @@ Available commands for the project and short description of each one:
 - [`test:watch`](#testwatch)
 - [`typecheck`](#typecheck)
 - [`validate:commit-message`](#validatecommit-message)
-- [`postinstall`](#postinstall)
 
 #### `Android Scripts`
 - [`android`](#android)
@@ -274,10 +273,6 @@ Increments the build number and the minor version.
 ### `version:major`
 
 Increments the build number and the major version.
-
-#### `postinstall`
-
-Runs `patch-package` command after all dependencies have been installed.
 
 
 
