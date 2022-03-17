@@ -1,5 +1,6 @@
-import { HomeComponent } from '../components/HomeComponent'
+import React from 'react';
+import { HomeComponent } from '../components/HomeComponent';
 
-export const HomeContainer = ()=>{
-    return <HomeComponent />
-}
+export const HomeContainer = () => {
+  return <HomeComponent />;
+};

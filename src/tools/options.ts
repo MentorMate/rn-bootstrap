@@ -56,9 +56,11 @@ export const SelectionToOptionalFilePathsMap = {
     'src/store/hooks.ts',
     'src/store/store.ts'
   ],
-  [ReactNavigationExampleChoice.WithReactNavigationExample]: [
+  [ReactNavigationExampleChoice.WithReactNavigationExample]: [ // TODO: maybe make this work with src/common/navigation/*
     'src/common/navigation/bottomTab/BottomTabNavigator.tsx',
-    'src/common/navigation/stack/StackNavigator.tsx'
+    'src/common/navigation/stack/StackNavigator.tsx',
+    'src/common/navigation/ScreenName.ts',
+    'src/common/navigation/type.ts',
   ]
 };
 

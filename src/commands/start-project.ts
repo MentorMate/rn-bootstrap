@@ -7,6 +7,7 @@ import {
 } from '../tools/option-utils';
 import { yarn } from '../tools/yarn';
 import { MMRNCliCommand, OptionSelectionResult } from '../types/types';
+import { spawnProgress } from '../tools/spawn-progress';
 
 const command: MMRNCliCommand = {
   name: 'start-project',
@@ -51,6 +52,7 @@ const command: MMRNCliCommand = {
       selectedOptions
     );
 
+    await spawnProgress('git init');
     await yarn.install();
     await yarn.add(dependenciesToInstall.dependencies);
     await yarn.add(dependenciesToInstall.devDependencies, { dev: true });
