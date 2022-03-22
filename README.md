@@ -6,14 +6,14 @@ When starting a new project with mm-rn-cli it automatically installs and sets up
 - React
 - React Native
 - TypeScript
-- React Navigation
-- Redux State management(optional) - read more [here](#state)
+- React Navigation - read more [here](#navigation)
 - Styles(optional) - styled-components vs Stylesheet - read more [here](#styles)
+- Redux State management(optional) - read more [here](#statemanagement)
 - Jest - unit test setup, threshold for coverage - read more [here](#testing)
 - Predefined environments - read more [here](#environments)
 - Husky Hooks - read more [here](#husky)
 - Commits linter - commitlint and commitizen - read more [here](#commits)
-- Predefined eslint and prettier rules - read more [here](#lint)
+- Predefined eslint and prettier rules
 
 ## Installation
 //TODO
@@ -33,7 +33,6 @@ Pick the styling library - Styled Components or built-in StyleSheet:
   React-Native built-in StyleSheet
 ```
 
-
 Pick the state management library - Redux Toolkit or No State Management
 ```
 ? Please select a state management library … 
@@ -41,9 +40,55 @@ Pick the state management library - Redux Toolkit or No State Management
   No State Management
 ```
 
+In case you want to add react navigation example code in the project:
+```
+? React Navigation: … 
+❯ With set-up and example screens.
+  Without examples.
+```
 
-###Available options
-//TODO
+
+#### `Styles`
+- `Styled Components` option - when selected `styled-components` library is automatically installed and 
+  basic usage code examples are added in `baseProject/src/features/home/components/HomeComponent.tsx`
+  
+  If `React-Native built-in StyleSheet` option is picked the application will use the default StyleSheet functionality:
+  ```
+  const styles = StyleSheet.create({
+    container: {
+      ...options
+    }
+  });
+  ```
+
+#### `State Management`
+- `Redux Toolkit` option - when selected `react-redux` library will be automatically installed. 
+  `src/store/store.ts` will be imported in App.tsx. The file contains basic store setup including redux toolkit.
+  `src/store/hooks.ts` is also available with predefined setup for easy usage of useDispatch and useSelector.
+  
+#### `Navigation`
+- `With set-up and example screens` option - when selected the App will automatically include example BottomTabNavigator 
+  (`src/common/navigation/bottomTab/BottomTabNavigator.tsx`)
+
+
+#### `Testing`
+- The script will install `jest` and setup jest config for coverage threshold
+
+#### `Environments`
+- In order to handle different environments the CLI will install `react-native-config` library and include dev, stage and production environment files.
+
+#### `Husky`
+- Husky hooks are to be used in order to automate some processes:
+  - commit-msg - will trigger validation on the commit message enforcing writing proper commit messages.
+  - pre-commit - will run linters and TypeScript check against staged files. It will also check for circular dependencies among the project.
+  - pre-push - will run all tests and fail if any of them fail or the coverage threshold is not met.
+
+#### `Commits`
+- The CLI enforces usage of proper commit messages using commitlint and commitizen. Commitizen will guide you through a friendly CLI when git commit command is used:
+  ![commitizen.png](assets/commitizen.png).
+ 
+  It is all about using [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) 
+
 
 ## Customizing your CLI
 
