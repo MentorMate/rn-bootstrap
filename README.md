@@ -92,7 +92,7 @@ In case you want to add react navigation example code in the project:
 
 ## Customizing your CLI
 
-Check out the documentation at https://github.com/infinitered/gluegun/tree/master/docs.
+Check out the documentation at https://github.com/infinitered/gluegun/tree/master/docs
 
 ## Publishing to NPM
 

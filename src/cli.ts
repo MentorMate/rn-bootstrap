@@ -9,7 +9,7 @@ async function run(argv) {
     .brand('mm-rn-cli')
     .src(__dirname)
     .plugins('./node_modules', { matching: 'mm-rn-cli-*', hidden: true })
-    .help() // provides default for help, h, --help, -h
+    .defaultCommand(require('./commands/help'))
     .version() // provides default for version, v, --version, -v
     .create();
   // enable the following method if you'd like to skip loading one of these core extensions
