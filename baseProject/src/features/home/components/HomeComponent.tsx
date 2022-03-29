@@ -38,21 +38,20 @@ export const HomeComponent = () => {
 
   return (
     <ScrollView contentInsetAdjustmentBehavior="automatic" style={backgroundStyle}>
-    <Header />
-    <View>
+      <Header />
+      <View>
         <Section title="Step One">
-        Edit {{#if hasStyledComponents}}<HighlightedText>App.tsx</HighlightedText>{{else}}<Text style={styles.highlight}>App.tsx</Text>{{/if}} to change this screen and then come back to see your
-        edits.
+          Edit {{#if hasStyledComponents}}<HighlightedText>App.tsx</HighlightedText>{{else}}<Text style={styles.highlight}>App.tsx</Text>{{/if}} to change this screen and then come back to see your edits.
         </Section>
         <Section title="See Your Changes">
-        <ReloadInstructions />
+          <ReloadInstructions />
         </Section>
         <Section title="Debug">
-        <DebugInstructions />
+          <DebugInstructions />
         </Section>
         <Section title="Learn More">Read the docs to discover what to do next:</Section>
         <LearnMoreLinks />
-    </View>
+      </View>
     </ScrollView>
   );
 };

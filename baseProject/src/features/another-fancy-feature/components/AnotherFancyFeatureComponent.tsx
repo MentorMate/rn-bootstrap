@@ -1,9 +1,8 @@
 import React from 'react';
 import { Text } from 'react-native';
+import { TimeNow } from 'features/another-fancy-feature/model/TimeNow';
 
-interface Props {
-  timeNow: string;
-}
+interface Props extends TimeNow {}
 
 export const AnotherFancyFeatureComponent: React.FC<Props> = ({ timeNow }) => {
   return (
