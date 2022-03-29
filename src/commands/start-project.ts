@@ -82,8 +82,11 @@ async function startProject(toolbox: MMRNCliToolbox) {
 
   await spawnProgress('git init');
   await yarn.install();
+  console.log(dependenciesToInstall);
   await yarn.add(dependenciesToInstall.dependencies);
-  await yarn.add(dependenciesToInstall.devDependencies, { dev: true });
+  if (dependenciesToInstall.devDependencies.length > 0) {
+    await yarn.add(dependenciesToInstall.devDependencies, { dev: true });
+  }
   await toolbox.renameProject(projectName, bundleId);
   await yarn.run('pod-install');
 
