@@ -88,6 +88,7 @@ async function startProject(toolbox: MMRNCliToolbox) {
     await yarn.add(dependenciesToInstall.devDependencies, { dev: true });
   }
   await toolbox.renameProject(projectName, bundleId);
+  await yarn.run('prettify:write');
   await yarn.run('pod-install');
 
   print.info('Your project has been automatically renamed.');

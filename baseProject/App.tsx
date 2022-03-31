@@ -27,9 +27,9 @@ const App = () => {
         <SafeAreaView style={backgroundStyle}>
           <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
           {{#if hasReactNavigationExample}}
-            <BottomTabNavigator />
+          <BottomTabNavigator />
           {{else}}
-            <HomeContainer />
+          <HomeContainer />
           {{/if}}
         </SafeAreaView>
       </NavigationContainer>

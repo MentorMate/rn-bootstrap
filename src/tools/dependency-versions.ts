@@ -3,7 +3,7 @@ export const navigationDeps = [
   '@react-navigation/native@^6.0.8',
   '@react-navigation/stack@^6.1.1',
   "@react-navigation/elements@^1.3.1",
-  'react-native-safe-area-context@^4.1.2',
+  'react-native-safe-area-context@^4.2.4',
   'react-native-screens@^3.13.1'
 ];
 
