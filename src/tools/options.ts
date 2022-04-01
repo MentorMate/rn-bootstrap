@@ -50,17 +50,17 @@ export const SelectionToTemplateParamsMap: Partial<Record<
   }
 };
 
-// When the user selects an option, the corresponding files are NOT skipped when copying
+const getFullPathMatcher = (partialPath: string) =>
+  new RegExp(`^${partialPath}.*`);
+
+// Paths from unselected options get skipped when copying the baseProject
+// You can also specify individual file names as strings
 export const SelectionToOptionalFilePathsMap = {
-  [StateLibraryChoice.ReduxToolkit]: [
-    'src/store/hooks.ts',
-    'src/store/store.ts'
-  ],
-  [ReactNavigationExampleChoice.WithReactNavigationExample]: [ // TODO: maybe make this work with src/common/navigation/*
-    'src/common/navigation/bottomTab/BottomTabNavigator.tsx',
-    'src/common/navigation/stack/StackNavigator.tsx',
-    'src/common/navigation/ScreenName.ts',
-    'src/common/navigation/type.ts',
+  [StateLibraryChoice.ReduxToolkit]: [getFullPathMatcher('src/store/')],
+  [ReactNavigationExampleChoice.WithReactNavigationExample]: [
+    getFullPathMatcher('src/common/navigation/'),
+    getFullPathMatcher('src/features/fancy-feature'),
+    getFullPathMatcher('src/features/another-fancy-feature')
   ]
 };
 
@@ -69,10 +69,6 @@ export const DefaultTemplateParams: TemplateParams = {
   hasReduxToolkit: false,
   hasReactNavigationExample: false
 };
-
-export const OptionalFilePaths = Object.values(
-  SelectionToOptionalFilePathsMap
-).flatMap(filePath => filePath);
 
 const PromptSelectionOptions = {
   styleLibrary: {

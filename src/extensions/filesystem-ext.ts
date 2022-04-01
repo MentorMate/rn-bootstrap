@@ -8,11 +8,12 @@ module.exports = (toolbox: MMRNCliToolbox) => {
     meta
   } = toolbox;
   const CLI_PATH = path(`${meta.src}`, '..');
+  const baseProjectPath = path(CLI_PATH, 'baseProject');
 
   const copyBoilerplate = (options: CopyBoilerplateOptions) => {
     dir(options.projectName);
 
-    const filesAndFolders = getFsChildren(options.boilerplatePath, true);
+    const filesAndFolders = getFsChildren(baseProjectPath, true);
     const copyTargets = filesAndFolders.filter(
       file =>
         !options.excluded?.find(exclusion =>
@@ -24,7 +25,7 @@ module.exports = (toolbox: MMRNCliToolbox) => {
 
     for (const fileOrFolder of copyTargets) {
       copy(
-        path(options.boilerplatePath, fileOrFolder),
+        path(baseProjectPath, fileOrFolder),
         path(options.projectName, fileOrFolder)
       );
     }

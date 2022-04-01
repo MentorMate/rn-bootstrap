@@ -3,7 +3,6 @@ import { SelectionPrompts } from '../tools/options';
 import {
   getDependenciesToInstallFromSelectedOptions,
   getTemplateParamsFromSelectedOptions,
-  getOptionalFilePathsFromSelectedOptions,
   getFilePathsToExclude
 } from '../tools/option-utils';
 import { yarn } from '../tools/yarn';
@@ -42,7 +41,7 @@ const command: MMRNCliCommand = {
 };
 
 async function startProject(toolbox: MMRNCliToolbox) {
-  const { filesystem, prompt, print, CLI_PATH } = toolbox;
+  const { filesystem, prompt, print } = toolbox;
   const { path } = filesystem;
 
   const projectName = toolbox.getProjectName();
@@ -51,16 +50,9 @@ async function startProject(toolbox: MMRNCliToolbox) {
     SelectionPrompts
   );
 
-  const optionalFilesFromSelection = getOptionalFilePathsFromSelectedOptions(
-    selectedOptions
-  );
-  const filesToExclude = getFilePathsToExclude(optionalFilesFromSelection);
-
-  const boilerplatePath = path(CLI_PATH, 'baseProject'); // This can be (re)moved from here
   toolbox.copyBoilerplate({
-    boilerplatePath,
     projectName,
-    excluded: filesToExclude
+    excluded: getFilePathsToExclude(selectedOptions)
   });
 
   // From here on we operate within the actual project directory.
