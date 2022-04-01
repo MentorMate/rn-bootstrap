@@ -1,15 +1,14 @@
 import {
   Dependencies,
   OptionSelectionResult,
-  TemplateParams,
+  TemplateParams
 } from '../types/types';
 import {
   DefaultTemplateParams,
-  OptionalFilePaths,
   SelectionToDependencyNameMap,
   SelectionToDevDependencyNameMap,
   SelectionToTemplateParamsMap,
-  SelectionToOptionalFilePathsMap,
+  SelectionToOptionalFilePathsMap
 } from './options';
 
 export const getDependenciesToInstallFromSelectedOptions = (
@@ -41,18 +40,15 @@ export const getTemplateParamsFromSelectedOptions = (
     return prev;
   }, DefaultTemplateParams);
 
-export const getOptionalFilePathsFromSelectedOptions = (
+export const getFilePathsToExclude = (
   optionSelection: OptionSelectionResult
-) =>
-  Object.values(optionSelection).reduce((prev, curr) => {
-    const pathsForSelectedOption = SelectionToOptionalFilePathsMap[curr];
-    if (pathsForSelectedOption) {
-      return [...prev, ...pathsForSelectedOption];
-    }
-    return prev;
-  }, []);
-
-export const getFilePathsToExclude = (pathsFromOptionSelection: string[]) =>
-  OptionalFilePaths.filter(
-    (filePath) => !pathsFromOptionSelection.includes(filePath)
-  );
+) => {
+  const selectionChoices = Object.values(optionSelection);
+  return Object.entries(SelectionToOptionalFilePathsMap)
+    .flatMap(([key, value]) => {
+      if (!selectionChoices.includes(key)) {
+        return value;
+      }
+    })
+    .filter(s => s);
+};

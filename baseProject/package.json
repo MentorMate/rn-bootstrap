@@ -41,18 +41,16 @@
     "version:build": "yarn fastlane:update-versions",
     "version:patch": "yarn npm:version:patch --no-git-tag-version && yarn fastlane:update-versions",
     "version:minor": "yarn npm:version:minor --no-git-tag-version && yarn fastlane:update-versions",
-    "version:major": "yarn npm:version:major && yarn fastlane:update-versions"
+    "version:major": "yarn npm:version:major && yarn fastlane:update-versions",
+    "prettify:write": "prettier --write \"**/*.{json,js,jsx,ts,tsx}\""
   },
   "dependencies": {
-    "@react-native-community/async-storage": "^1.12.1",
-    "@react-native-community/netinfo": "^7.1.7",
-    "@react-navigation/bottom-tabs": "^6.0.9",
-    "@react-navigation/native": "^6.0.6",
-    "@react-navigation/stack": "^6.0.11",
+    "@react-native-async-storage/async-storage": "^1.17.3",
+    "@react-native-community/netinfo": "^8.2.0",
     "react": "17.0.2",
     "react-native": "0.67.2",
     "react-native-config": "^1.4.5",
-    "react-native-gesture-handler": "^2.1.1"
+    "react-native-gesture-handler": "^2.3.2"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

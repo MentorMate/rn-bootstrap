@@ -1,5 +1,4 @@
 export type CopyBoilerplateOptions = {
-  boilerplatePath: string;
   projectName: string;
-  excluded?: Array<string | RegExp>;
+  excluded?: Array<string | RegExp | undefined>;
 };
