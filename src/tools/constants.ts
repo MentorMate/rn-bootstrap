@@ -55,3 +55,5 @@ const JAVA_KEYWORDS = [
   'while'
 ];
 export const RESERVED_NAMES = ['react', 'react-native', ...JAVA_KEYWORDS];
+
+export const RCFILE_NAME = '.rnbootstraprc'

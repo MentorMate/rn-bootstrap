@@ -41,8 +41,7 @@ const command: MMRNCliCommand = {
 };
 
 async function startProject(toolbox: MMRNCliToolbox) {
-  const { filesystem, prompt, print } = toolbox;
-  const { path } = filesystem;
+  const { prompt, print } = toolbox;
 
   const projectName = toolbox.getProjectName();
   const bundleId = toolbox.getBundleId();
@@ -57,7 +56,7 @@ async function startProject(toolbox: MMRNCliToolbox) {
 
   // From here on we operate within the actual project directory.
   process.chdir(projectName);
-
+  toolbox.makeRcFile(selectedOptions);
   const templateParams = getTemplateParamsFromSelectedOptions(selectedOptions);
 
   toolbox

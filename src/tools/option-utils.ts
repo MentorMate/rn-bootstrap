@@ -1,6 +1,7 @@
 import {
   Dependencies,
   OptionSelectionResult,
+  RcFile,
   TemplateParams
 } from '../types/types';
 import {
@@ -8,7 +9,9 @@ import {
   SelectionToDependencyNameMap,
   SelectionToDevDependencyNameMap,
   SelectionToTemplateParamsMap,
-  SelectionToOptionalFilePathsMap
+  SelectionToOptionalFilePathsMap,
+  StateLibraryChoice,
+  StyleLibraryChoice
 } from './options';
 
 export const getDependenciesToInstallFromSelectedOptions = (
@@ -40,15 +43,25 @@ export const getTemplateParamsFromSelectedOptions = (
     return prev;
   }, DefaultTemplateParams);
 
+export const getRcFileContentFromSelectedOptions = (
+  optionSelection: OptionSelectionResult
+): RcFile => {
+  const { stateManagementLibrary, styleLibrary } = optionSelection;
+  return {
+    projectUses: {
+      redux: stateManagementLibrary === StateLibraryChoice.ReduxToolkit,
+      styledComponents: styleLibrary === StyleLibraryChoice.StyledComponents
+    }
+  };
+};
+
 export const getFilePathsToExclude = (
   optionSelection: OptionSelectionResult
 ) => {
   const selectionChoices = Object.values(optionSelection);
   return Object.entries(SelectionToOptionalFilePathsMap)
-    .flatMap(([key, value]) => {
-      if (!selectionChoices.includes(key)) {
-        return value;
-      }
-    })
-    .filter(s => s);
+    .flatMap(([option, path]) =>
+      selectionChoices.includes(option) ? undefined : path
+    )
+    .filter(path => path);
 };
