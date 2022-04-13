@@ -27,3 +27,6 @@ export const commandFormat = (m = '', second = '', examples: string[] = []) => {
 };
 
 export const direction = (m = '') => p(cyan(m));
+
+export const capitalizeFirstLetter = (str: string) =>
+  str.charAt(0).toUpperCase() + str.slice(1);

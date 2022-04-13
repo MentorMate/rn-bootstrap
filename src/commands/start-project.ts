@@ -17,6 +17,7 @@ import { commandFormat, heading, mmRNCliHeading, p } from '../tools/pretty';
 const command: MMRNCliCommand = {
   name: 'start-project',
   description: 'Creates a new project',
+  alias: 'sp',
   run: async toolbox => {
     const { parameters } = toolbox;
 

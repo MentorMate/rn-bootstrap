@@ -7,7 +7,7 @@ const command: MMRNCliCommand = {
   alias: ['h'],
   description: 'Displays MM RN CLI help',
   run: async (toolbox: GluegunToolbox) => {
-    const { meta, parameters } = toolbox
+    const { meta } = toolbox
 
     p()
     mmRNCliHeading()

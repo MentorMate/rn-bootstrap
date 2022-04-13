@@ -8,7 +8,11 @@ import { CopyBoilerplateOptions } from './CopyBoilerplateOptions';
 
 export interface MMRNCliToolbox extends GluegunToolbox {
   throwExitError(error: any): never;
-  compileTemplate(pathParts: string[], props: Record<string, any>): void;
+  compileTemplate(
+    pathParts: string[],
+    props: Record<string, any>,
+    outputPathParts?: string[]
+  ): void;
   copyBoilerplate(options: CopyBoilerplateOptions);
   getFsChildren(
     path: string,
@@ -19,6 +23,11 @@ export interface MMRNCliToolbox extends GluegunToolbox {
   renameProject(projectName: string, bundleIdentifier: string): Promise<string>;
   getProjectName(): string | never;
   getBundleId(): string | never;
+  generateComponent(params: GenerateComponentParams): Promise<void>;
+  validateComponent(params: GenerateComponentParams): void | never;
+  generateHook(params: GenerateHookParams): Promise<void>;
+  validateHook(params: GenerateHookParams): void | never;
+  generateFeature(): void;
   makeRcFile(selectedOptions: OptionSelectionResult): void;
   CLI_PATH: string;
 }
@@ -50,3 +59,13 @@ export interface RcFileProjectUses {
   redux: boolean;
   styledComponents: boolean;
 }
+
+export type ProjectRcFile = Partial<RcFile>;
+
+export type GenerateComponentParams = {
+  componentName: string;
+};
+
+export type GenerateHookParams = {
+  hookName: string;
+};
