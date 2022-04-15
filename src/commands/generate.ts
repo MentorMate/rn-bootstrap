@@ -1,67 +1,77 @@
-import { GluegunToolbox } from 'gluegun';
-import { SelectionPrompts } from '../tools/options';
 import {
-  getDependenciesToInstallFromSelectedOptions,
-  getTemplateParamsFromSelectedOptions,
-  getFilePathsToExclude
-} from '../tools/option-utils';
-import { yarn } from '../tools/yarn';
-import {
-  MMRNCliCommand,
-  MMRNCliToolbox,
-  OptionSelectionResult
-} from '../types/types';
-import { spawnProgress } from '../tools/spawn-progress';
-import { commandFormat, heading, mmRNCliHeading, p } from '../tools/pretty';
+  CodeGenerator,
+  GenerateFeatureOption,
+  GeneratorBaseParams,
+  SupportedCommandsString
+} from '../types/CodeGenerator';
+import { RnBootstrapCommand } from '../types/RnBootstrapToolbox';
 
-enum Generators {
-  Feature = 'feature',
-  Component = 'component',
-  Hook = 'hook'
-}
-
-const command: MMRNCliCommand = {
+const command: RnBootstrapCommand = {
   name: 'generate',
-  description: 'Generates a feature/component/hook',
+  description: `Generates a ${SupportedCommandsString}`,
   alias: 'gen',
   run: async toolbox => {
     const {
-      parameters,
+      parameters: { first: command, second: name },
       throwExitError,
       generateComponent,
       validateComponent,
+      generateContainer,
+      validateContainer,
       generateHook,
       validateHook,
-      generateFeature
+      generateModel,
+      validateModel,
+      generatePage,
+      validatePage,
+      generateUtil,
+      validateUtil,
+      generateFeature,
+      validateFeature
     } = toolbox;
 
-    if (!parameters.first) {
+    if (!command) {
       return throwExitError(`TODO: implement help`);
     }
 
-    if (!parameters.second) {
+    if (!name) {
       return throwExitError('Missing name!');
     }
 
-    switch (parameters.first) {
-      case Generators.Component:
-        const componentParams = { componentName: parameters.second };
-        validateComponent(componentParams);
-        await generateComponent(componentParams);
+    const baseParams: GeneratorBaseParams = { name };
+
+    switch (command) {
+      case CodeGenerator.component:
+        validateComponent(baseParams);
+        await generateComponent(baseParams);
         break;
-      case Generators.Hook:
-        const hookParams = { hookName: parameters.second };
-        validateHook(hookParams);
-        await generateHook(hookParams);
+      case CodeGenerator.container:
+        validateContainer(baseParams);
+        await generateContainer(baseParams);
         break;
-      case Generators.Feature:
-        await generateFeature();
+      case CodeGenerator.hook:
+        validateHook(baseParams);
+        await generateHook(baseParams);
+        break;
+      case CodeGenerator.model:
+        validateModel(baseParams);
+        await generateModel(baseParams);
+        break;
+      case CodeGenerator.page:
+        validatePage(baseParams);
+        await generatePage(baseParams);
+        break;
+      case CodeGenerator.util:
+        validateUtil(baseParams);
+        await generateUtil(baseParams);
+        break;
+      case GenerateFeatureOption.feature:
+        validateFeature(baseParams);
+        await generateFeature(baseParams);
         break;
       default:
         throwExitError(
-          `Invalid second parameter. The supported generators are: ${Object.values(
-            Generators
-          ).join(', ')}`
+          `Invalid second parameter. The supported generators are: ${SupportedCommandsString}`
         );
         break;
     }

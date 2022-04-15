@@ -1,9 +1,8 @@
-import {
-  Dependencies,
-  OptionSelectionResult,
-  RcFile,
-  TemplateParams
-} from '../types/types';
+import { TemplateParams } from '../types/BaseProjectTemplateParams';
+import { Dependencies } from '../types/Dependencies';
+import { RcFile } from '../types/RcFile';
+import { StartProjectOptionSelectionResult } from '../types/StartProjectOptionSelectionResult';
+
 import {
   DefaultTemplateParams,
   SelectionToDependencyNameMap,
@@ -15,7 +14,7 @@ import {
 } from './options';
 
 export const getDependenciesToInstallFromSelectedOptions = (
-  optionSelection: OptionSelectionResult
+  optionSelection: StartProjectOptionSelectionResult
 ): Dependencies =>
   Object.values(optionSelection).reduce<Dependencies>(
     (prev, curr) => {
@@ -33,7 +32,7 @@ export const getDependenciesToInstallFromSelectedOptions = (
   );
 
 export const getTemplateParamsFromSelectedOptions = (
-  optionSelection: OptionSelectionResult
+  optionSelection: StartProjectOptionSelectionResult
 ): TemplateParams =>
   Object.values(optionSelection).reduce<TemplateParams>((prev, curr) => {
     const paramsForSelectedOption = SelectionToTemplateParamsMap[curr];
@@ -44,7 +43,7 @@ export const getTemplateParamsFromSelectedOptions = (
   }, DefaultTemplateParams);
 
 export const getRcFileContentFromSelectedOptions = (
-  optionSelection: OptionSelectionResult
+  optionSelection: StartProjectOptionSelectionResult
 ): RcFile => {
   const { stateManagementLibrary, styleLibrary } = optionSelection;
   return {
@@ -56,7 +55,7 @@ export const getRcFileContentFromSelectedOptions = (
 };
 
 export const getFilePathsToExclude = (
-  optionSelection: OptionSelectionResult
+  optionSelection: StartProjectOptionSelectionResult
 ) => {
   const selectionChoices = Object.values(optionSelection);
   return Object.entries(SelectionToOptionalFilePathsMap)

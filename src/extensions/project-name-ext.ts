@@ -1,7 +1,7 @@
 import { BUNDLE_ID_REGEX, NAME_REGEX, RESERVED_NAMES } from '../tools/constants';
-import { MMRNCliToolbox } from '../types/types';
+import { RnBootstrapToolbox } from '../types/RnBootstrapToolbox';
 
-module.exports = (toolbox: MMRNCliToolbox) => {
+module.exports = (toolbox: RnBootstrapToolbox) => {
   const { parameters, strings, print, runtime } = toolbox;
   const { isBlank } = strings;
 
@@ -25,7 +25,9 @@ module.exports = (toolbox: MMRNCliToolbox) => {
     return projectName;
   };
 
-  const getBundleId = () => {
+
+  toolbox.getProjectName = getProjectName;
+  toolbox.getBundleId = () => {
     const bundleId = (parameters.second || '').toString();
 
     if (isBlank(bundleId)) {
@@ -51,8 +53,5 @@ module.exports = (toolbox: MMRNCliToolbox) => {
     }
 
     return bundleId;
-  };
-
-  toolbox.getProjectName = getProjectName;
-  toolbox.getBundleId = getBundleId;
+  };;
 };

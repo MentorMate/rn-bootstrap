@@ -1,84 +1,177 @@
-import { shouldCreateOrOverwriteFile } from '../tools/check-overwrite';
-import { GENERATOR_TEMPLATES_DIR } from '../tools/constants';
-import { capitalizeFirstLetter } from '../tools/pretty';
-import { getRc } from '../tools/rcFile';
 import {
-  GenerateComponentParams,
-  GenerateHookParams,
-  MMRNCliToolbox
-} from '../types/types';
+  shouldCreateOrOverwrite,
+  shouldProceedInDir
+} from '../tools/generator-checks';
+import { getRc } from '../tools/rcFile';
+import { RnBootstrapToolbox } from '../types/RnBootstrapToolbox';
+import {
+  ComponentTemplate,
+  ContainerTemplate,
+  HookTemplate,
+  ModelTemplate,
+  PageTemplate,
+  CodeGenerator,
+  generateFeatureOptionSelectionKey,
+  GenerateFeaturePromptResult,
+  UtilTemplate
+} from '../types/CodeGenerator';
 
-module.exports = (toolbox: MMRNCliToolbox) => {
-  const validateComponent = async ({
-    componentName
-  }: GenerateComponentParams) => {
-    if (!componentName.endsWith('Component')) {
-      toolbox.throwExitError(
-        `Your component name is invalid. Did you mean "${componentName}Component"?`
-      );
+module.exports = (toolbox: RnBootstrapToolbox) => {
+  toolbox.generateComponent = async params => {
+    const outputPath = toolbox.getFileNamePathPartsForCurrentDir(
+      params.name,
+      'tsx'
+    );
+
+    if (!(await shouldCreateOrOverwrite(toolbox, outputPath))) {
+      return toolbox.print.info('Aborting.');
     }
-  };
-
-  const generateComponent = async (params: GenerateComponentParams) => {
-    const outputPath = [process.cwd(), `${params.componentName}.tsx`];
-
-    if (!(await shouldCreateOrOverwriteFile(toolbox, outputPath))) {
-      return;
+    if (!(await shouldProceedInDir(toolbox, CodeGenerator.component))) {
+      return toolbox.print.info('Aborting.');
     }
 
-    const COMPONENT_TEMPLATES_DIR = [
-      toolbox.CLI_PATH,
-      GENERATOR_TEMPLATES_DIR,
-      'component'
-    ];
+    const styledComponentsTemplatePath = toolbox.getGeneratorTemplatePathParts(
+      CodeGenerator.component,
+      ComponentTemplate.StyledComponentsComponent
+    );
+    const stylesheetComponentsTemplatePath = toolbox.getGeneratorTemplatePathParts(
+      CodeGenerator.component,
+      ComponentTemplate.StylesheetComponent
+    );
+
     const rcFile = getRc(toolbox);
-
     rcFile.projectUses?.styledComponents
       ? toolbox.compileTemplate(
-          [...COMPONENT_TEMPLATES_DIR, 'styled-components-component.tsx'],
+          styledComponentsTemplatePath,
           params,
           outputPath
         )
       : toolbox.compileTemplate(
-          [...COMPONENT_TEMPLATES_DIR, 'stylesheet-component.tsx'],
+          stylesheetComponentsTemplatePath,
           params,
           outputPath
         );
   };
 
-  const validateHook = ({ hookName }: GenerateHookParams) => {
-    if (!/^use([A-Z])+[A-Za-z]+/.test(hookName)) {
-      toolbox.throwExitError(
-        `Your hook name is invalid. Did you follow the "useYourHookName" convention?`
-      );
-    }
-  };
-
-  const generateHook = async (params: GenerateHookParams) => {
-    const outputPath = [process.cwd(), `${params.hookName}.tsx`];
-
-    if (!(await shouldCreateOrOverwriteFile(toolbox, outputPath))) {
-      return;
-    }
-
-    const HOOK_TEMPLATES_DIR = [
-      toolbox.CLI_PATH,
-      GENERATOR_TEMPLATES_DIR,
-      'hook'
-    ];
-
-    toolbox.compileTemplate(
-      [...HOOK_TEMPLATES_DIR, 'base-hook.ts'],
-      params,
-      outputPath
+  toolbox.generateContainer = async params => {
+    const outputPath = toolbox.getFileNamePathPartsForCurrentDir(
+      params.name,
+      'tsx'
     );
+
+    if (!(await shouldCreateOrOverwrite(toolbox, outputPath))) {
+      return toolbox.print.info('Aborting.');
+    }
+    if (!(await shouldProceedInDir(toolbox, CodeGenerator.container))) {
+      return toolbox.print.info('Aborting.');
+    }
+
+    const templatePath = toolbox.getGeneratorTemplatePathParts(
+      CodeGenerator.container,
+      ContainerTemplate.Base
+    );
+
+    toolbox.compileTemplate(templatePath, params, outputPath);
   };
 
-  const generateFeature = () => {};
+  toolbox.generateHook = async params => {
+    const outputPath = toolbox.getFileNamePathPartsForCurrentDir(
+      params.name,
+      'ts'
+    );
 
-  toolbox.generateComponent = generateComponent;
-  toolbox.validateComponent = validateComponent;
-  toolbox.generateHook = generateHook;
-  toolbox.validateHook = validateHook;
-  toolbox.generateFeature = generateFeature;
+    if (!(await shouldCreateOrOverwrite(toolbox, outputPath))) {
+      return toolbox.print.info('Aborting.');
+    }
+    if (!(await shouldProceedInDir(toolbox, CodeGenerator.hook))) {
+      return toolbox.print.info('Aborting.');
+    }
+
+    const templatePath = toolbox.getGeneratorTemplatePathParts(
+      CodeGenerator.hook,
+      HookTemplate.Base
+    );
+
+    toolbox.compileTemplate(templatePath, params, outputPath);
+  };
+
+  toolbox.generateModel = async params => {
+    const outputPath = toolbox.getFileNamePathPartsForCurrentDir(
+      params.name,
+      'ts'
+    );
+
+    if (!(await shouldCreateOrOverwrite(toolbox, outputPath))) {
+      return toolbox.print.info('Aborting.');
+    }
+    if (!(await shouldProceedInDir(toolbox, CodeGenerator.model))) {
+      return toolbox.print.info('Aborting.');
+    }
+
+    const templatePath = toolbox.getGeneratorTemplatePathParts(
+      CodeGenerator.model,
+      ModelTemplate.Base
+    );
+
+    toolbox.compileTemplate(templatePath, params, outputPath);
+  };
+
+  toolbox.generatePage = async params => {
+    const outputPath = toolbox.getFileNamePathPartsForCurrentDir(
+      params.name,
+      'tsx'
+    );
+
+    if (!(await shouldCreateOrOverwrite(toolbox, outputPath))) {
+      return toolbox.print.info('Aborting.');
+    }
+    if (!(await shouldProceedInDir(toolbox, CodeGenerator.page))) {
+      return toolbox.print.info('Aborting.');
+    }
+
+    const utilTemplate = toolbox.getGeneratorTemplatePathParts(
+      CodeGenerator.page,
+      PageTemplate.Base
+    );
+
+    toolbox.compileTemplate(utilTemplate, params, outputPath);
+  };
+
+  toolbox.generateUtil = async params => {
+    const outputPath = toolbox.getFileNamePathPartsForCurrentDir(
+      params.name,
+      'ts'
+    );
+
+    if (!(await shouldCreateOrOverwrite(toolbox, outputPath))) {
+      return toolbox.print.info('Aborting.');
+    }
+    if (!(await shouldProceedInDir(toolbox, CodeGenerator.util))) {
+      return toolbox.print.info('Aborting.');
+    }
+
+    const utilTemplate = toolbox.getGeneratorTemplatePathParts(
+      CodeGenerator.util,
+      UtilTemplate.Base
+    );
+
+    toolbox.compileTemplate(utilTemplate, params, outputPath);
+  };
+
+  toolbox.generateFeature = async params => {
+    const { prompt } = toolbox;
+    const featureGenerationOptions = await prompt.ask<
+      GenerateFeaturePromptResult
+    >([
+      {
+        message: 'Please select the directories you want to generate.',
+        type: 'multiselect',
+        name: generateFeatureOptionSelectionKey,
+        choices: Object.values(CodeGenerator)
+      }
+    ])[generateFeatureOptionSelectionKey];
+    /* TODO: implement complete feature generation using the already existing separate generators */
+    /* TODO: documentation */
+    console.log(featureGenerationOptions);
+  };
 };

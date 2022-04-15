@@ -1,5 +1,5 @@
 import { PromptOptions } from 'gluegun/build/types/toolbox/prompt-enquirer-types';
-import { TemplateParams } from '../types/types';
+import { TemplateParams } from '../types/BaseProjectTemplateParams';
 import {
   navigationDeps,
   reduxDeps,

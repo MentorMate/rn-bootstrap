@@ -1,7 +1,8 @@
-import { MMRNCliToolbox, ProjectRcFile, RcFile } from '../types/types';
+import { ProjectRcFile } from '../types/RcFile';
+import { RnBootstrapToolbox } from '../types/RnBootstrapToolbox';
 import { RCFILE_MODULE_NAME } from './constants';
 
 export const getRc = ({
   config: { loadConfig }
-}: MMRNCliToolbox): ProjectRcFile => loadConfig(RCFILE_MODULE_NAME);
+}: RnBootstrapToolbox): ProjectRcFile => loadConfig(RCFILE_MODULE_NAME);
 

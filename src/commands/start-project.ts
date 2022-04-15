@@ -1,4 +1,3 @@
-import { GluegunToolbox } from 'gluegun';
 import { SelectionPrompts } from '../tools/options';
 import {
   getDependenciesToInstallFromSelectedOptions,
@@ -7,61 +6,64 @@ import {
 } from '../tools/option-utils';
 import { yarn } from '../tools/yarn';
 import {
-  MMRNCliCommand,
-  MMRNCliToolbox,
-  OptionSelectionResult
-} from '../types/types';
+  RnBootstrapCommand,
+  RnBootstrapToolbox
+} from '../types/RnBootstrapToolbox';
 import { spawnProgress } from '../tools/spawn-progress';
-import { commandFormat, heading, mmRNCliHeading, p } from '../tools/pretty';
+import { commandFormat, RnBootstrapHeading, p } from '../tools/pretty';
+import { StartProjectOptionSelectionResult } from '../types/StartProjectOptionSelectionResult';
 
-const command: MMRNCliCommand = {
+const command: RnBootstrapCommand = {
   name: 'start-project',
   description: 'Creates a new project',
   alias: 'sp',
   run: async toolbox => {
-    const { parameters } = toolbox;
+    const {
+      parameters: { options }
+    } = toolbox;
 
-    p();
-    if (parameters.options.h) {
-      p();
-      mmRNCliHeading();
-      commandFormat(
-        'start-project         ',
-        'Creates a new React Native app',
-        ['mm-rn-cli start-project MyApp com.myappbundleid']
-      );
-      p();
-      p('Use this command to generate a new React Native project.');
-      p('The command accepts two required parameters: AppName and bundleId.');
-      p();
+    if (options.h) {
+      showHelp();
     } else {
-      // catch-all, just show help
       startProject(toolbox);
     }
   }
 };
 
-async function startProject(toolbox: MMRNCliToolbox) {
+const showHelp = () => {
+  p();
+  RnBootstrapHeading();
+  commandFormat('start-project         ', 'Creates a new React Native app', [
+    'mm-rn-cli start-project MyApp com.myappbundleid'
+  ]);
+  p();
+  p('Use this command to generate a new React Native project.');
+  p('The command accepts two required parameters: AppName and bundleId.');
+  p();
+};
+
+const startProject = async (toolbox: RnBootstrapToolbox) => {
   const { prompt, print } = toolbox;
 
   const projectName = toolbox.getProjectName();
   const bundleId = toolbox.getBundleId();
-  const selectedOptions = await prompt.ask<OptionSelectionResult>(
+  const selectedOptions = await prompt.ask<StartProjectOptionSelectionResult>(
     SelectionPrompts
   );
 
-  toolbox.copyBoilerplate({
-    projectName,
+  toolbox.copyRecursively({
+    from: toolbox.BASE_PROJECT_PATH,
+    to: projectName,
     excluded: getFilePathsToExclude(selectedOptions)
   });
 
   // From here on we operate within the actual project directory.
   process.chdir(projectName);
   toolbox.makeRcFile(selectedOptions);
-  const templateParams = getTemplateParamsFromSelectedOptions(selectedOptions);
 
+  const templateParams = getTemplateParamsFromSelectedOptions(selectedOptions);
   toolbox
-    .getSourceFilesInCurrentDir()
+    .getSourceFilesRecursivelyFromCurrentDir()
     .forEach(sourceFile =>
       toolbox.compileTemplate([sourceFile], templateParams)
     );
@@ -74,7 +76,6 @@ async function startProject(toolbox: MMRNCliToolbox) {
 
   await spawnProgress('git init');
   await yarn.install();
-  console.log(dependenciesToInstall);
   await yarn.add(dependenciesToInstall.dependencies);
   if (dependenciesToInstall.devDependencies.length > 0) {
     await yarn.add(dependenciesToInstall.devDependencies, { dev: true });
@@ -88,8 +89,7 @@ async function startProject(toolbox: MMRNCliToolbox) {
     'Please note you might have to use Xcode to change the iOS bundle ID!'
   );
   print.info('Screenshot for reference: https://bit.ly/ios-bundle-id-change');
-
   print.success('Setup done.');
-}
+};
 
 module.exports = command;

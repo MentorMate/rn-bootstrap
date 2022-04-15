@@ -1,8 +1,8 @@
-interface {{capitalize hookName}}Result {
+interface {{upperFirst name}}Result {
   yourReturnValue: string;
 }
 
-export const {{hookName}} = (): {{capitalize hookName}}Result => {
+export const {{name}} = (): {{upperFirst name}}Result => {
   return {
     yourReturnValue: ''
   };

@@ -1,12 +1,12 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
-interface {{componentName}}Props {}
+interface {{name}}Props {}
 
-export const {{componentName}}: React.FC<{{componentName}}Props> = () => {
+export const {{name}}: React.FC<{{name}}Props> = () => {
   return (
     <View style={styles.componentWrapper}>
-      <Text>Your {{componentName}}</Text>
+      <Text>Your {{name}}</Text>
     </View>
   );
 };

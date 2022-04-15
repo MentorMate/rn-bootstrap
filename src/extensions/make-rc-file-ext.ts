@@ -1,17 +1,15 @@
 import { RCFILE_FULL_NAME } from '../tools/constants';
 import { getRcFileContentFromSelectedOptions } from '../tools/option-utils';
-import { spawnProgress } from '../tools/spawn-progress';
-import { MMRNCliToolbox, OptionSelectionResult } from '../types/types';
+import { RnBootstrapToolbox } from '../types/RnBootstrapToolbox';
+import { StartProjectOptionSelectionResult } from '../types/StartProjectOptionSelectionResult';
 
-module.exports = (toolbox: MMRNCliToolbox) => {
+module.exports = (toolbox: RnBootstrapToolbox) => {
   const {
     filesystem: { write }
   } = toolbox;
 
-  const makeRcFile = (optionSelection: OptionSelectionResult) => {
+  toolbox.makeRcFile = (optionSelection: StartProjectOptionSelectionResult) => {
     const fileContent = getRcFileContentFromSelectedOptions(optionSelection);
     write(RCFILE_FULL_NAME, JSON.stringify(fileContent, null, 2));
   };
-
-  toolbox.makeRcFile = makeRcFile;
 };

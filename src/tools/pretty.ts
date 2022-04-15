@@ -1,4 +1,6 @@
 import { print } from 'gluegun';
+import upperFirst from 'lodash.upperfirst';
+import camelCase from 'lodash.camelcase';
 
 const { cyan, gray, white, bold } = print.colors;
 const { underline } = print.colors;
@@ -9,7 +11,7 @@ export const heading = (m = '') => p(white(bold(m)));
 
 export const link = (m = '') => underline(white(m));
 
-export const mmRNCliHeading = () =>
+export const RnBootstrapHeading = () =>
   p(
     cyan(
       bold(
@@ -28,5 +30,6 @@ export const commandFormat = (m = '', second = '', examples: string[] = []) => {
 
 export const direction = (m = '') => p(cyan(m));
 
-export const capitalizeFirstLetter = (str: string) =>
-  str.charAt(0).toUpperCase() + str.slice(1);
+export const upperCamelCase = (str: string) => {
+  return upperFirst(camelCase(str));
+};
