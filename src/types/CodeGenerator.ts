@@ -54,10 +54,10 @@ export enum ModelTemplate {
   Base = 'base-model.ts'
 }
 export enum PageTemplate {
-  Base = 'base-page.ts'
+  Base = 'base-page.tsx'
 }
 export enum UtilTemplate {
-  Base = 'base-util.tsx'
+  Base = 'base-util.ts'
 }
 
 export type AvailableGeneratorTemplates =

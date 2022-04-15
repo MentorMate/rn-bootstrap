@@ -7,9 +7,9 @@ import { upperCamelCase } from '../tools/pretty';
 
 const validateStringType = data => {
   const entryType = typeof data;
-  if (typeof data !== 'string') {
+  if (entryType !== 'string') {
     throw new Error(
-      `Unable to capitalize ${data} in handlebars template because data is of type ${data}.`
+      `Unable to use helper for ${data} in handlebars because the data is of type ${entryType}.`
     );
   }
 };
