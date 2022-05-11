@@ -1,3 +1,8 @@
+<!-- Space: PHP -->
+<!-- Title: React Native CLI for MM Projects -->
+<!-- Attachment: ./assets/commitizen.png -->
+
+<!-- Include: disclaimer.md -->
 # mm-rn-cli CLI
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 
@@ -6,13 +11,13 @@ When starting a new project with mm-rn-cli it automatically installs and sets up
 - React
 - React Native
 - TypeScript
-- React Navigation - read more [here](#navigation)
-- Styles(optional) - styled-components vs Stylesheet - read more [here](#styles)
-- Redux State management(optional) - read more [here](#statemanagement)
-- Jest - unit test setup, threshold for coverage - read more [here](#testing)
-- Predefined environments - read more [here](#environments)
-- Husky Hooks - read more [here](#husky)
-- Commits linter - commitlint and commitizen - read more [here](#commits)
+- React Navigation - read more [here](#Navigation)
+- Styles(optional) - styled-components vs Stylesheet - read more [here](#Styles)
+- Redux State management(optional) - read more [here](#State-Management)
+- Jest - unit test setup, threshold for coverage - read more [here](#Testing)
+- Predefined environments - read more [here](#Environments)
+- Husky Hooks - read more [here](#Husky)
+- Commits linter - commitlint and commitizen - read more [here](#Commits)
 - Predefined eslint and prettier rules
 
 ## Installation
@@ -85,8 +90,9 @@ In case you want to add react navigation example code in the project:
 
 #### `Commits`
 - The CLI enforces usage of proper commit messages using commitlint and commitizen. Commitizen will guide you through a friendly CLI when git commit command is used:
-  ![commitizen.png](assets/commitizen.png).
- 
+  ![commitizen.png](./assets/commitizen.png)
+
+
   It is all about using [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) 
 
 
