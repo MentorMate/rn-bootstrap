@@ -1,18 +1,20 @@
-import {
-  Dependencies,
-  OptionSelectionResult,
-  TemplateParams
-} from '../types/types';
+import { TemplateParams } from '../types/BaseProjectTemplateParams';
+import { Dependencies } from '../types/Dependencies';
+import { RcFile } from '../types/RcFile';
+import { StartProjectOptionSelectionResult } from '../types/StartProjectOptionSelectionResult';
+
 import {
   DefaultTemplateParams,
   SelectionToDependencyNameMap,
   SelectionToDevDependencyNameMap,
   SelectionToTemplateParamsMap,
-  SelectionToOptionalFilePathsMap
+  SelectionToOptionalFilePathsMap,
+  StateLibraryChoice,
+  StyleLibraryChoice
 } from './options';
 
 export const getDependenciesToInstallFromSelectedOptions = (
-  optionSelection: OptionSelectionResult
+  optionSelection: StartProjectOptionSelectionResult
 ): Dependencies =>
   Object.values(optionSelection).reduce<Dependencies>(
     (prev, curr) => {
@@ -30,7 +32,7 @@ export const getDependenciesToInstallFromSelectedOptions = (
   );
 
 export const getTemplateParamsFromSelectedOptions = (
-  optionSelection: OptionSelectionResult
+  optionSelection: StartProjectOptionSelectionResult
 ): TemplateParams =>
   Object.values(optionSelection).reduce<TemplateParams>((prev, curr) => {
     const paramsForSelectedOption = SelectionToTemplateParamsMap[curr];
@@ -40,15 +42,25 @@ export const getTemplateParamsFromSelectedOptions = (
     return prev;
   }, DefaultTemplateParams);
 
+export const getRcFileContentFromSelectedOptions = (
+  optionSelection: StartProjectOptionSelectionResult
+): RcFile => {
+  const { stateManagementLibrary, styleLibrary } = optionSelection;
+  return {
+    projectUses: {
+      redux: stateManagementLibrary === StateLibraryChoice.ReduxToolkit,
+      styledComponents: styleLibrary === StyleLibraryChoice.StyledComponents
+    }
+  };
+};
+
 export const getFilePathsToExclude = (
-  optionSelection: OptionSelectionResult
+  optionSelection: StartProjectOptionSelectionResult
 ) => {
   const selectionChoices = Object.values(optionSelection);
   return Object.entries(SelectionToOptionalFilePathsMap)
-    .flatMap(([key, value]) => {
-      if (!selectionChoices.includes(key)) {
-        return value;
-      }
-    })
-    .filter(s => s);
+    .flatMap(([option, path]) =>
+      selectionChoices.includes(option) ? undefined : path
+    )
+    .filter(path => path);
 };
