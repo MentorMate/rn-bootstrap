@@ -34,7 +34,11 @@
   "license": "MIT",
   "dependencies": {
     "gluegun": "^5.0.0",
-    "handlebars": "^4.7.7"
+    "handlebars": "^4.7.7",
+    "lodash.camelcase": "^4.3.0",
+    "lodash.capitalize": "^4.2.1",
+    "lodash.kebabcase": "^4.1.1",
+    "lodash.upperfirst": "^4.3.1"
   },
   "devDependencies": {
     "@commitlint/cli": "^16.2.1",

@@ -1,26 +1,26 @@
 import Handlebars from 'handlebars';
-import { MMRNCliToolbox } from '../types/types';
+import { RnBootstrapToolbox } from '../types/RnBootstrapToolbox';
+import { registerHbsHelpers } from '../tools/handlebars-helpers';
+registerHbsHelpers();
 
-Handlebars.registerHelper('includes', function (elem: any, list: any, options) {
-  if (list.includes(elem)) {
-    return options.fn(this);
-  }
-  return options.inverse(this);
-});
+module.exports = (toolbox: RnBootstrapToolbox) => {
+  const {
+    filesystem: { path, read, write }
+  } = toolbox;
 
-module.exports = (toolbox: MMRNCliToolbox) => {
-  const { filesystem } = toolbox;
-
-  const compileTemplate = (pathParts: string[], props: Record<string, any>) => {
-    const filePath = filesystem.path(...pathParts);
-    const rawFileContent = filesystem.read(filePath);
+  toolbox.compileTemplate = (
+    pathParts: string[],
+    props: Record<string, any>,
+    outputPathParts?: string[]
+  ) => {
+    const filePath = path(...pathParts);
+    const writePath = outputPathParts ? path(...outputPathParts) : filePath;
+    const rawFileContent = read(filePath);
     if (!rawFileContent) {
       return toolbox.throwExitError(
         `Couldn't compile template. File not found at ${filePath}`
       );
     }
-    filesystem.write(filePath, Handlebars.compile(rawFileContent)(props));
+    write(writePath, Handlebars.compile(rawFileContent)(props));
   };
-
-  toolbox.compileTemplate = compileTemplate;
 };

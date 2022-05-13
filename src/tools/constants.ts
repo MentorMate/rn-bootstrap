@@ -55,3 +55,7 @@ const JAVA_KEYWORDS = [
   'while'
 ];
 export const RESERVED_NAMES = ['react', 'react-native', ...JAVA_KEYWORDS];
+
+export const RCFILE_MODULE_NAME = 'rnbootstrap';
+
+export const RCFILE_FULL_NAME = `.${RCFILE_MODULE_NAME}rc`;
