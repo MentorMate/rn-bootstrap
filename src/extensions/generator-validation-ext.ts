@@ -67,7 +67,7 @@ module.exports = (toolbox: RnBootstrapToolbox) => {
   };
   toolbox.validateFeature = params => {
     nameLengthValidator(params);
-    const kebabCaseName = toKebabCase(name);
+    const kebabCaseName = toKebabCase(params.name);
     if (kebabCaseName !== params.name) {
       return toolbox.throwExitError(
         `Your feature name is invalid. Did you mean "${kebabCaseName}"?`

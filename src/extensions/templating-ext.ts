@@ -14,13 +14,13 @@ module.exports = (toolbox: RnBootstrapToolbox) => {
     outputPathParts?: string[]
   ) => {
     const filePath = path(...pathParts);
-    const writePath = outputPathParts ? path(...outputPathParts) : filePath;
+    const outputPath = outputPathParts ? path(...outputPathParts) : filePath;
     const rawFileContent = read(filePath);
     if (!rawFileContent) {
       return toolbox.throwExitError(
         `Couldn't compile template. File not found at ${filePath}`
       );
     }
-    write(writePath, Handlebars.compile(rawFileContent)(props));
+    write(outputPath, Handlebars.compile(rawFileContent)(props));
   };
 };

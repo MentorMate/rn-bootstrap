@@ -17,6 +17,7 @@ module.exports = (toolbox: RnBootstrapToolbox) => {
   const BASE_PROJECT_PATH = path(CLI_PATH, 'baseProject');
 
   const copyRecursively = ({ from, to, excluded }: CopyRecursivelyOptions) => {
+    // TODO: dir(from) does not make sense. Look into changing this to dir(to).
     dir(from);
 
     const copyTargets = getFsChildrenRecursively(from, true).filter(

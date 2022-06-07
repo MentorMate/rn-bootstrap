@@ -13,11 +13,16 @@ import {
   CodeGenerator,
   generateFeatureOptionSelectionKey,
   GenerateFeaturePromptResult,
-  UtilTemplate
+  UtilTemplate,
+  DefaultGenerator
 } from '../types/CodeGenerator';
+import {
+  getNameForFeatureHook,
+  getNameForFeaturePartFactory
+} from '../tools/naming';
 
 module.exports = (toolbox: RnBootstrapToolbox) => {
-  toolbox.generateComponent = async params => {
+  const generateComponent: DefaultGenerator = async params => {
     const outputPath = toolbox.getFileNamePathPartsForCurrentDir(
       params.name,
       'tsx'
@@ -52,8 +57,9 @@ module.exports = (toolbox: RnBootstrapToolbox) => {
           outputPath
         );
   };
+  toolbox.generateComponent = generateComponent;
 
-  toolbox.generateContainer = async params => {
+  const generateContainer: DefaultGenerator = async params => {
     const outputPath = toolbox.getFileNamePathPartsForCurrentDir(
       params.name,
       'tsx'
@@ -73,8 +79,9 @@ module.exports = (toolbox: RnBootstrapToolbox) => {
 
     toolbox.compileTemplate(templatePath, params, outputPath);
   };
+  toolbox.generateContainer = generateContainer;
 
-  toolbox.generateHook = async params => {
+  const generateHook: DefaultGenerator = async params => {
     const outputPath = toolbox.getFileNamePathPartsForCurrentDir(
       params.name,
       'ts'
@@ -94,8 +101,9 @@ module.exports = (toolbox: RnBootstrapToolbox) => {
 
     toolbox.compileTemplate(templatePath, params, outputPath);
   };
+  toolbox.generateHook = generateHook;
 
-  toolbox.generateModel = async params => {
+  const generateModel: DefaultGenerator = async params => {
     const outputPath = toolbox.getFileNamePathPartsForCurrentDir(
       params.name,
       'ts'
@@ -115,8 +123,9 @@ module.exports = (toolbox: RnBootstrapToolbox) => {
 
     toolbox.compileTemplate(templatePath, params, outputPath);
   };
+  toolbox.generateModel = generateModel;
 
-  toolbox.generatePage = async params => {
+  const generatePage: DefaultGenerator = async params => {
     const outputPath = toolbox.getFileNamePathPartsForCurrentDir(
       params.name,
       'tsx'
@@ -136,8 +145,9 @@ module.exports = (toolbox: RnBootstrapToolbox) => {
 
     toolbox.compileTemplate(utilTemplate, params, outputPath);
   };
+  toolbox.generatePage = generatePage;
 
-  toolbox.generateUtil = async params => {
+  const generateUtil: DefaultGenerator = async params => {
     const outputPath = toolbox.getFileNamePathPartsForCurrentDir(
       params.name,
       'ts'
@@ -157,10 +167,14 @@ module.exports = (toolbox: RnBootstrapToolbox) => {
 
     toolbox.compileTemplate(utilTemplate, params, outputPath);
   };
+  toolbox.generateUtil = generateUtil;
 
   toolbox.generateFeature = async params => {
-    const { prompt } = toolbox;
-    const featureGenerationOptions = await prompt.ask<
+    const {
+      prompt,
+      filesystem: { dir, cwd, path }
+    } = toolbox;
+    const featureGenerationPrompt = await prompt.ask<
       GenerateFeaturePromptResult
     >([
       {
@@ -169,9 +183,56 @@ module.exports = (toolbox: RnBootstrapToolbox) => {
         name: generateFeatureOptionSelectionKey,
         choices: Object.values(CodeGenerator)
       }
-    ])[generateFeatureOptionSelectionKey];
-    /* TODO: implement complete feature generation using the already existing separate generators */
-    /* TODO: documentation */
-    console.log(featureGenerationOptions);
+    ]);
+    const featureGenerationSelection =
+      featureGenerationPrompt[generateFeatureOptionSelectionKey];
+
+    if (!featureGenerationSelection.length) {
+      return toolbox.throwExitError('Nothing selected. Aborting.');
+    }
+
+    const featureDir = path(cwd(), params.name);
+    dir(featureDir);
+    for (const piece of featureGenerationSelection) {
+      const featurePieceDir = path(featureDir, piece);
+      dir(featurePieceDir);
+      process.chdir(featurePieceDir);
+
+      const getCamelCaseNameForFeaturePart = getNameForFeaturePartFactory(
+        params.name
+      );
+      switch (piece) {
+        case CodeGenerator.component:
+          await generateComponent({
+            name: getCamelCaseNameForFeaturePart(CodeGenerator.component)
+          });
+          break;
+        case CodeGenerator.container:
+          await generateContainer({
+            name: getCamelCaseNameForFeaturePart(CodeGenerator.container)
+          });
+          break;
+        case CodeGenerator.hook:
+          await generateHook({
+            name: getNameForFeatureHook(CodeGenerator.hook)
+          });
+          break;
+        case CodeGenerator.model:
+          await generateModel({
+            name: getCamelCaseNameForFeaturePart(CodeGenerator.model)
+          });
+          break;
+        case CodeGenerator.page:
+          await generatePage({
+            name: getCamelCaseNameForFeaturePart(CodeGenerator.page)
+          });
+          break;
+        case CodeGenerator.util:
+          await generateUtil({
+            name: getCamelCaseNameForFeaturePart(CodeGenerator.util)
+          });
+          break;
+      }
+    }
   };
 };
