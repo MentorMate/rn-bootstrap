@@ -1,6 +1,6 @@
 export const GENERATOR_TEMPLATES_DIR = 'generator-templates';
 
-export enum CodeGenerator {
+export enum FeaturePiece {
   container = 'container',
   component = 'component',
   hook = 'hook',
@@ -8,56 +8,51 @@ export enum CodeGenerator {
   page = 'page',
   util = 'util'
 }
-export type CodeGeneratorType = keyof typeof CodeGenerator;
+export type FeaturePieceType = keyof typeof FeaturePiece;
 
-export enum GenerateFeatureOption {
-  feature = 'feature'
+export enum AdditionalCodeGenerator {
+  feature = 'feature',
+  test = 'test'
 }
 
 export const generateFeatureOptionSelectionKey = 'featureGenerationOptions';
 export type GenerateFeaturePromptResult = {
-  [generateFeatureOptionSelectionKey]: [CodeGeneratorType];
+  [generateFeatureOptionSelectionKey]: [FeaturePieceType];
 };
 
-export const SupportedCommandsString = [
-  ...Object.values(CodeGenerator),
-  ...Object.values(GenerateFeatureOption)
+export const SupportedCommandsText = [
+  ...Object.values(FeaturePiece),
+  ...Object.values(AdditionalCodeGenerator)
 ].join(', ');
 
-export type GeneratorBaseParams = {
-  name: string;
-};
+export type GenericGenerator = (name: string) => Promise<void>;
 
-export type Generator<T extends GeneratorBaseParams> = (
-  options: T
-) => Promise<void>;
-
-export type DefaultGenerator = Generator<GeneratorBaseParams>;
-
-export type GeneratorValidator<T extends GeneratorBaseParams> = (
-  options: T
-) => void | never;
-
-export type DefaultGeneratorValidator = GeneratorValidator<GeneratorBaseParams>;
+export type GenericGeneratorValidator = (name?: string) => void | never;
 
 export enum ComponentTemplate {
   StyledComponentsComponent = 'base-styled-components-component.tsx',
-  StylesheetComponent = 'base-stylesheet-component.tsx'
+  StylesheetComponent = 'base-stylesheet-component.tsx',
+  Tests = '__tests__/base-component.test.tsx'
 }
 export enum ContainerTemplate {
-  Base = 'base-container.tsx'
+  Base = 'base-container.tsx',
+  Tests = '__tests__/base-container.test.tsx'
 }
 export enum HookTemplate {
-  Base = 'base-hook.ts'
+  Base = 'base-hook.ts',
+  Tests = '__tests__/base-hook.test.ts'
 }
 export enum ModelTemplate {
-  Base = 'base-model.ts'
+  Base = 'base-model.ts',
+  Tests = '__tests__/base-model.test.ts'
 }
 export enum PageTemplate {
-  Base = 'base-page.tsx'
+  Base = 'base-page.tsx',
+  Tests = '__tests__/base-page.test.tsx'
 }
 export enum UtilTemplate {
-  Base = 'base-util.ts'
+  Base = 'base-util.ts',
+  Tests = '__tests__/base-util.test.ts'
 }
 
 export type AvailableGeneratorTemplates =
@@ -69,18 +64,26 @@ export type AvailableGeneratorTemplates =
   | UtilTemplate;
 
 export interface CodeGeneratorToolboxEntries {
-  generateComponent: DefaultGenerator;
-  validateComponent: DefaultGeneratorValidator;
-  generateContainer: DefaultGenerator;
-  validateContainer: DefaultGeneratorValidator;
-  generateHook: DefaultGenerator;
-  validateHook: DefaultGeneratorValidator;
-  generateModel: DefaultGenerator;
-  validateModel: DefaultGeneratorValidator;
-  generatePage: DefaultGenerator;
-  validatePage: DefaultGeneratorValidator;
-  generateUtil: DefaultGenerator;
-  validateUtil: DefaultGeneratorValidator;
-  generateFeature: DefaultGenerator;
-  validateFeature: DefaultGeneratorValidator;
+  generateComponent: GenericGenerator;
+  validateComponent: GenericGeneratorValidator;
+
+  generateContainer: GenericGenerator;
+  validateContainer: GenericGeneratorValidator;
+
+  generateHook: GenericGenerator;
+  validateHook: GenericGeneratorValidator;
+
+  generateModel: GenericGenerator;
+  validateModel: GenericGeneratorValidator;
+
+  generatePage: GenericGenerator;
+  validatePage: GenericGeneratorValidator;
+
+  generateUtil: GenericGenerator;
+  validateUtil: GenericGeneratorValidator;
+
+  generateFeature: GenericGenerator;
+  validateFeature: GenericGeneratorValidator;
+
+  generateTest: () => Promise<void>;
 }

@@ -1,4 +1,6 @@
 import {
+  getValidFeaturePieceParentDirs,
+  isCurrentDirValidFeaturePieceDir,
   shouldCreateOrOverwrite,
   shouldProceedInDir
 } from '../tools/generator-checks';
@@ -10,11 +12,11 @@ import {
   HookTemplate,
   ModelTemplate,
   PageTemplate,
-  CodeGenerator,
+  FeaturePiece,
   generateFeatureOptionSelectionKey,
   GenerateFeaturePromptResult,
   UtilTemplate,
-  DefaultGenerator
+  GenericGenerator
 } from '../types/CodeGenerator';
 import {
   getNameForFeatureHook,
@@ -22,25 +24,22 @@ import {
 } from '../tools/naming';
 
 module.exports = (toolbox: RnBootstrapToolbox) => {
-  const generateComponent: DefaultGenerator = async params => {
-    const outputPath = toolbox.getFileNamePathPartsForCurrentDir(
-      params.name,
-      'tsx'
-    );
+  const generateComponent: GenericGenerator = async name => {
+    const outputPath = toolbox.getFileNamePathPartsForCurrentDir(name, 'tsx');
 
     if (!(await shouldCreateOrOverwrite(toolbox, outputPath))) {
       return toolbox.print.info('Aborting.');
     }
-    if (!(await shouldProceedInDir(toolbox, CodeGenerator.component))) {
+    if (!(await shouldProceedInDir(toolbox, FeaturePiece.component))) {
       return toolbox.print.info('Aborting.');
     }
 
     const styledComponentsTemplatePath = toolbox.getGeneratorTemplatePathParts(
-      CodeGenerator.component,
+      FeaturePiece.component,
       ComponentTemplate.StyledComponentsComponent
     );
     const stylesheetComponentsTemplatePath = toolbox.getGeneratorTemplatePathParts(
-      CodeGenerator.component,
+      FeaturePiece.component,
       ComponentTemplate.StylesheetComponent
     );
 
@@ -48,128 +47,107 @@ module.exports = (toolbox: RnBootstrapToolbox) => {
     rcFile.projectUses?.styledComponents
       ? toolbox.compileTemplate(
           styledComponentsTemplatePath,
-          params,
+          { name },
           outputPath
         )
       : toolbox.compileTemplate(
           stylesheetComponentsTemplatePath,
-          params,
+          { name },
           outputPath
         );
   };
-  toolbox.generateComponent = generateComponent;
 
-  const generateContainer: DefaultGenerator = async params => {
-    const outputPath = toolbox.getFileNamePathPartsForCurrentDir(
-      params.name,
-      'tsx'
-    );
+  const generateContainer: GenericGenerator = async name => {
+    const outputPath = toolbox.getFileNamePathPartsForCurrentDir(name, 'tsx');
 
     if (!(await shouldCreateOrOverwrite(toolbox, outputPath))) {
       return toolbox.print.info('Aborting.');
     }
-    if (!(await shouldProceedInDir(toolbox, CodeGenerator.container))) {
+    if (!(await shouldProceedInDir(toolbox, FeaturePiece.container))) {
       return toolbox.print.info('Aborting.');
     }
 
     const templatePath = toolbox.getGeneratorTemplatePathParts(
-      CodeGenerator.container,
+      FeaturePiece.container,
       ContainerTemplate.Base
     );
 
-    toolbox.compileTemplate(templatePath, params, outputPath);
+    toolbox.compileTemplate(templatePath, { name }, outputPath);
   };
-  toolbox.generateContainer = generateContainer;
 
-  const generateHook: DefaultGenerator = async params => {
-    const outputPath = toolbox.getFileNamePathPartsForCurrentDir(
-      params.name,
-      'ts'
-    );
+  const generateHook: GenericGenerator = async name => {
+    const outputPath = toolbox.getFileNamePathPartsForCurrentDir(name, 'ts');
 
     if (!(await shouldCreateOrOverwrite(toolbox, outputPath))) {
       return toolbox.print.info('Aborting.');
     }
-    if (!(await shouldProceedInDir(toolbox, CodeGenerator.hook))) {
+    if (!(await shouldProceedInDir(toolbox, FeaturePiece.hook))) {
       return toolbox.print.info('Aborting.');
     }
 
     const templatePath = toolbox.getGeneratorTemplatePathParts(
-      CodeGenerator.hook,
+      FeaturePiece.hook,
       HookTemplate.Base
     );
 
-    toolbox.compileTemplate(templatePath, params, outputPath);
+    toolbox.compileTemplate(templatePath, { name }, outputPath);
   };
-  toolbox.generateHook = generateHook;
 
-  const generateModel: DefaultGenerator = async params => {
-    const outputPath = toolbox.getFileNamePathPartsForCurrentDir(
-      params.name,
-      'ts'
-    );
+  const generateModel: GenericGenerator = async name => {
+    const outputPath = toolbox.getFileNamePathPartsForCurrentDir(name, 'ts');
 
     if (!(await shouldCreateOrOverwrite(toolbox, outputPath))) {
       return toolbox.print.info('Aborting.');
     }
-    if (!(await shouldProceedInDir(toolbox, CodeGenerator.model))) {
+    if (!(await shouldProceedInDir(toolbox, FeaturePiece.model))) {
       return toolbox.print.info('Aborting.');
     }
 
     const templatePath = toolbox.getGeneratorTemplatePathParts(
-      CodeGenerator.model,
+      FeaturePiece.model,
       ModelTemplate.Base
     );
 
-    toolbox.compileTemplate(templatePath, params, outputPath);
+    toolbox.compileTemplate(templatePath, { name }, outputPath);
   };
-  toolbox.generateModel = generateModel;
 
-  const generatePage: DefaultGenerator = async params => {
-    const outputPath = toolbox.getFileNamePathPartsForCurrentDir(
-      params.name,
-      'tsx'
-    );
+  const generatePage: GenericGenerator = async name => {
+    const outputPath = toolbox.getFileNamePathPartsForCurrentDir(name, 'tsx');
 
     if (!(await shouldCreateOrOverwrite(toolbox, outputPath))) {
       return toolbox.print.info('Aborting.');
     }
-    if (!(await shouldProceedInDir(toolbox, CodeGenerator.page))) {
+    if (!(await shouldProceedInDir(toolbox, FeaturePiece.page))) {
       return toolbox.print.info('Aborting.');
     }
 
     const utilTemplate = toolbox.getGeneratorTemplatePathParts(
-      CodeGenerator.page,
+      FeaturePiece.page,
       PageTemplate.Base
     );
 
-    toolbox.compileTemplate(utilTemplate, params, outputPath);
+    toolbox.compileTemplate(utilTemplate, { name }, outputPath);
   };
-  toolbox.generatePage = generatePage;
 
-  const generateUtil: DefaultGenerator = async params => {
-    const outputPath = toolbox.getFileNamePathPartsForCurrentDir(
-      params.name,
-      'ts'
-    );
+  const generateUtil: GenericGenerator = async name => {
+    const outputPath = toolbox.getFileNamePathPartsForCurrentDir(name, 'ts');
 
     if (!(await shouldCreateOrOverwrite(toolbox, outputPath))) {
       return toolbox.print.info('Aborting.');
     }
-    if (!(await shouldProceedInDir(toolbox, CodeGenerator.util))) {
+    if (!(await shouldProceedInDir(toolbox, FeaturePiece.util))) {
       return toolbox.print.info('Aborting.');
     }
 
     const utilTemplate = toolbox.getGeneratorTemplatePathParts(
-      CodeGenerator.util,
+      FeaturePiece.util,
       UtilTemplate.Base
     );
 
-    toolbox.compileTemplate(utilTemplate, params, outputPath);
+    toolbox.compileTemplate(utilTemplate, { name }, outputPath);
   };
-  toolbox.generateUtil = generateUtil;
 
-  toolbox.generateFeature = async params => {
+  const generateFeature: GenericGenerator = async name => {
     const {
       prompt,
       filesystem: { dir, cwd, path }
@@ -181,7 +159,7 @@ module.exports = (toolbox: RnBootstrapToolbox) => {
         message: 'Please select the directories you want to generate.',
         type: 'multiselect',
         name: generateFeatureOptionSelectionKey,
-        choices: Object.values(CodeGenerator)
+        choices: Object.values(FeaturePiece)
       }
     ]);
     const featureGenerationSelection =
@@ -191,48 +169,62 @@ module.exports = (toolbox: RnBootstrapToolbox) => {
       return toolbox.throwExitError('Nothing selected. Aborting.');
     }
 
-    const featureDir = path(cwd(), params.name);
+    const featureDir = path(cwd(), name);
     dir(featureDir);
     for (const piece of featureGenerationSelection) {
       const featurePieceDir = path(featureDir, piece);
       dir(featurePieceDir);
       process.chdir(featurePieceDir);
 
-      const getCamelCaseNameForFeaturePart = getNameForFeaturePartFactory(
-        params.name
-      );
+      const getCamelCaseNameForFeaturePart = getNameForFeaturePartFactory(name);
       switch (piece) {
-        case CodeGenerator.component:
-          await generateComponent({
-            name: getCamelCaseNameForFeaturePart(CodeGenerator.component)
-          });
+        case FeaturePiece.component:
+          await generateComponent(
+            getCamelCaseNameForFeaturePart(FeaturePiece.component)
+          );
           break;
-        case CodeGenerator.container:
-          await generateContainer({
-            name: getCamelCaseNameForFeaturePart(CodeGenerator.container)
-          });
+        case FeaturePiece.container:
+          await generateContainer(
+            getCamelCaseNameForFeaturePart(FeaturePiece.container)
+          );
           break;
-        case CodeGenerator.hook:
-          await generateHook({
-            name: getNameForFeatureHook(CodeGenerator.hook)
-          });
+        case FeaturePiece.hook:
+          await generateHook(getNameForFeatureHook(FeaturePiece.hook));
           break;
-        case CodeGenerator.model:
-          await generateModel({
-            name: getCamelCaseNameForFeaturePart(CodeGenerator.model)
-          });
+        case FeaturePiece.model:
+          await generateModel(
+            getCamelCaseNameForFeaturePart(FeaturePiece.model)
+          );
           break;
-        case CodeGenerator.page:
-          await generatePage({
-            name: getCamelCaseNameForFeaturePart(CodeGenerator.page)
-          });
+        case FeaturePiece.page:
+          await generatePage(getCamelCaseNameForFeaturePart(FeaturePiece.page));
           break;
-        case CodeGenerator.util:
-          await generateUtil({
-            name: getCamelCaseNameForFeaturePart(CodeGenerator.util)
-          });
+        case FeaturePiece.util:
+          await generateUtil(getCamelCaseNameForFeaturePart(FeaturePiece.util));
           break;
       }
     }
   };
+
+  const generateTest = async () => {
+    const {
+      filesystem: { cwd }
+    } = toolbox;
+
+    if (!isCurrentDirValidFeaturePieceDir(toolbox)) {
+      const validParents = getValidFeaturePieceParentDirs(toolbox);
+      return toolbox.throwExitError(
+        `${cwd()} does not contain a supported parent. Valid parents are: ${validParents.join(', ')}`
+      );
+    }
+  };
+
+  toolbox.generateComponent = generateComponent;
+  toolbox.generateContainer = generateContainer;
+  toolbox.generatePage = generatePage;
+  toolbox.generateHook = generateHook;
+  toolbox.generateModel = generateModel;
+  toolbox.generateUtil = generateUtil;
+  toolbox.generateFeature = generateFeature;
+  toolbox.generateTest = generateTest;
 };

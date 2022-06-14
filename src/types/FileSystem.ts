@@ -1,4 +1,4 @@
-import { AvailableGeneratorTemplates, CodeGenerator } from './CodeGenerator';
+import { AvailableGeneratorTemplates, FeaturePiece } from './CodeGenerator';
 
 export type CopyRecursivelyOptions = {
   from: string;
@@ -14,10 +14,10 @@ export interface FileSystemToolboxEntries {
     matching?: string | string[]
   ): string[];
   getSourceFilesRecursivelyFromCurrentDir(): string[];
-  getGeneratorBaseDirPathParts(generatorType: CodeGenerator): string[];
+  getGeneratorBaseDirPathParts(generatorType: FeaturePiece): string[];
   getFileNamePathPartsForCurrentDir(fileName: string, ext: string);
   getGeneratorTemplatePathParts(
-    generatorType: CodeGenerator,
+    generatorType: FeaturePiece,
     template: AvailableGeneratorTemplates
   );
 }

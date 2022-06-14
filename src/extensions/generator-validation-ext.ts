@@ -1,23 +1,22 @@
 import { RnBootstrapToolbox } from '../types/RnBootstrapToolbox';
-import { CodeGenerator, GeneratorBaseParams } from '../types/CodeGenerator';
+import { FeaturePiece } from '../types/CodeGenerator';
 import toKebabCase from 'lodash.kebabcase';
 import capitalize from 'lodash.capitalize';
 import { upperCamelCase } from '../tools/pretty';
 
 module.exports = (toolbox: RnBootstrapToolbox) => {
-  const nameLengthValidator = (
-    { name }: GeneratorBaseParams,
-    minLength = 3
-  ) => {
+  const basicNameValidator = (name?: string, minLength = 3) => {
+    if (!name) {
+      return toolbox.throwExitError(
+        `A second name parameter is required for this command.`
+      );
+    }
     if (name.length < minLength) {
       return toolbox.throwExitError(`The name ${name} is is too short?`);
     }
   };
 
-  const nameEndsWithValidator = (
-    { name }: GeneratorBaseParams,
-    generatorName: CodeGenerator
-  ) => {
+  const nameEndsWithValidator = (name: string, generatorName: FeaturePiece) => {
     const capitalizedEnding = capitalize(generatorName);
     if (!name.endsWith(capitalizedEnding)) {
       return toolbox.throwExitError(
@@ -26,7 +25,7 @@ module.exports = (toolbox: RnBootstrapToolbox) => {
     }
   };
 
-  const nameUpperCamelCaseValidator = ({ name }: GeneratorBaseParams) => {
+  const nameUpperCamelCaseValidator = (name: string) => {
     const upperCamelCaseName = upperCamelCase(name);
     if (name !== upperCamelCaseName) {
       return toolbox.throwExitError(
@@ -35,40 +34,40 @@ module.exports = (toolbox: RnBootstrapToolbox) => {
     }
   };
 
-  toolbox.validateComponent = async params => {
-    nameLengthValidator(params);
-    nameEndsWithValidator(params, CodeGenerator.component);
-    nameUpperCamelCaseValidator(params);
+  toolbox.validateComponent = async name => {
+    basicNameValidator(name);
+    nameEndsWithValidator(name!, FeaturePiece.component);
+    nameUpperCamelCaseValidator(name!);
   };
-  toolbox.validateContainer = params => {
-    nameLengthValidator(params);
-    nameEndsWithValidator(params, CodeGenerator.container);
-    nameUpperCamelCaseValidator(params);
+  toolbox.validateContainer = name => {
+    basicNameValidator(name);
+    nameEndsWithValidator(name!, FeaturePiece.container);
+    nameUpperCamelCaseValidator(name!);
   };
-  toolbox.validateHook = params => {
-    nameLengthValidator(params);
-    if (!/^use([A-Z])+[A-Za-z]+/.test(params.name)) {
+  toolbox.validateHook = name => {
+    basicNameValidator(name);
+    if (!/^use([A-Z])+[A-Za-z]+/.test(name!)) {
       return toolbox.throwExitError(
         `Your hook name is invalid. Did you follow the "useYourHookName" convention?`
       );
     }
   };
-  toolbox.validateModel = params => {
-    nameLengthValidator(params);
-    nameUpperCamelCaseValidator(params);
+  toolbox.validateModel = name => {
+    basicNameValidator(name);
+    nameUpperCamelCaseValidator(name!);
   };
-  toolbox.validatePage = params => {
-    nameLengthValidator(params);
-    nameEndsWithValidator(params, CodeGenerator.page);
-    nameUpperCamelCaseValidator(params);
+  toolbox.validatePage = name => {
+    basicNameValidator(name);
+    nameEndsWithValidator(name!, FeaturePiece.page);
+    nameUpperCamelCaseValidator(name!);
   };
-  toolbox.validateUtil = params => {
-    nameLengthValidator(params);
+  toolbox.validateUtil = name => {
+    basicNameValidator(name);
   };
-  toolbox.validateFeature = params => {
-    nameLengthValidator(params);
-    const kebabCaseName = toKebabCase(params.name);
-    if (kebabCaseName !== params.name) {
+  toolbox.validateFeature = name => {
+    basicNameValidator(name);
+    const kebabCaseName = toKebabCase(name!);
+    if (kebabCaseName !== name) {
       return toolbox.throwExitError(
         `Your feature name is invalid. Did you mean "${kebabCaseName}"?`
       );

@@ -3,8 +3,8 @@ import { RnBootstrapToolbox } from '../types/RnBootstrapToolbox';
 import { CopyRecursivelyOptions } from '../types/FileSystem';
 import {
   AvailableGeneratorTemplates,
-  CodeGenerator,
-  CodeGeneratorType,
+  FeaturePiece,
+  FeaturePieceType,
   GENERATOR_TEMPLATES_DIR
 } from '../types/CodeGenerator';
 
@@ -62,12 +62,12 @@ module.exports = (toolbox: RnBootstrapToolbox) => {
     ]);
   };
 
-  const getGeneratorBaseDirPathParts = (generatorType: CodeGeneratorType) => {
+  const getGeneratorBaseDirPathParts = (generatorType: FeaturePieceType) => {
     return [toolbox.CLI_PATH, GENERATOR_TEMPLATES_DIR, generatorType];
   };
 
   const getGeneratorTemplatePathParts = (
-    generatorType: CodeGenerator,
+    generatorType: FeaturePiece,
     templateFileName: AvailableGeneratorTemplates
   ) => {
     const templatesDirPath = getGeneratorBaseDirPathParts(generatorType);

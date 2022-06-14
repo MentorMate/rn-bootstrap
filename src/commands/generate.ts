@@ -1,14 +1,13 @@
 import {
-  CodeGenerator,
-  GenerateFeatureOption,
-  GeneratorBaseParams,
-  SupportedCommandsString
+  FeaturePiece,
+  AdditionalCodeGenerator,
+  SupportedCommandsText
 } from '../types/CodeGenerator';
 import { RnBootstrapCommand } from '../types/RnBootstrapToolbox';
 
 const command: RnBootstrapCommand = {
   name: 'generate',
-  description: `Generates a ${SupportedCommandsString}`,
+  description: `Generates a ${SupportedCommandsText}`,
   alias: 'gen',
   run: async toolbox => {
     const {
@@ -27,51 +26,49 @@ const command: RnBootstrapCommand = {
       generateUtil,
       validateUtil,
       generateFeature,
-      validateFeature
+      validateFeature,
+      generateTest
     } = toolbox;
 
     if (!command) {
       return throwExitError(`TODO: implement help`);
     }
 
-    if (!name) {
-      return throwExitError('Missing name!');
-    }
-
-    const baseParams: GeneratorBaseParams = { name };
-
     switch (command) {
-      case CodeGenerator.component:
-        validateComponent(baseParams);
-        await generateComponent(baseParams);
+      case FeaturePiece.component:
+        validateComponent(name);
+        await generateComponent(name!);
         break;
-      case CodeGenerator.container:
-        validateContainer(baseParams);
-        await generateContainer(baseParams);
+      case FeaturePiece.container:
+        validateContainer(name);
+        await generateContainer(name!);
         break;
-      case CodeGenerator.hook:
-        validateHook(baseParams);
-        await generateHook(baseParams);
+      case FeaturePiece.hook:
+        validateHook(name);
+        await generateHook(name!);
         break;
-      case CodeGenerator.model:
-        validateModel(baseParams);
-        await generateModel(baseParams);
+      case FeaturePiece.model:
+        validateModel(name);
+        await generateModel(name!);
         break;
-      case CodeGenerator.page:
-        validatePage(baseParams);
-        await generatePage(baseParams);
+      case FeaturePiece.page:
+        validatePage(name);
+        await generatePage(name!);
         break;
-      case CodeGenerator.util:
-        validateUtil(baseParams);
-        await generateUtil(baseParams);
+      case FeaturePiece.util:
+        validateUtil(name);
+        await generateUtil(name!);
         break;
-      case GenerateFeatureOption.feature:
-        validateFeature(baseParams);
-        await generateFeature(baseParams);
+      case AdditionalCodeGenerator.feature:
+        validateFeature(name);
+        await generateFeature(name!);
+        break;
+      case AdditionalCodeGenerator.test:
+        await generateTest();
         break;
       default:
         throwExitError(
-          `Invalid second parameter. The supported generators are: ${SupportedCommandsString}`
+          `Invalid second parameter. The supported generators are: ${SupportedCommandsText}`
         );
         break;
     }

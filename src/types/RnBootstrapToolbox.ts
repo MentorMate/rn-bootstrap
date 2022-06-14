@@ -1,9 +1,9 @@
 import { GluegunCommand, GluegunToolbox } from 'gluegun';
 import { CopyRecursivelyOptions, FileSystemToolboxEntries } from './FileSystem';
 import {
-  DefaultGenerator,
-  DefaultGeneratorValidator,
-  CodeGeneratorType,
+  GenericGenerator,
+  GenericGeneratorValidator,
+  FeaturePieceType,
   CodeGeneratorToolboxEntries
 } from './CodeGenerator';
 import { StartProjectOptionSelectionResult } from './StartProjectOptionSelectionResult';
