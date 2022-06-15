@@ -19,10 +19,10 @@ export const shouldCreateOrOverwrite = async (
 
 export const shouldProceedInDir = async (
   { prompt: { confirm }, filesystem: { separator, cwd } }: RnBootstrapToolbox,
-  generatorName: FeaturePiece
+  featurePiece: FeaturePiece
 ) => {
   const currentDir = cwd();
-  const expectedParent = `${separator}${generatorName}`;
+  const expectedParent = `${separator}${featurePiece}`;
   if (!currentDir.includes(expectedParent)) {
     return await confirm(
       `${currentDir} does not have a parent of ${expectedParent}. Do you want to proceed in the current directory?`,
@@ -30,19 +30,4 @@ export const shouldProceedInDir = async (
     );
   }
   return Promise.resolve(true);
-};
-
-export const getValidFeaturePieceParentDirs = ({
-  filesystem: { separator }
-}: RnBootstrapToolbox) =>
-  Object.values(FeaturePiece).map(
-    generatorName => `${separator}${generatorName}`
-  );
-
-export const isCurrentDirValidFeaturePieceDir = (
-  toolbox: RnBootstrapToolbox
-) => {
-  const currentDir = toolbox.filesystem.cwd();
-  const validParents = getValidFeaturePieceParentDirs(toolbox);
-  return validParents.some(parentDir => currentDir.includes(parentDir));
 };

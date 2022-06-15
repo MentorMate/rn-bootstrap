@@ -50,4 +50,10 @@ export const registerHbsHelpers = () => {
     validateStringType(hbString);
     return camelCase(hbString);
   });
+
+  Handlebars.registerHelper('curlyBraces', function(
+    hbString: string
+  ) {
+    return '{ ' + hbString + ' }';
+  });
 };

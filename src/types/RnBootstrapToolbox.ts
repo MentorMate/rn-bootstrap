@@ -1,7 +1,7 @@
 import { GluegunCommand, GluegunToolbox } from 'gluegun';
 import { CopyRecursivelyOptions, FileSystemToolboxEntries } from './FileSystem';
 import {
-  GenericGenerator,
+  GenericGeneratorRunner,
   GenericGeneratorValidator,
   FeaturePieceType,
   CodeGeneratorToolboxEntries
