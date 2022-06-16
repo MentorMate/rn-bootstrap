@@ -1,3 +1,6 @@
+import { getRc } from '../tools/rcFile';
+import { RnBootstrapToolbox } from './RnBootstrapToolbox';
+
 export const GENERATOR_TEMPLATES_DIR = 'generator-templates';
 
 export enum FeaturePiece {
@@ -11,8 +14,8 @@ export enum FeaturePiece {
 export type FeaturePieceType = keyof typeof FeaturePiece;
 
 export enum FeatureVariance {
-  default = 'default',
-  styledComponents = 'styledComponents'
+  Default = 'Default',
+  StyledComponents = 'StyledComponents'
 }
 
 export enum AdditionalCodeGenerator {
@@ -22,14 +25,13 @@ export enum AdditionalCodeGenerator {
 
 export const GenerateFeatureOptionSelectionKey = 'featureGenerationOptions';
 export type GenerateFeaturePromptResult = {
-  [GenerateFeatureOptionSelectionKey]: [FeaturePieceType];
+  [GenerateFeatureOptionSelectionKey]: [FeaturePiece];
 };
 
 export const GenerateTestFilesSelectionKey = 'generateTestFiles';
 export type GenerateTestFilesSelectionPromptResult = {
   [GenerateTestFilesSelectionKey]: [string];
 };
-
 
 export const SupportedCommandsText = [
   ...Object.values(FeaturePiece),
@@ -60,13 +62,13 @@ type Generator = {
 
 const Generator: Generator = {
   [FeaturePiece.component]: {
-    [FeatureVariance.default]: {
+    [FeatureVariance.Default]: {
       Base: 'base-stylesheet-component.tsx',
       Tests: '__tests__/base-component.test.tsx',
       Piece: FeaturePiece.component,
       Ext: 'tsx'
     },
-    [FeatureVariance.styledComponents]: {
+    [FeatureVariance.StyledComponents]: {
       Base: 'base-styled-components-component.tsx',
       Tests: '__tests__/base-component.test.tsx',
       Piece: FeaturePiece.component,
@@ -74,7 +76,7 @@ const Generator: Generator = {
     }
   },
   [FeaturePiece.container]: {
-    [FeatureVariance.default]: {
+    [FeatureVariance.Default]: {
       Base: 'base-container.tsx',
       Tests: '__tests__/base-container.test.tsx',
       Piece: FeaturePiece.container,
@@ -82,7 +84,7 @@ const Generator: Generator = {
     }
   },
   [FeaturePiece.hook]: {
-    [FeatureVariance.default]: {
+    [FeatureVariance.Default]: {
       Base: 'base-hook.ts',
       Tests: '__tests__/base-hook.test.ts',
       Piece: FeaturePiece.hook,
@@ -90,7 +92,7 @@ const Generator: Generator = {
     }
   },
   [FeaturePiece.page]: {
-    [FeatureVariance.default]: {
+    [FeatureVariance.Default]: {
       Base: 'base-page.tsx',
       Tests: '__tests__/base-page.test.tsx',
       Piece: FeaturePiece.page,
@@ -98,7 +100,7 @@ const Generator: Generator = {
     }
   },
   [FeaturePiece.model]: {
-    [FeatureVariance.default]: {
+    [FeatureVariance.Default]: {
       Base: 'base-model.ts',
       Tests: '__tests__/base-model.test.ts',
       Piece: FeaturePiece.model,
@@ -106,7 +108,7 @@ const Generator: Generator = {
     }
   },
   [FeaturePiece.util]: {
-    [FeatureVariance.default]: {
+    [FeatureVariance.Default]: {
       Base: 'base-util.ts',
       Tests: '__tests__/base-util.test.ts',
       Piece: FeaturePiece.util,
@@ -115,7 +117,10 @@ const Generator: Generator = {
   }
 };
 
-export const getGeneratorConfig = (piece: FeaturePiece, variance: FeatureVariance) => {
+export const getGeneratorConfig = (
+  piece: FeaturePiece,
+  variance: FeatureVariance
+) => {
   const generator = Generator[piece][variance];
   if (!generator) {
     throw new Error(`Unsupported generator for ${variance} ${piece}`);
@@ -123,27 +128,35 @@ export const getGeneratorConfig = (piece: FeaturePiece, variance: FeatureVarianc
   return generator;
 };
 
+export const getFeaturePieceVariance = (
+  toolbox: RnBootstrapToolbox,
+  piece: FeaturePiece
+) => {
+  switch (piece) {
+    case FeaturePiece.component:
+      const rcFile = getRc(toolbox);
+      return rcFile.projectUses?.styledComponents
+        ? FeatureVariance.StyledComponents
+        : FeatureVariance.Default;
+    case FeaturePiece.container:
+    case FeaturePiece.hook:
+    case FeaturePiece.model:
+    case FeaturePiece.page:
+    case FeaturePiece.util:
+      return FeatureVariance.Default;
+  }
+};
+
 export interface CodeGeneratorToolboxEntries {
-  generateComponent: GenericGeneratorRunner;
   validateComponent: GenericGeneratorValidator;
-
-  generateContainer: GenericGeneratorRunner;
   validateContainer: GenericGeneratorValidator;
-
-  generateHook: GenericGeneratorRunner;
   validateHook: GenericGeneratorValidator;
-
-  generateModel: GenericGeneratorRunner;
   validateModel: GenericGeneratorValidator;
-
-  generatePage: GenericGeneratorRunner;
   validatePage: GenericGeneratorValidator;
-
-  generateUtil: GenericGeneratorRunner;
   validateUtil: GenericGeneratorValidator;
-
-  generateFeature: GenericGeneratorRunner;
   validateFeature: GenericGeneratorValidator;
 
+  generatePiece: (piece: FeaturePiece, name: string) => Promise<void>;
+  generateFeature: GenericGeneratorRunner;
   generateTest: () => Promise<void>;
 }

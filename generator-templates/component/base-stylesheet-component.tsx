@@ -1,12 +1,19 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
-interface {{name}}Props {}
+interface {{name}}Props {
+  testID?: string;
+}
 
-export const {{name}}: React.FC<{{name}}Props> = () => {
+export enum TestID {
+  {{name}}Wrapper = '{{name}}Wrapper',
+  SomeText = 'SomeText'
+}
+
+export const {{name}}: React.FC<{{name}}Props> = ({ testID = TestID.{{name}}Wrapper }) => {
   return (
-    <View style={styles.componentWrapper}>
-      <Text>Your {{name}}</Text>
+    <View testID={{curlyBraces 'testID'}} style={styles.componentWrapper}>
+      <Text testID={TestID.SomeText}>Your {{name}}</Text>
     </View>
   );
 };

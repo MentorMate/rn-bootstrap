@@ -14,15 +14,12 @@ import {
   getGeneratorConfig,
   Template,
   GenerateTestFilesSelectionPromptResult,
-  GenerateTestFilesSelectionKey
+  GenerateTestFilesSelectionKey,
+  getFeaturePieceVariance
 } from '../types/CodeGenerator';
-import {
-  getNameForFeatureHook,
-  getNameForFeaturePieceFactory
-} from '../tools/naming';
-import { TESTS_DIR } from '../tools/constants';
+import { getNameForFeatureHook, getNameForFeaturePiece } from '../tools/naming';
 
-const generateFeaturePart = async (
+const generateFeaturePiece = async (
   toolbox: RnBootstrapToolbox,
   Config: GeneratorConfig,
   name: string,
@@ -44,59 +41,16 @@ const generateFeaturePart = async (
 };
 
 module.exports = (toolbox: RnBootstrapToolbox) => {
-  const generateComponent: GenericGeneratorRunner = async name => {
-    const rcFile = getRc(toolbox);
-    if (rcFile.projectUses?.styledComponents) {
-      generateFeaturePart(
-        toolbox,
-        getGeneratorConfig(
-          FeaturePiece.component,
-          FeatureVariance.styledComponents
-        ),
-        name
-      );
-    } else {
-      generateFeaturePart(
-        toolbox,
-        getGeneratorConfig(FeaturePiece.component, FeatureVariance.default),
-        name
-      );
-    }
-  };
-
-  const generateContainer: GenericGeneratorRunner = name =>
-    generateFeaturePart(
+  const generatePiece = (
+    piece: FeaturePiece,
+    name: string,
+    template?: Template
+  ) =>
+    generateFeaturePiece(
       toolbox,
-      getGeneratorConfig(FeaturePiece.container, FeatureVariance.default),
-      name
-    );
-
-  const generateHook: GenericGeneratorRunner = name =>
-    generateFeaturePart(
-      toolbox,
-      getGeneratorConfig(FeaturePiece.hook, FeatureVariance.default),
-      name
-    );
-
-  const generateModel: GenericGeneratorRunner = name =>
-    generateFeaturePart(
-      toolbox,
-      getGeneratorConfig(FeaturePiece.model, FeatureVariance.default),
-      name
-    );
-
-  const generatePage: GenericGeneratorRunner = name =>
-    generateFeaturePart(
-      toolbox,
-      getGeneratorConfig(FeaturePiece.page, FeatureVariance.default),
-      name
-    );
-
-  const generateUtil: GenericGeneratorRunner = name =>
-    generateFeaturePart(
-      toolbox,
-      getGeneratorConfig(FeaturePiece.util, FeatureVariance.default),
-      name
+      getGeneratorConfig(piece, getFeaturePieceVariance(toolbox, piece)),
+      name,
+      template
     );
 
   const generateFeature: GenericGeneratorRunner = async name => {
@@ -127,45 +81,23 @@ module.exports = (toolbox: RnBootstrapToolbox) => {
       dir(featurePieceDir);
       process.chdir(featurePieceDir);
 
-      const getCamelCaseNameForFeaturePiece = getNameForFeaturePieceFactory(
-        name
-      );
       switch (piece) {
         case FeaturePiece.component:
-          await generateComponent(
-            getCamelCaseNameForFeaturePiece(FeaturePiece.component)
-          );
-          break;
         case FeaturePiece.container:
-          await generateContainer(
-            getCamelCaseNameForFeaturePiece(FeaturePiece.container)
-          );
+        case FeaturePiece.model:
+        case FeaturePiece.page:
+        case FeaturePiece.util:
+          await generatePiece(piece, getNameForFeaturePiece(piece, name));
           break;
         case FeaturePiece.hook:
-          await generateHook(getNameForFeatureHook(FeaturePiece.hook));
-          break;
-        case FeaturePiece.model:
-          await generateModel(
-            getCamelCaseNameForFeaturePiece(FeaturePiece.model)
-          );
-          break;
-        case FeaturePiece.page:
-          await generatePage(
-            getCamelCaseNameForFeaturePiece(FeaturePiece.page)
-          );
-          break;
-        case FeaturePiece.util:
-          await generateUtil(
-            getCamelCaseNameForFeaturePiece(FeaturePiece.util)
-          );
-          break;
+          await generatePiece(piece, getNameForFeatureHook(name));
       }
     }
   };
 
   const generateTest = async () => {
     const {
-      filesystem: { cwd, list, inspect },
+      filesystem: { cwd, list },
       prompt: { ask }
     } = toolbox;
 
@@ -184,7 +116,7 @@ module.exports = (toolbox: RnBootstrapToolbox) => {
 
     if (!potentialTestNames?.length) {
       return toolbox.throwExitError(
-        `${cwd()} is empty. Unable to generate selection.`
+        `${cwd()} is empty. There is nothing to generate tests for.`
       );
     }
 
@@ -208,23 +140,12 @@ module.exports = (toolbox: RnBootstrapToolbox) => {
       return toolbox.throwExitError('Nothing selected. Aborting.');
     }
 
-    for (const file of filesToGenerate) {
-      await generateFeaturePart(
-        toolbox,
-        getGeneratorConfig(featurePiece, FeatureVariance.default),
-        file,
-        Template.Tests
-      );
+    for (const fileName of filesToGenerate) {
+      await generatePiece(featurePiece, fileName, Template.Tests);
     }
   };
 
-  toolbox.generateComponent = generateComponent;
-  toolbox.generateContainer = generateContainer;
-  toolbox.generatePage = generatePage;
-  toolbox.generateHook = generateHook;
-  toolbox.generateModel = generateModel;
-  toolbox.generateUtil = generateUtil;
-
+  toolbox.generatePiece = generatePiece;
   toolbox.generateFeature = generateFeature;
   toolbox.generateTest = generateTest;
 };

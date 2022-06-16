@@ -13,17 +13,12 @@ const command: RnBootstrapCommand = {
     const {
       parameters: { first: command, second: name },
       throwExitError,
-      generateComponent,
+      generatePiece,
       validateComponent,
-      generateContainer,
       validateContainer,
-      generateHook,
       validateHook,
-      generateModel,
       validateModel,
-      generatePage,
       validatePage,
-      generateUtil,
       validateUtil,
       generateFeature,
       validateFeature,
@@ -37,27 +32,27 @@ const command: RnBootstrapCommand = {
     switch (command) {
       case FeaturePiece.component:
         validateComponent(name);
-        await generateComponent(name!);
+        await generatePiece(command, name!);
         break;
       case FeaturePiece.container:
         validateContainer(name);
-        await generateContainer(name!);
+        await generatePiece(command, name!);
         break;
       case FeaturePiece.hook:
         validateHook(name);
-        await generateHook(name!);
+        await generatePiece(command, name!);
         break;
       case FeaturePiece.model:
         validateModel(name);
-        await generateModel(name!);
+        await generatePiece(command, name!);
         break;
       case FeaturePiece.page:
         validatePage(name);
-        await generatePage(name!);
+        await generatePiece(command, name!);
         break;
       case FeaturePiece.util:
         validateUtil(name);
-        await generateUtil(name!);
+        await generatePiece(command, name!);
         break;
       case AdditionalCodeGenerator.feature:
         validateFeature(name);

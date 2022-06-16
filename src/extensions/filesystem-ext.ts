@@ -3,7 +3,6 @@ import { RnBootstrapToolbox } from '../types/RnBootstrapToolbox';
 import { CopyRecursivelyOptions } from '../types/FileSystem';
 import {
   FeaturePiece,
-  FeaturePieceType,
   GENERATOR_TEMPLATES_DIR,
   GeneratorConfig,
   Template
@@ -64,7 +63,7 @@ module.exports = (toolbox: RnBootstrapToolbox) => {
     ]);
   };
 
-  const getGeneratorBaseDirPathParts = (featurePiece: FeaturePieceType) => {
+  const getGeneratorBaseDirPathParts = (featurePiece: FeaturePiece) => {
     return [toolbox.CLI_PATH, GENERATOR_TEMPLATES_DIR, featurePiece];
   };
 

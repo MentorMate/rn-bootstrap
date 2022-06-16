@@ -1,4 +1,4 @@
-import {{curlyBraces name}} from '../{{name}}';
+import {{spacedCurlyBraces name}} from '../{{name}}';
 
 describe('verify {{name}}', () => {
   test('works as expected', () => {

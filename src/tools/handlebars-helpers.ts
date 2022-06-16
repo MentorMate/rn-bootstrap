@@ -4,6 +4,7 @@ import kebabCase from 'lodash.kebabcase';
 import camelCase from 'lodash.camelcase';
 import upperFirst from 'lodash.upperfirst';
 import { upperCamelCase } from '../tools/pretty';
+require('handlebars-helpers')();
 
 const validateStringType = data => {
   const entryType = typeof data;
@@ -51,9 +52,11 @@ export const registerHbsHelpers = () => {
     return camelCase(hbString);
   });
 
-  Handlebars.registerHelper('curlyBraces', function(
-    hbString: string
-  ) {
+  Handlebars.registerHelper('curlyBraces', function(hbString: string) {
+    return '{' + hbString + '}';
+  });
+
+  Handlebars.registerHelper('spacedCurlyBraces', function(hbString: string) {
     return '{ ' + hbString + ' }';
   });
 };
