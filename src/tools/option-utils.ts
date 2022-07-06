@@ -54,7 +54,7 @@ export const getRcFileContentFromSelectedOptions = (
   };
 };
 
-export const getFilePathsToExclude = (
+export const getFilePathsToExcludeFromSelectedOptions = (
   optionSelection: StartProjectOptionSelectionResult
 ) => {
   const selectionChoices = Object.values(optionSelection);

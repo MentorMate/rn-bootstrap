@@ -1,4 +1,4 @@
-import { AvailableGeneratorTemplates, CodeGenerator } from './CodeGenerator';
+import { GeneratorConfig, Template, FeaturePiece } from './CodeGenerator';
 
 export type CopyRecursivelyOptions = {
   from: string;
@@ -6,6 +6,7 @@ export type CopyRecursivelyOptions = {
   excluded?: Array<string | RegExp | undefined>;
 };
 
+/* TODO: consider fixing manually setting types... */
 export interface FileSystemToolboxEntries {
   copyRecursively(options: CopyRecursivelyOptions);
   getFsChildrenRecursively(
@@ -14,10 +15,9 @@ export interface FileSystemToolboxEntries {
     matching?: string | string[]
   ): string[];
   getSourceFilesRecursivelyFromCurrentDir(): string[];
-  getGeneratorBaseDirPathParts(generatorType: CodeGenerator): string[];
-  getFileNamePathPartsForCurrentDir(fileName: string, ext: string);
-  getGeneratorTemplatePathParts(
-    generatorType: CodeGenerator,
-    template: AvailableGeneratorTemplates
-  );
+  getGeneratorBaseDirPathParts(generatorType: FeaturePiece): string[];
+  getFileNamePathPartsForCurrentDir(fileName: string, ext: string, template: Template): string[];
+  getGeneratorTemplatePathParts(Config: GeneratorConfig, template: Template);
+  getFeaturePieceFromCurrentDir(): FeaturePiece;
+  removeFileExtension(filename: string): string;
 }

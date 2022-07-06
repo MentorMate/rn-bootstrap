@@ -2,11 +2,12 @@ import { join } from 'path';
 import { RnBootstrapToolbox } from '../types/RnBootstrapToolbox';
 import { CopyRecursivelyOptions } from '../types/FileSystem';
 import {
-  AvailableGeneratorTemplates,
-  CodeGenerator,
-  CodeGeneratorType,
-  GENERATOR_TEMPLATES_DIR
+  FeaturePiece,
+  GENERATOR_TEMPLATES_DIR,
+  GeneratorConfig,
+  Template
 } from '../types/CodeGenerator';
+import { TESTS_DIR } from '../tools/constants';
 
 module.exports = (toolbox: RnBootstrapToolbox) => {
   const {
@@ -17,8 +18,6 @@ module.exports = (toolbox: RnBootstrapToolbox) => {
   const BASE_PROJECT_PATH = path(CLI_PATH, 'baseProject');
 
   const copyRecursively = ({ from, to, excluded }: CopyRecursivelyOptions) => {
-    dir(from);
-
     const copyTargets = getFsChildrenRecursively(from, true).filter(
       file =>
         !excluded?.find(exclusion =>
@@ -61,20 +60,44 @@ module.exports = (toolbox: RnBootstrapToolbox) => {
     ]);
   };
 
-  const getGeneratorBaseDirPathParts = (generatorType: CodeGeneratorType) => {
-    return [toolbox.CLI_PATH, GENERATOR_TEMPLATES_DIR, generatorType];
+  const getGeneratorBaseDirPathParts = (featurePiece: FeaturePiece) => {
+    return [toolbox.CLI_PATH, GENERATOR_TEMPLATES_DIR, featurePiece];
   };
 
   const getGeneratorTemplatePathParts = (
-    generatorType: CodeGenerator,
-    templateFileName: AvailableGeneratorTemplates
+    Config: GeneratorConfig,
+    template: Template
   ) => {
-    const templatesDirPath = getGeneratorBaseDirPathParts(generatorType);
-    return [...templatesDirPath, templateFileName];
+    const templatesDirPath = getGeneratorBaseDirPathParts(Config.Piece);
+    return [...templatesDirPath, Config[template]];
   };
 
-  const getFileNamePathPartsForCurrentDir = (fileName: string, ext: string) => {
-    return [process.cwd(), `${fileName}.${ext}`];
+  const getFileNamePathPartsForCurrentDir = (
+    fileName: string,
+    ext: string,
+    template: Template
+  ) => {
+    return template === Template.Tests
+      ? [process.cwd(), TESTS_DIR, `${fileName}.test.${ext}`]
+      : [process.cwd(), `${fileName}.${ext}`];
+  };
+
+  const getCurrentDirLastPart = () => {
+    const {
+      filesystem: { cwd, separator }
+    } = toolbox;
+    const currentDirParts = cwd().split(separator);
+    return currentDirParts[currentDirParts.length - 1];
+  };
+
+  const getFeaturePieceFromCurrentDir = (): FeaturePiece => {
+    const lastDirPart = getCurrentDirLastPart();
+    return FeaturePiece[lastDirPart];
+  };
+
+
+  const removeFileExtension = (filename: string) => {
+    return filename.substring(0, filename.lastIndexOf('.')) || filename;
   };
 
   toolbox.copyRecursively = copyRecursively;
@@ -83,6 +106,8 @@ module.exports = (toolbox: RnBootstrapToolbox) => {
   toolbox.getGeneratorBaseDirPathParts = getGeneratorBaseDirPathParts;
   toolbox.getGeneratorTemplatePathParts = getGeneratorTemplatePathParts;
   toolbox.getFileNamePathPartsForCurrentDir = getFileNamePathPartsForCurrentDir;
+  toolbox.getFeaturePieceFromCurrentDir = getFeaturePieceFromCurrentDir;
+  toolbox.removeFileExtension = removeFileExtension;
   toolbox.CLI_PATH = CLI_PATH;
   toolbox.BASE_PROJECT_PATH = BASE_PROJECT_PATH;
 };

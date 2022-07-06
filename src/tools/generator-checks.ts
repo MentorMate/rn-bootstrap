@@ -1,4 +1,4 @@
-import { CodeGenerator } from '../types/CodeGenerator';
+import { FeaturePiece } from '../types/CodeGenerator';
 import { RnBootstrapToolbox } from '../types/RnBootstrapToolbox';
 
 export const shouldCreateOrOverwrite = async (
@@ -18,14 +18,14 @@ export const shouldCreateOrOverwrite = async (
 };
 
 export const shouldProceedInDir = async (
-  { prompt: { confirm }, filesystem: { separator } }: RnBootstrapToolbox,
-  generatorName: CodeGenerator
+  { prompt: { confirm }, filesystem: { separator, cwd } }: RnBootstrapToolbox,
+  featurePiece: FeaturePiece
 ) => {
-  const workDir = process.cwd();
-  const expectedParent = `${separator}${generatorName}`;
-  if (!workDir.includes(expectedParent)) {
+  const currentDir = cwd();
+  const expectedParent = `${separator}${featurePiece}`;
+  if (!currentDir.includes(expectedParent)) {
     return await confirm(
-      `${workDir} does not have a parent of ${expectedParent}. Do you want to proceed in the current directory?`,
+      `${currentDir} does not have a parent of ${expectedParent}. Do you want to proceed in the current directory?`,
       true
     );
   }

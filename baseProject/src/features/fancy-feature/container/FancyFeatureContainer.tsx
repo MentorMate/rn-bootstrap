@@ -1,5 +1,5 @@
 import React from 'react';
-import { FancyFeatureComponent } from '../components/FancyFeatureComponent';
+import { FancyFeatureComponent } from '../component/FancyFeatureComponent';
 
 export const FancyFeatureContainer = () => {
   return <FancyFeatureComponent />;

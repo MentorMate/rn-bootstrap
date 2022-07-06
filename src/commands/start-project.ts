@@ -2,7 +2,7 @@ import { SelectionPrompts } from '../tools/options';
 import {
   getDependenciesToInstallFromSelectedOptions,
   getTemplateParamsFromSelectedOptions,
-  getFilePathsToExclude
+  getFilePathsToExcludeFromSelectedOptions
 } from '../tools/option-utils';
 import { yarn } from '../tools/yarn';
 import {
@@ -54,7 +54,7 @@ const startProject = async (toolbox: RnBootstrapToolbox) => {
   toolbox.copyRecursively({
     from: toolbox.BASE_PROJECT_PATH,
     to: projectName,
-    excluded: getFilePathsToExclude(selectedOptions)
+    excluded: getFilePathsToExcludeFromSelectedOptions(selectedOptions)
   });
 
   // From here on we operate within the actual project directory.

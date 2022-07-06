@@ -2,12 +2,19 @@ import React from 'react';
 import { Text } from 'react-native';
 import styled from 'styled-components/native';
 
-interface {{name}}Props {}
+interface {{name}}Props {
+  testID?: string;
+}
 
-export const {{name}}: React.FC<{{name}}Props> = () => {
+export enum TestID {
+  {{name}}Wrapper = '{{name}}Wrapper',
+  SomeText = 'SomeText'
+}
+
+export const {{name}}: React.FC<{{name}}Props> = ({ testID = TestID.{{name}}Wrapper }) => {
   return (
-    <{{name}}Wrapper>
-      <Text>Your {{name}}</Text>
+    <{{name}}Wrapper testID={{curlyBraces 'testID'}}>
+      <Text testID={TestID.SomeText}>Your {{name}}</Text>
     </{{name}}Wrapper>
   );
 };

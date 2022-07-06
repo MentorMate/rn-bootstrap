@@ -1,14 +1,12 @@
 import { GluegunCommand, GluegunToolbox } from 'gluegun';
-import { CopyRecursivelyOptions, FileSystemToolboxEntries } from './FileSystem';
-import {
-  DefaultGenerator,
-  DefaultGeneratorValidator,
-  CodeGeneratorType,
-  CodeGeneratorToolboxEntries
-} from './CodeGenerator';
+import { FileSystemToolboxEntries } from './FileSystem';
+import { CodeGeneratorToolboxEntries } from './CodeGenerator';
 import { StartProjectOptionSelectionResult } from './StartProjectOptionSelectionResult';
 
-export interface RnBootstrapToolbox extends GluegunToolbox, CodeGeneratorToolboxEntries, FileSystemToolboxEntries {
+export interface RnBootstrapToolbox
+  extends GluegunToolbox,
+    CodeGeneratorToolboxEntries,
+    FileSystemToolboxEntries {
   throwExitError(error: any): never;
   compileTemplate(
     pathParts: string[],

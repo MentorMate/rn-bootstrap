@@ -59,6 +59,8 @@
     "@commitlint/config-conventional": "^16.0.0",
     "@react-native-community/eslint-config": "^2.0.0",
     "@testing-library/react-native": "^9.0.0",
+    "@testing-library/react-hooks": "^8.0.0",
+    "@testing-library/jest-native": "^4.0.5",
     "@types/jest": "^26.0.23",
     "@types/react-native": "^0.66.15",
     "@types/react-test-renderer": "^17.0.1",
