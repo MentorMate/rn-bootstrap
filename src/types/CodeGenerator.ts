@@ -3,6 +3,7 @@ import { RnBootstrapToolbox } from './RnBootstrapToolbox';
 
 export const GENERATOR_TEMPLATES_DIR = 'generator-templates';
 
+// These enums are used for indexing directories and commands, thus being lowercase.
 export enum FeaturePiece {
   container = 'container',
   component = 'component',
@@ -11,6 +12,10 @@ export enum FeaturePiece {
   page = 'page',
   util = 'util'
 }
+export enum AdditionalCodeGenerator {
+  feature = 'feature',
+  test = 'test'
+}
 export type FeaturePieceType = keyof typeof FeaturePiece;
 
 export enum FeatureVariance {
@@ -18,10 +23,6 @@ export enum FeatureVariance {
   StyledComponents = 'StyledComponents'
 }
 
-export enum AdditionalCodeGenerator {
-  feature = 'feature',
-  test = 'test'
-}
 
 export const GenerateFeatureOptionSelectionKey = 'featureGenerationOptions';
 export type GenerateFeaturePromptResult = {

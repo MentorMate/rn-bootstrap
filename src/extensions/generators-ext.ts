@@ -2,7 +2,6 @@ import {
   shouldCreateOrOverwrite,
   shouldProceedInDir
 } from '../tools/generator-checks';
-import { getRc } from '../tools/rcFile';
 import { RnBootstrapToolbox } from '../types/RnBootstrapToolbox';
 import {
   FeaturePiece,
@@ -10,7 +9,6 @@ import {
   GenerateFeaturePromptResult,
   GenericGeneratorRunner,
   GeneratorConfig,
-  FeatureVariance,
   getGeneratorConfig,
   Template,
   GenerateTestFilesSelectionPromptResult,

@@ -34,8 +34,8 @@ const command: RnBootstrapCommand = {
     p();
     direction(
       `See the documentation: ${link(
-        'https://gitlab.mentormate.bg/mm-dev/mm-rn-cli'
-      )}` // TODO replace with github link
+        'https://github.com/MentorMate/rn-bootstrap'
+      )}`
     );
     p();
     direction(
