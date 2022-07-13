@@ -11,7 +11,7 @@ import { TESTS_DIR } from '../tools/constants';
 
 module.exports = (toolbox: RnBootstrapToolbox) => {
   const {
-    filesystem: { copy, cwd, path, dir },
+    filesystem: { copy, cwd, path },
     meta
   } = toolbox;
   const CLI_PATH = path(`${meta.src}`, '..');
@@ -26,6 +26,7 @@ module.exports = (toolbox: RnBootstrapToolbox) => {
             : exclusion === file
         )
     );
+    console.log(copyTargets);
 
     for (const fileOrFolder of copyTargets) {
       copy(path(from, fileOrFolder), path(to, fileOrFolder));
@@ -37,12 +38,15 @@ module.exports = (toolbox: RnBootstrapToolbox) => {
     isRelative: boolean = false,
     matching: string | string[] = '*'
   ): string[] => {
+    console.log(cwd(path));
     const dirs = cwd(path).find({
       matching,
       directories: false,
       recursive: true,
       files: true
     });
+    console.log(dirs);
+
     if (isRelative) {
       return dirs;
     } else {
@@ -94,7 +98,6 @@ module.exports = (toolbox: RnBootstrapToolbox) => {
     const lastDirPart = getCurrentDirLastPart();
     return FeaturePiece[lastDirPart];
   };
-
 
   const removeFileExtension = (filename: string) => {
     return filename.substring(0, filename.lastIndexOf('.')) || filename;
