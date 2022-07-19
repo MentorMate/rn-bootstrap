@@ -26,7 +26,6 @@ module.exports = (toolbox: RnBootstrapToolbox) => {
             : exclusion === file
         )
     );
-    console.log(copyTargets);
 
     for (const fileOrFolder of copyTargets) {
       copy(path(from, fileOrFolder), path(to, fileOrFolder));
@@ -38,14 +37,12 @@ module.exports = (toolbox: RnBootstrapToolbox) => {
     isRelative: boolean = false,
     matching: string | string[] = '*'
   ): string[] => {
-    console.log(cwd(path));
     const dirs = cwd(path).find({
       matching,
       directories: false,
       recursive: true,
       files: true
     });
-    console.log(dirs);
 
     if (isRelative) {
       return dirs;

@@ -49,7 +49,7 @@
     "@react-native-community/netinfo": "^9.3.0",
     "react": "18.2.0",
     "react-native": "0.69.1",
-    "react-native-config": "^1.4.7",
+    "react-native-config": "^1.4.6",
     "react-native-gesture-handler": "^2.5.0"
   },
   "devDependencies": {
