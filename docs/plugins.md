@@ -1,10 +1,10 @@
-# Plugin guide for mm-rn-cli
+# Plugin guide for rn-bootstrap
 
-Plugins allow you to add features to mm-rn-cli, such as commands and
+Plugins allow you to add features to rn-bootstrap, such as commands and
 extensions to the `toolbox` object that provides the majority of the functionality
-used by mm-rn-cli.
+used by rn-bootstrap.
 
-Creating a mm-rn-cli plugin is easy. Just create a repo with two folders:
+Creating a rn-bootstrap plugin is easy. Just create a repo with two folders:
 
 ```
 commands/
@@ -42,6 +42,6 @@ This is then accessible in your plugin's commands as `toolbox.bar`.
 
 # Loading a plugin
 
-To load a particular plugin (which has to start with `mm-rn-cli-*`),
-install it to your project using `npm install --save-dev mm-rn-cli-PLUGINNAME`,
-and mm-rn-cli will pick it up automatically.
+To load a particular plugin (which has to start with `rn-bootstrap-*`),
+install it to your project using `npm install --save-dev rn-bootstrap-PLUGINNAME`,
+and rn-bootstrap will pick it up automatically.

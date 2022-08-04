@@ -6,9 +6,9 @@ const { build } = require('gluegun');
 async function run(argv) {
   // create a CLI runtime
   const cli = build()
-    .brand('mm-rn-cli')
+    .brand('rn-bootstrap')
     .src(__dirname)
-    .plugins('./node_modules', { matching: 'mm-rn-cli-*', hidden: true })
+    .plugins('./node_modules', { matching: 'rn-bootstrap-*', hidden: true })
     .defaultCommand(require('./commands/help'))
     .version() // provides default for version, v, --version, -v
     .create();

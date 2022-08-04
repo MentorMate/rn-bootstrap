@@ -1,7 +1,7 @@
 import { FeaturePiece } from '../types/CodeGenerator';
 import { RnBootstrapToolbox } from '../types/RnBootstrapToolbox';
 
-export const shouldCreateOrOverwrite = async (
+export const shouldCreateOrOverwrite = (
   { filesystem: { exists, path }, prompt: { confirm } }: RnBootstrapToolbox,
   filePathParts: string[]
 ) => {
@@ -11,20 +11,20 @@ export const shouldCreateOrOverwrite = async (
     return true;
   }
 
-  return await confirm(
+  return confirm(
     `A ${existingFileOrDirType} at ${filePath} already exists. Do you want to proceed and overwrite it?`,
     false
   );
 };
 
-export const shouldProceedInDir = async (
+export const shouldProceedInDir = (
   { prompt: { confirm }, filesystem: { separator, cwd } }: RnBootstrapToolbox,
   featurePiece: FeaturePiece
 ) => {
   const currentDir = cwd();
   const expectedParent = `${separator}${featurePiece}`;
   if (!currentDir.includes(expectedParent)) {
-    return await confirm(
+    return confirm(
       `${currentDir} does not have a parent of ${expectedParent}. Do you want to proceed in the current directory?`,
       true
     );

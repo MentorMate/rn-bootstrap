@@ -25,7 +25,7 @@ const command: RnBootstrapCommand = {
     if (options.h) {
       showHelp();
     } else {
-      startProject(toolbox);
+      await startProject(toolbox);
     }
   }
 };
@@ -34,7 +34,7 @@ const showHelp = () => {
   p();
   RnBootstrapHeading();
   commandFormat('start-project         ', 'Creates a new React Native app', [
-    'mm-rn-cli start-project MyApp com.myappbundleid'
+    'rn-bootstrap start-project MyApp com.myappbundleid'
   ]);
   p();
   p('Use this command to generate a new React Native project.');

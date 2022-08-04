@@ -3,11 +3,11 @@
 <!-- Attachment: ./assets/commitizen.png -->
 
 <!-- Include: disclaimer.md -->
-# mm-rn-cli CLI
+# rn-bootstrap CLI
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 
 The CLI facilitates the process of starting a new React Native project from scratch.
-When starting a new project with `mm-rn-cli` it automatically installs and sets up the following:
+When starting a new project with `rn-bootstrap` it automatically installs and sets up the following:
 - React
 - React Native
 - TypeScript
@@ -27,7 +27,7 @@ When starting a new project with `mm-rn-cli` it automatically installs and sets 
 Create a new project using `start-project` and mandatory options for `Folder Name` and `App Bundle Id`
 
 ```
-mm-rn-cli start-project awesomeApp com.awesomeapp
+rn-bootstrap start-project awesomeApp com.awesomeapp
 ```
 Note that bundle ID should follow proper format (for details check `BUNDLE_ID_REGEX` in `constants.ts`) or an Error will be thrown.
 

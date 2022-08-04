@@ -17,7 +17,7 @@ const defaultPackageListOptions: PackageListOptions = {
   global: false,
 };
 
-type PackageListOutput = [string, (string) => [string, string][]];
+type PackageListOutput = [string, (str) => [string, string][]];
 function list(
   options: PackageListOptions = defaultPackageListOptions
 ): PackageListOutput {

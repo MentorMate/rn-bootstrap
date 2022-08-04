@@ -1,3 +1,3 @@
-# Command Reference for mm-rn-cli
+# Command Reference for rn-bootstrap
 
 TODO: Add your command reference here
