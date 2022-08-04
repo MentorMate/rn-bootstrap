@@ -1,0 +1,86 @@
+name: Development Distribution
+
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  dev-distribution:
+    runs-on: ubuntu-latest
+    name: Development Distribution
+    steps:
+
+      # Checkout the project
+      - name: Checkout
+        uses: actions/checkout@v2
+      - uses: actions/setup-node@master
+      - uses: c-hive/gha-yarn-cache@v1
+
+      # Install the project
+      - name: Install node modules
+        run: yarn setup
+
+      # TODO investigate this tool. Looks really handy
+      - name: Run CI with Lefthook
+        run: yarn lefthook run ci-hook
+
+      # Lint
+      - name: Lint
+        run: yarn lint
+
+      # Typecheck
+      - name: Typecheck
+        run: yarn typecheck
+
+      # Check circular dependencies
+      - name: Check circular dependencies
+        run: yarn check-circular-deps
+
+      # Run tests
+      - name: Run test
+        run: yarn test-ci
+
+      # Cache Gradle dependencies
+#      - name: Cache Gradle Wrapper
+#        uses: actions/cache@v2
+#        with:
+#          path: ~/.gradle/wrapper
+#          key: ${{ runner.os }}-gradle-wrapper-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
+#
+#      - name: Cache Gradle Dependencies
+#        uses: actions/cache@v1
+#        with:
+#          path: ~/.gradle/caches
+#          key: ${{ runner.os }}-gradle-caches-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
+#          restore-keys: |
+#            ${{ runner.os }}-gradle-caches-
+#
+#
+#      - name: Make Gradlew Executable
+#        run: cd android && chmod +x ./gradlew
+#
+#      - name: Build Android Release
+#        run: |
+#          cd android && ./gradlew assembleRelease --no-daemon
+#      - name: Upload Artifact
+#        uses: actions/upload-artifact@v1
+#        with:
+#          name: app-release.apk
+#          path: android/app/build/outputs/apk/release/
+#
+#      - name: Distribute app via Firebase App Distribution
+#        env:
+#          firebaseToken: ${{ secrets.FIREBASE_TOKEN }}
+#          firebaseGroups: ${{ secrets.FIREBASE_GROUPS }}
+#          firebaseAppId: ${{ secrets.FIREBASE_APP_ID }}
+#          notes: ${{ github.event.head_commit.message }}
+#        run: |
+#          yarn global add firebase-tools
+#          export PATH="$(yarn global bin):$PATH"
+#          firebase \
+#            appdistribution:distribute android/app/build/outputs/apk/release/app-release.apk \
+#            --app $firebaseAppId \
+#            --release-notes "$notes" \
+#            --groups "$firebaseGroups" \
+#            --token "$firebaseToken"
