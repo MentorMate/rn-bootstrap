@@ -12,7 +12,7 @@ import {
 const command: RnBootstrapCommand = {
   dashed: true,
   alias: ['h'],
-  description: 'Displays MM RN CLI help',
+  description: 'Displays MM rn-bootstrap CLI help',
   run: async (toolbox: GluegunToolbox) => {
     const { meta } = toolbox;
 
@@ -20,7 +20,7 @@ const command: RnBootstrapCommand = {
     RnBootstrapHeading();
     heading(`Welcome to MentorMate React Native CLI ${meta.version()}`);
     p();
-    p('MM RN CLI helps you start a new React Native project with an ease.');
+    p('MM rn-bootstrap CLI helps you start a new React Native project with an ease.');
     p(
       'It comes with predefined goodies which usually take tons of time to setup.'
     );
@@ -29,7 +29,7 @@ const command: RnBootstrapCommand = {
     heading('Commands:');
     p();
     commandFormat('start-project         ', 'Creates a new React Native app', [
-      'mm-rn-cli start-project MyApp com.myappbundleid'
+      'rn-bootstrap start-project MyApp com.myappbundleid'
     ]);
     p();
     direction(

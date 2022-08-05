@@ -1,11 +1,11 @@
 {
-  "name": "mm-rn-cli",
+  "name": "rn-bootstrap",
   "version": "0.0.1",
-  "description": "mm-rn-cli CLI",
+  "description": "rn-bootstrap CLI",
   "private": true,
   "types": "build/types/types.d.ts",
   "bin": {
-    "mm-rn-cli": "bin/mm-rn-cli"
+    "rn-bootstrap": "bin/rn-bootstrap"
   },
   "scripts": {
     "format": "prettier --write **/*.{js,ts,tsx,json}",

@@ -11,7 +11,7 @@ import { TESTS_DIR } from '../tools/constants';
 
 module.exports = (toolbox: RnBootstrapToolbox) => {
   const {
-    filesystem: { copy, cwd, path, dir },
+    filesystem: { copy, cwd, path },
     meta
   } = toolbox;
   const CLI_PATH = path(`${meta.src}`, '..');
@@ -43,6 +43,7 @@ module.exports = (toolbox: RnBootstrapToolbox) => {
       recursive: true,
       files: true
     });
+
     if (isRelative) {
       return dirs;
     } else {
@@ -94,7 +95,6 @@ module.exports = (toolbox: RnBootstrapToolbox) => {
     const lastDirPart = getCurrentDirLastPart();
     return FeaturePiece[lastDirPart];
   };
-
 
   const removeFileExtension = (filename: string) => {
     return filename.substring(0, filename.lastIndexOf('.')) || filename;

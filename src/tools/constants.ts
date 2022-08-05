@@ -1,7 +1,8 @@
 export const NAME_REGEX = /^[$A-Z_][0-9A-Z_$]*$/i;
+// tslint:disable-next-line
 export const BUNDLE_ID_REGEX = /^([a-zA-Z]([a-zA-Z0-9_])*\.)+[a-zA-Z]([a-zA-Z0-9_])*$/u;
 
-//According to react-native's CLI init command
+// According to react-native's CLI init command
 const JAVA_KEYWORDS = [
   'abstract',
   'continue',
@@ -60,4 +61,4 @@ export const RCFILE_MODULE_NAME = 'rnbootstrap';
 
 export const RCFILE_FULL_NAME = `.${RCFILE_MODULE_NAME}rc`;
 
-export const TESTS_DIR = `__tests__`
+export const TESTS_DIR = `__tests__`;
