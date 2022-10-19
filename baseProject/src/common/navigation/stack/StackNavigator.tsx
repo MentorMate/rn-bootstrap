@@ -8,7 +8,7 @@ import { HeaderBackButton } from '@react-navigation/elements';
 
 const Stack = createStackNavigator<StackNavigationType>();
 const backButtonOption: StackNavigationOptions = {
-  headerLeft: HeaderBackButton
+  headerLeft: HeaderBackButton,
 };
 
 export const StackNavigator = () => {

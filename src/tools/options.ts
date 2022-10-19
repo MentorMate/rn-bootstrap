@@ -14,18 +14,20 @@ export enum StyleLibraryChoice {
 
 export enum StateLibraryChoice {
   ReduxToolkit = 'Redux Toolkit',
+  ReduxToolkitWithQuery = 'Redux Toolkit with RTK Query Example',
   NoStateManagement = 'No State Management'
 }
 
 export enum ReactNavigationExampleChoice {
-  WithReactNavigationExample = 'With set-up and example screens.',
-  WithoutReactNavigationExample = 'Without examples.'
+  WithReactNavigationExample = 'With set-up and example screens',
+  WithoutReactNavigationExample = 'Without examples'
 }
 
 // When the user selects an option, the corresponding dependencies are installed
 export const SelectionToDependencyNameMap = {
   [StyleLibraryChoice.StyledComponents]: styleDeps,
   [StateLibraryChoice.ReduxToolkit]: reduxDeps,
+  [StateLibraryChoice.ReduxToolkitWithQuery]: reduxDeps,
   [ReactNavigationExampleChoice.WithReactNavigationExample]: navigationDeps,
   [ReactNavigationExampleChoice.WithoutReactNavigationExample]: navigationDeps
 };
@@ -45,28 +47,42 @@ export const SelectionToTemplateParamsMap: Partial<Record<
   [StateLibraryChoice.ReduxToolkit]: {
     hasReduxToolkit: true
   },
+  [StateLibraryChoice.ReduxToolkitWithQuery]: {
+    hasRTKQuery: true,
+    hasReduxToolkit: true
+  },
   [ReactNavigationExampleChoice.WithReactNavigationExample]: {
     hasReactNavigationExample: true
   }
 };
 
-const getFullPathMatcher = (partialPath: string) =>
-  new RegExp(`^${partialPath}.*`);
+const getFullPathMatcher = (partialPath: string) => {
+  return { matcher: `^${partialPath}.*`, shouldRegexp: true };
+};
+
+const getFileNameMatcher = (fileName: string) => {
+  return { matcher: fileName, shouldRegexp: false };
+};
 
 // Paths from unselected options get skipped when copying the baseProject
 // You can also specify individual file names as strings
 export const SelectionToOptionalFilePathsMap = {
-  [StateLibraryChoice.ReduxToolkit]: [getFullPathMatcher('src/store/')],
+  [StateLibraryChoice.ReduxToolkit]: [getFullPathMatcher('src/common/store/')],
+  [StateLibraryChoice.ReduxToolkitWithQuery]: [
+    getFullPathMatcher('src/common/store/'),
+    getFullPathMatcher('src/common/services/')
+  ],
   [ReactNavigationExampleChoice.WithReactNavigationExample]: [
     getFullPathMatcher('src/common/navigation/'),
-    getFullPathMatcher('src/features/fancy-feature'),
-    getFullPathMatcher('src/features/another-fancy-feature')
+    getFullPathMatcher('src/features/fancy-feature/'),
+    getFullPathMatcher('src/features/another-fancy-feature/')
   ]
 };
 
 export const DefaultTemplateParams: TemplateParams = {
   hasStyledComponents: false,
   hasReduxToolkit: false,
+  hasRTKQuery: false,
   hasReactNavigationExample: false
 };
 

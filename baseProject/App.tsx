@@ -4,7 +4,7 @@ import { useColorScheme, SafeAreaView, StatusBar, } from 'react-native';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { NavigationContainer } from '@react-navigation/native';
 {{#if hasReduxToolkit}}
-import { store } from './src/store/store';
+import { store } from './src/common/store/store';
 import { Provider } from 'react-redux';
 {{/if}}
 {{#if hasReactNavigationExample}}
@@ -18,7 +18,7 @@ const App = () => {
 
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-    flex: 1
+    flex: 1,
   };
 
   return (
