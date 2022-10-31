@@ -2,7 +2,7 @@ import { TemplateParams } from '../types/BaseProjectTemplateParams';
 import { Dependencies } from '../types/Dependencies';
 import { RcFile } from '../types/RcFile';
 import { StartProjectOptionSelectionResult } from '../types/StartProjectOptionSelectionResult';
-
+import { filter, isEqual, uniqWith, map, every } from 'lodash';
 import {
   DefaultTemplateParams,
   SelectionToDependencyNameMap,
@@ -48,19 +48,42 @@ export const getRcFileContentFromSelectedOptions = (
   const { stateManagementLibrary, styleLibrary } = optionSelection;
   return {
     projectUses: {
-      redux: stateManagementLibrary === StateLibraryChoice.ReduxToolkit,
+      redux: stateManagementLibrary !== StateLibraryChoice.NoStateManagement,
+      rtkQuery:
+        stateManagementLibrary === StateLibraryChoice.ReduxToolkitWithQuery,
       styledComponents: styleLibrary === StyleLibraryChoice.StyledComponents
     }
   };
 };
 
+// Some options are mutually exclusive
+// This handles the case where one option excludes a file/directory that's included in another
 export const getFilePathsToExcludeFromSelectedOptions = (
   optionSelection: StartProjectOptionSelectionResult
 ) => {
-  const selectionChoices = Object.values(optionSelection);
-  return Object.entries(SelectionToOptionalFilePathsMap)
-    .flatMap(([option, path]) =>
-      selectionChoices.includes(option) ? undefined : path
+  const SelectionToOptionalFilePathsMapEntries = Object.entries(
+    SelectionToOptionalFilePathsMap
+  );
+
+  const selectedOptions = Object.values(optionSelection);
+  const filesToExclude = SelectionToOptionalFilePathsMapEntries.filter(
+    ([option]) => !selectedOptions.includes(option)
+  ).flatMap(([_, exclusion]) => exclusion);
+
+  const filesToInclude = SelectionToOptionalFilePathsMapEntries.filter(
+    ([option]) => selectedOptions.includes(option)
+  ).flatMap(([_, exclusion]) => exclusion);
+
+  const exclusions = filter(filesToExclude, fileToExclude =>
+    every(
+      filesToInclude,
+      fileToInclude => !isEqual(fileToInclude, fileToExclude)
     )
-    .filter(path => path);
+  );
+
+  const dedupedExclusions = uniqWith(exclusions, isEqual);
+
+  return map(dedupedExclusions, ({ shouldRegexp, matcher }) =>
+    shouldRegexp ? new RegExp(matcher) : matcher
+  );
 };
