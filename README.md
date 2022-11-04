@@ -1,6 +1,8 @@
 <!-- Space: PHP -->
 <!-- Title: React Native CLI for MM Projects -->
 <!-- Attachment: ./assets/commitizen.png -->
+<!-- Attachment: ./assets/generated_feature.png -->
+<!-- Attachment: ./assets/select_feature_folders.png -->
 
 <!-- Include: disclaimer.md -->
 # rn-bootstrap CLI
@@ -52,7 +54,6 @@ In case you want to add react navigation example code in the project:
   Without examples.
 ```
 
-
 #### `Styles`
 - `Styled Components` option - when selected `styled-components` library is automatically installed and 
   basic usage code examples are added in `baseProject/src/features/home/components/HomeComponent.tsx`
@@ -96,13 +97,51 @@ In case you want to add react navigation example code in the project:
   It is all about using [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) 
 
 
+### `Generator Commands:`
+- Container:
+  `mm-rn-cli generate container FileNameContainer`
+  Filename **must** end with *Container* keyword.
+  If a container folder doesn't exist, you will be asked if it should be created.
+
+- Component:
+  `mm-rn-cli generate component FileNameComponent`
+  Filename **must** end with *Component* keyword.
+  If a container folder doesn't exist, you will be asked if it should be created.
+
+- Hook:
+  `mm-rn-cli generate hook useMyHookName`
+  Filename follows "useYourHookName" convention.
+
+- Model:
+  `mm-rn-cli generate model ModelFile`
+
+- Page:
+  `mm-rn-cli generate page FileNamePage`
+  Filename **must** end with *Page* keyword.
+
+- Util:
+  `mm-rn-cli generate util FileNameUtil`
+
+- Test:
+  `mm-rn-cli generate test FileName`
+  File **must** be placed inside a container, component, hook, model, page or util folder.
+
+- Feature:
+  `mm-rn-cli generate feature awesome-feature`
+  Feature name should start with lowercase character.
+  ![select_feature_folders.png](./assets/select_feature_folders.png)
+
+  As a result, a new set of feature components will be added to the project:
+  ![generated_feature.png](./assets/generated_feature.png)
+
+
 ## Development
 
-- To run the cli locally, first link the package. Run the following command inside the repository: 
-
+- To run the cli locally, first link the package. Run the following command inside the repository:
 ```
 yarn link
 ```
+
 Then you can test the cli on your machine.
 
 ## Customizing your CLI
@@ -122,7 +161,14 @@ $ npm test
 $ npm publish
 ```
 
+## Updating confluence documentation
+This project has its own [confluence page][confluence] which is automatically updated using [kovetskiy/mark][mark] tool
+
+
 # License
 
-MIT - see LICENSE
+MM-RN-CLI is MIT licensed, as found in the [LICENSE][license] file.
 
+[license]: ./LICENSE
+[mark]: https://github.com/kovetskiy/mark
+[confluence]: https://mentormate.atlassian.net/wiki/spaces/PHP/pages/3709403152/React+Native+CLI+for+MM+Projects

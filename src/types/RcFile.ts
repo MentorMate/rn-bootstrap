@@ -4,6 +4,7 @@ export interface RcFile {
 
 export interface RcFileProjectUses {
   redux: boolean;
+  rtkQuery: boolean;
   styledComponents: boolean;
 }
 

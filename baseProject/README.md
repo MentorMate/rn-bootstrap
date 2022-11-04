@@ -429,8 +429,9 @@ In order to create a build you'll have to do the following:
 - when the build is done, update the testers that should receive it
 
 ## CI/CD
-
-TODO:
+The project comes with basic GitHub actions file included.
+It will trigger lint, typecheck, check for circular dependencies and run tests when a PR is created against develop branch.\
+//TODO update based on the project needs
 
 ## //TODO describe Folder structure
 

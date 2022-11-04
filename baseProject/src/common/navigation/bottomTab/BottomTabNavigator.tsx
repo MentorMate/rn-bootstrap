@@ -7,7 +7,7 @@ import { TabNavigationType } from 'common/navigation/type';
 
 const Tab = createBottomTabNavigator<TabNavigationType>();
 const tabNavOptions: BottomTabNavigationOptions = {
-  headerShown: false
+  headerShown: false,
 };
 
 export const BottomTabNavigator = () => {
