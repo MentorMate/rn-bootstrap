@@ -1,10 +1,13 @@
 {
   "name": "@mentormate/rn-bootstrap",
-  "version": "0.0.2",
+  "version": "0.0.5",
   "description": "rn-bootstrap CLI",
   "types": "build/types/types.d.ts",
   "bin": {
     "rn-bootstrap": "bin/rn-bootstrap"
+  },
+  "repository": {
+    "url": "https://github.com/MentorMate/rn-bootstrap"
   },
   "scripts": {
     "format": "prettier --write **/*.{js,ts,tsx,json}",
@@ -28,7 +31,8 @@
     "LICENSE",
     "readme.md",
     "docs",
-    "bin"
+    "bin",
+    "baseProject"
   ],
   "license": "MIT",
   "dependencies": {
