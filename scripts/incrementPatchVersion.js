@@ -3,9 +3,9 @@ const { incrementVersion } = require('./incrementVersion')
 
 function incPatchVersion(version) {
     const [major, minor, patch] = version.split('.')
-    if (isNaN(Number(minor)))
+    if (isNaN(Number(patch)))
         throw Error(`Version is not made up of numbers! '${version}'`)
-    const newMinor = String(Number(minor) + 1)
+    const newMinor = String(Number(patch) + 1)
 
     return [major, newMinor, patch].join('.')
 }
