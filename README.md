@@ -23,7 +23,9 @@ When starting a new project with `rn-bootstrap` it automatically installs and se
 - Predefined eslint and prettier rules
 
 ## Installation
-// TODO
+```
+npm i -g @mentormate/rn-bootstrap
+```
 
 ## Usage
 Create a new project using `start-project` and mandatory options for `Folder Name` and `App Bundle Id`
@@ -40,10 +42,11 @@ Pick the styling library - Styled Components or built-in StyleSheet:
   React-Native built-in StyleSheet
 ```
 
-Pick the state management library - Redux Toolkit or No State Management
+Pick the state management library - Redux Toolkit, Redux Toolkit with RTK Query or No State Management
 ```
 ? Please select a state management library … 
 ❯ Redux Toolkit
+  Redux Toolkit with RTK Query Example
   No State Management
 ```
 
@@ -71,7 +74,9 @@ In case you want to add react navigation example code in the project:
 - `Redux Toolkit` option - when selected `react-redux` library will be automatically installed. 
   `src/store/store.ts` will be imported in App.tsx. The file contains basic store setup including redux toolkit.
   `src/store/hooks.ts` is also available with predefined setup for easy usage of useDispatch and useSelector.
-  
+- `Redux Toolkit with RTK Query` option - will include Redux Toolkit and also predefined RTK Query Example:
+   Checkout `baseProject/src/common/services/api/api.ts` and the RTK Query documentation: https://redux-toolkit.js.org/rtk-query/overview
+
 #### `Navigation`
 - `With set-up and example screens` option - when selected the App will automatically include example BottomTabNavigator 
   (`src/common/navigation/bottomTab/BottomTabNavigator.tsx`)
@@ -163,7 +168,16 @@ $ npm publish
 
 ## Updating confluence documentation
 This project has its own [confluence page][confluence] which is automatically updated using [kovetskiy/mark][mark] tool
+Config file:
+```
+username = "your-email"
+password = "password-or-api-key-for-confluence-cloud"
+# If you are using Confluence Cloud add the /wiki suffix to base_url
+base_url = "https://mentormate.atlassian.net/wiki"
+```
 
+Update confluence command: \
+``mark -f README.md``
 
 # License
 
