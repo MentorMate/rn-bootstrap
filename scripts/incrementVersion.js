@@ -1,5 +1,5 @@
 const fs = require('fs')
-const { getLatestVersion } = require('./getVersion')
+const { getLatestVersion } = require('./getLatestVersion')
 const { saveVersion } = require('./saveVersion')
 
 function incrementVersion(incrementer) {
