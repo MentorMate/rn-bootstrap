@@ -30,7 +30,7 @@ When starting a new project with `rn-bootstrap` it automatically installs and se
 npm i -g @mentormate/rn-bootstrap
 ```
 
-## Prerequisite
+## Prerequisites
 
 Yarn - If you don't already have yarn installed, please follow the steps listed [here](https://yarnpkg.com/getting-started/install).
 
