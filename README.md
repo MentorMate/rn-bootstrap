@@ -1,5 +1,8 @@
-<!-- Space: PHP -->
-<!-- Title: React Native CLI for MM Projects -->
+<!-- Space: MMSDLC -->
+<!-- Parent: SDLC - Technologies -->
+<!-- Parent: SDLC - Front-End -->
+<!-- Parent: React Native -->
+<!-- Title: React Native Project Templates -->
 <!-- Attachment: ./assets/commitizen.png -->
 <!-- Attachment: ./assets/generated_feature.png -->
 <!-- Attachment: ./assets/select_feature_folders.png -->
@@ -8,7 +11,7 @@
 # rn-bootstrap CLI
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 
-The CLI facilitates the process of starting a new React Native project from scratch.
+The CLI facilitates the process of creating a new React Native project from scratch.
 When starting a new project with `rn-bootstrap` it automatically installs and sets up the following:
 - React
 - React Native
