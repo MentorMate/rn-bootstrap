@@ -30,6 +30,14 @@ When starting a new project with `rn-bootstrap` it automatically installs and se
 npm i -g @mentormate/rn-bootstrap
 ```
 
+## Prerequisite
+
+Yarn - If you don't already have yarn installed, please follow the steps listed [here](https://yarnpkg.com/getting-started/install).
+
+Before you can start using this tool you need to prepare you local environment for React Native development as described [here](https://reactnative.dev/docs/environment-setup).
+
+Make sure to follow the instructions under the `React Native CLI Quickstart` tab for both iOS and Android platforms and when you reach the `React Native Command Line Interface` return to this guide and proceed with next steps.
+
 ## Usage
 Create a new project using `start-project` and mandatory options for `Folder Name` and `App Bundle Id`
 
@@ -107,35 +115,35 @@ In case you want to add react navigation example code in the project:
 
 ### `Generator Commands:`
 - Container:
-  `mm-rn-cli generate container FileNameContainer`
+  `rn-bootstrap generate container FileNameContainer`
   Filename **must** end with *Container* keyword.
   If a container folder doesn't exist, you will be asked if it should be created.
 
 - Component:
-  `mm-rn-cli generate component FileNameComponent`
+  `rn-bootstrap generate component FileNameComponent`
   Filename **must** end with *Component* keyword.
   If a container folder doesn't exist, you will be asked if it should be created.
 
 - Hook:
-  `mm-rn-cli generate hook useMyHookName`
+  `rn-bootstrap generate hook useMyHookName`
   Filename follows "useYourHookName" convention.
 
 - Model:
-  `mm-rn-cli generate model ModelFile`
+  `rn-bootstrap generate model ModelFile`
 
 - Page:
-  `mm-rn-cli generate page FileNamePage`
+  `rn-bootstrap generate page FileNamePage`
   Filename **must** end with *Page* keyword.
 
 - Util:
-  `mm-rn-cli generate util FileNameUtil`
+  `rn-bootstrap generate util FileNameUtil`
 
 - Test:
-  `mm-rn-cli generate test FileName`
+  `rn-bootstrap generate test FileName`
   File **must** be placed inside a container, component, hook, model, page or util folder.
 
 - Feature:
-  `mm-rn-cli generate feature awesome-feature`
+  `rn-bootstrap generate feature awesome-feature`
   Feature name should start with lowercase character.
   ![select_feature_folders.png](./assets/select_feature_folders.png)
 
@@ -143,49 +151,15 @@ In case you want to add react navigation example code in the project:
   ![generated_feature.png](./assets/generated_feature.png)
 
 
-## Development
+## Contribution
 
-- To run the cli locally, first link the package. Run the following command inside the repository:
-```
-yarn link
-```
-
-Then you can test the cli on your machine.
-
-## Customizing your CLI
-
-Check out the documentation at https://github.com/infinitered/gluegun/tree/master/docs
-
-## Publishing to NPM
-
-To package your CLI up for NPM, do this:
-
-```shell
-$ npm login
-$ npm whoami
-$ npm lint
-$ npm test
-(if typescript, run `npm run build` here)
-$ npm publish
-```
-
-## Updating confluence documentation
-This project has its own [confluence page][confluence] which is automatically updated using [kovetskiy/mark][mark] tool
-Config file:
-```
-username = "your-email"
-password = "password-or-api-key-for-confluence-cloud"
-# If you are using Confluence Cloud add the /wiki suffix to base_url
-base_url = "https://mentormate.atlassian.net/wiki"
-```
-
-Update confluence command: \
-``mark -f README.md``
+Read our [Contributing Guide][contribution_guide] to learn about our development process, and how to build and test your changes.
 
 # License
 
 MM-RN-CLI is MIT licensed, as found in the [LICENSE][license] file.
 
+[contribution_guide]: ./docs/contribution.md
 [license]: ./LICENSE
 [mark]: https://github.com/kovetskiy/mark
-[confluence]: https://mentormate.atlassian.net/wiki/spaces/PHP/pages/3709403152/React+Native+CLI+for+MM+Projects
+[confluence]: https://mentormate.atlassian.net/wiki/spaces/MMSDLC/pages/4086366230/React+Native+Project+Templates

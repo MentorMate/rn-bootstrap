@@ -1,4 +1,4 @@
-# Plugin guide for rn-bootstrap
+# Plugin guide
 
 Plugins allow you to add features to rn-bootstrap, such as commands and
 extensions to the `toolbox` object that provides the majority of the functionality
