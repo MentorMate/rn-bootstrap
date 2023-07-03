@@ -1,0 +1,77 @@
+platform :android do 
+    desc "Release for the Android internal"
+    lane : release do
+        increment_version_code(app_project_dir: './android/app')
+        increment_version_name(app_project_dir: './android/app', bump_type: 'patch')
+        gradle(task: 'clean', project_dir: './android/')
+        gradle(task: 'bundle', bundle_type: 'Release', project_dir: './andriod', properties: {
+            "android.injected.signing.store.file" => ENV['ANDROID_KEYSTORE_FILE'],
+            "android.injected.signing.store.password" => ENV['ANDROID_KEYSTORE_PASSWORD'],
+            "android.injected.signing.key.alias" => ENV['ANDROID_KEYSTORE_ALIAS'],
+            "android.injected.signing.key.password" => ENV['ANDROID_KEYSTORE_PASSWORD']
+        })
+        supply(track: 'internal', aab: './android/app/build/outputs/bundle/release/app_release.aab', release_status: 'draft')
+    end
+end
+
+platform :ios do 
+    private_lane :update_version do
+        app_store_version = get_app_store_version_number(bundle_id: 'rnFastlane')
+        plist_version = get_version_number_from_plist(xcodeproj: './ios/rnFastlane.xcodeproj')
+        if Gem::Version.new(plist_version.to_f) == Gem::Version.new(app_store_version.to_f)
+            increment_version_number_in_plist(xcodeproj: './ios/rnFastlane.xcodeproj', bump_type: 'minor')
+        else
+            increment_version_number_in_plist(xcodeproj: './ios/rnFastlane.xcodeproj', bump_type: 'patch')
+        end
+    end
+    private_lane :testflight_build do 
+        increment_build_number_in_plist(xcodeproj: './ios/rnFastlane.xcodeproj', target: 'rnFastlane')
+        gym(scheme: 'rnFastlane', workspace: './ios/rnFastlane.xcworkspace')
+    end
+    private_lane :distribution_build do
+        increment_build_number_in_plist(xcodeproj: './ios/rnFastlane.xcodeproj', target: 'rnFastlane')
+        create_keychain(
+            name: ENV['KEYCHAIN_NAME'],
+            password: ENV['KEYCHAIN_PASSWORD'],
+            default_keychain: true,
+            unlock: true,
+            timeout: 3600,
+            add_to_search_list: true)
+
+        match(
+            type: 'app-store',
+            keychain_name: ENV["KEYCHAIN_NAME"],
+            keychain_password: ENV["KEYCHAIN_PASSWORD"],
+            readonly: true,
+            shallow_clone: true,
+            verbose: false)    
+        gym(
+            scheme: 'rnFastlane', 
+            workspace: './ios/rnFastlane.xcworkspace',
+            export_method: 'ad-hoc',
+            output_directory: "./build", 
+            configuration: 'Release',
+            output_name: "rnFastlane.ipa"
+            clean: true
+            export_options: {
+                method: 'app-store',
+                provisioningProfiles: {
+                    'rnFastlane' => ENV["sigh_#{options[:app_identifier]}_app-store_profile-name"],
+                }
+            })
+    end
+    desc "Release for the iOS beta"
+    lane :beta do
+        testflight_build
+        upload_to_testflight(username: ENV['APP_STORE_EMAIL'] app_identifier: 'rnFastlane')
+        commit_version_bump(message: 'bump build')
+        push_to_git_remote
+    end
+    desc "Release for the iOS production"
+    lane :release do
+        distribution_build
+        deliver
+        commit_version_bump(message: 'bump build')
+        push_to_git_remote
+    end
+end
