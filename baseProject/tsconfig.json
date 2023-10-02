@@ -7,7 +7,7 @@
       "src/*": ["./src/*"],
       "common/*": ["./src/common/*"],
       "navigation/*": ["./src/common/navigation/*"],
-      "features/*": ["./src/common/features/*"],
+      "features/*": ["./src/features/*"],
     },
     /* Visit https://aka.ms/tsconfig.json to read more about this file */
 
