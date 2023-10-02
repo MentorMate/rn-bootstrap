@@ -2,9 +2,17 @@
 {
   "extends": "@tsconfig/react-native/tsconfig.json",     /* Recommended React Native TSConfig base */
   "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "src/*": ["./src/*"],
+      "common/*": ["./src/common/*"],
+      "navigation/*": ["./src/common/navigation/*"],
+      "features/*": ["./src/common/features/*"],
+    },
     /* Visit https://aka.ms/tsconfig.json to read more about this file */
 
     /* Completeness */
+    
     "skipLibCheck": true                                 /* Skip type checking all .d.ts files. */
   }
 }

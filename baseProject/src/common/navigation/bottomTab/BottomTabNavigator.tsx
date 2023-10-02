@@ -9,11 +9,12 @@ const Tab = createBottomTabNavigator<TabNavigationType>();
 const tabNavOptions: BottomTabNavigationOptions = {
   headerShown: false,
 };
+HomePage
 
 export const BottomTabNavigator = () => {
   return (
     <Tab.Navigator>
-      <Tab.Screen name={ScreenName.Home} component={HomePage} />
+      <Tab.Screen name={ScreenName.Home} component={} />
       <Tab.Screen options={tabNavOptions} name={ScreenName.FancyFeaturesStack} component={StackNavigator} />
     </Tab.Navigator>
   );
