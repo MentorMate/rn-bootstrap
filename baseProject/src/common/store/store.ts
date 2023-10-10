@@ -1,5 +1,7 @@
 import { configureStore, createReducer, ThunkAction, Action } from '@reduxjs/toolkit';
+{{#if hasRTKQuery}}
 import {postApi} from '../services/api/api'
+{{/if}}
 
 export const store = configureStore({
   reducer: {
@@ -8,8 +10,7 @@ export const store = configureStore({
     [postApi.reducerPath]: postApi.reducer,
     {{/if}}
   },
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(postApi.middleware),
+  middleware: {{#if hasRTKQuery}}(getDefaultMiddleware) => getDefaultMiddleware().concat(postApi.middleware),{{else}}[],{{/if}}
 });
 
 export type AppDispatch = typeof store.dispatch;
