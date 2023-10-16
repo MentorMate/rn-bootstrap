@@ -12,6 +12,7 @@ import styled from 'styled-components/native';
 {{/if}}
 
 const Section: FunctionComponent<{
+  children: string | React.JSX.Element | React.JSX.Element[];
   title: string;
 }> = ({ children, title }) => {
   return (
