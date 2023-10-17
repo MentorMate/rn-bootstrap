@@ -31,7 +31,28 @@ const command: RnBootstrapCommand = {
     heading('Commands:');
     p();
     commandFormat('start-project         ', 'Creates a new React Native app', [
-      'rn-bootstrap start-project MyApp com.myappbundleid'
+      'rn-bootstrap start-project MyApp com.myappbundleid',
+      '    '
+    ]);
+    commandFormat('generate component    ', 'Creates a new component', [
+      'rn-bootstrap generate component {{ComponentName}}',
+      '    '
+    ]);
+    commandFormat('generate hook         ', 'Creates a new hook', [
+      'rn-bootstrap generate hook {{useHookName}}',
+      '    '
+    ]);
+    commandFormat('generate model        ', 'Creates a new model', [
+      'rn-bootstrap generate model {{ModelName}}',
+      '    '
+    ]);
+    commandFormat('generate page         ', 'Creates a new page', [
+      'rn-bootstrap generate page {{NamePage}}',
+      '    '
+    ]);
+    commandFormat('generate util         ', 'Creates a new util', [
+      'rn-bootstrap generate util {{utilName}}',
+      '    '
     ]);
     p();
     direction(
