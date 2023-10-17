@@ -20,7 +20,9 @@ const command: RnBootstrapCommand = {
     RnBootstrapHeading();
     heading(`Welcome to MentorMate React Native CLI ${meta.version()}`);
     p();
-    p('MM rn-bootstrap CLI helps you start a new React Native project with an ease.');
+    p(
+      'MM rn-bootstrap CLI helps you start a new React Native project with an ease.'
+    );
     p(
       'It comes with predefined goodies which usually take tons of time to setup.'
     );
@@ -39,9 +41,9 @@ const command: RnBootstrapCommand = {
     );
     p();
     direction(
-      `If you need additional help, contact Biser: ${link(
-        'https://github.com/MMbiser'
-      )} or Ivan: ${link('https://github.com/MMIvan')}`
+      `If you need additional help, contact Nick Donev: ${link(
+        'https://github.com/NikolayDonev'
+      )} or Metodi Yanev: ${link('https://github.com/MetodiYanev')}`
     );
     p();
     RnBootstrapHeading();
