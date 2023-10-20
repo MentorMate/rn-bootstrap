@@ -3,7 +3,7 @@ import { MotionAnimationDriver } from '@gluestack-style/legend-motion-animation-
 import { createConfig, createComponents } from '@gluestack-style/react';
 import * as componentsTheme from './theme';
 
-//THIS IS THE MENTORMATE`S PREDEFINED THEME CONFIG
+//THIS WILL BE THE MENTORMATE`S PREDEFINED THEME CONFIG
 
 export const gluestackUIConfig = createConfig({
   aliases: {

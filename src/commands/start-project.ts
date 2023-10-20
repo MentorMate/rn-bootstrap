@@ -87,23 +87,6 @@ const startProject = async (toolbox: RnBootstrapToolbox) => {
   if (selectedOptions.styleLibrary === StyleLibraryChoice.GluestackUIThemedMM) {
     print.info('Ejecting theme config...');
     await spawnProgress('npx gluestack-ui-scripts eject-theme');
-
-    // const themeConfigPathMM =
-    //   './baseProject/config/gluestack/gluestack-ui.config.ts';
-    // // const destinationPath = `./${projectName}/config/gluestack-ui.config.ts`;
-    // const destinationPath = path.resolve(
-    //   process.cwd(),
-    //   projectName,
-    //   'config',
-    //   'gluestack-ui.config.ts'
-    // );
-    // console.log('themeConfigPathMM', themeConfigPathMM);
-    // console.log('destinationPath', destinationPath);
-
-    // toolbox.filesystem.copy(themeConfigPathMM, destinationPath, {
-    //   overwrite: true
-    // });
-    // print.info('MentorMate`s theme config has been applied.');
   }
 
   await toolbox.renameProject(projectName, bundleId);

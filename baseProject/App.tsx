@@ -12,16 +12,13 @@ import { BottomTabNavigator } from './src/common/navigation/bottomTab/BottomTabN
 {{else}}
 import { HomeContainer } from './src/features/home/container/HomeContainer'
 {{/if}}
-{{#if hasGluestackUIcore}}
-import { config, GluestackUIProvider } from '@gluestack-ui/themed';
-{{/if}}
-{{#if hasGluestackUIThemedDefault}}
+{{#if hasGluestackUIDefault}}
 import { GluestackUIProvider } from '@gluestack-ui/themed';
 import {config } from '@gluestack-ui/config';
 {{/if}}
 {{#if hasGluestackUIThemedMM}}
 import { GluestackUIProvider } from '@gluestack-ui/themed';
-import { config } from './config/gluestack-ui.config';
+import { config } from './config/gluestack-ui-MM.config';
 {{/if}}
 
 const App = () => {
