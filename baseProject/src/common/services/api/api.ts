@@ -8,7 +8,7 @@ export const postApi = createApi({
   }),
   tagTypes: ['Post'],
   endpoints: builder => ({
-    getPosts: builder.query<Post, undefined>({
+    getPosts: builder.query<Post, void>({
       query: () => '/posts',
     }),
   }),

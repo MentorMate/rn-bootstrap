@@ -6,14 +6,14 @@ module.exports = {
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
   moduleNameMapper: {
     '.+\\.(css|styl|less|sass|scss|png|jpg|ttf|woff|woff2)$': 'babel-jest',
-    '\\.(png|jpg|jpeg||gif|svg)$': '<rootDir>/config/jest/transformAssets.js'
+    '\\.(png|jpg|jpeg||gif|svg)$': '<rootDir>/config/jest/transformAssets.js',
   },
   coverageThreshold: {
     global: {
       statements: 50,
       branches: 50,
       functions: 50,
-      lines: 50
-    }
-  }
+      lines: 50,
+    },
+  },
 };

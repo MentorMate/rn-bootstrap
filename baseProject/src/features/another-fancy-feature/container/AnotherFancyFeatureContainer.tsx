@@ -1,6 +1,6 @@
 import React from 'react';
 import { AnotherFancyFeatureComponent } from '../component/AnotherFancyFeatureComponent';
-import { TimeNow } from 'features/another-fancy-feature/model/TimeNow';
+import { TimeNow } from '../model/TimeNow';
 
 interface Props extends TimeNow {}
 

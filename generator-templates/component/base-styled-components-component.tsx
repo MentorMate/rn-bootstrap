@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FunctionComponent } from 'react';
 import { Text } from 'react-native';
 import styled from 'styled-components/native';
 
@@ -11,7 +11,7 @@ export enum TestID {
   SomeText = 'SomeText'
 }
 
-export const {{name}}: React.FC<{{name}}Props> = ({ testID = TestID.{{name}}Wrapper }) => {
+export const {{name}}: FunctionComponent<{{name}}Props> = ({ testID = TestID.{{name}}Wrapper }) => {
   return (
     <{{name}}Wrapper testID={{curlyBraces 'testID'}}>
       <Text testID={TestID.SomeText}>Your {{name}}</Text>
