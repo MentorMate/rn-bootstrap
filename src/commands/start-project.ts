@@ -1,4 +1,3 @@
-const path = require('path');
 import { SelectionPrompts, StyleLibraryChoice } from '../tools/options';
 import {
   getDependenciesToInstallFromSelectedOptions,
