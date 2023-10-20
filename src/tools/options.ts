@@ -2,12 +2,18 @@ import { PromptOptions } from 'gluegun/build/types/toolbox/prompt-enquirer-types
 import { TemplateParams } from '../types/BaseProjectTemplateParams';
 import {
   navigationDeps,
+  gluestackUICoreDeps,
+  gluestackUIThemedDefaultDeps,
+  gluestackUIThemedMMDeps,
   reduxDeps,
   styleDeps,
   styleDevDeps
 } from './dependency-versions';
 
 export enum StyleLibraryChoice {
+  GluestackUIcore = 'Gluestack-ui Core',
+  GluestackUIThemedDefault = 'Gluestack-ui Themed Default',
+  GluestackUIThemedMM = 'Gluestack-ui Themed MentorMate',
   StyledComponents = 'Styled Components',
   StyleSheet = 'React-Native built-in StyleSheet'
 }
@@ -25,6 +31,9 @@ export enum ReactNavigationExampleChoice {
 
 // When the user selects an option, the corresponding dependencies are installed
 export const SelectionToDependencyNameMap = {
+  [StyleLibraryChoice.GluestackUIcore]: gluestackUICoreDeps,
+  [StyleLibraryChoice.GluestackUIThemedDefault]: gluestackUIThemedDefaultDeps,
+  [StyleLibraryChoice.GluestackUIThemedMM]: gluestackUIThemedMMDeps,
   [StyleLibraryChoice.StyledComponents]: styleDeps,
   [StateLibraryChoice.ReduxToolkit]: reduxDeps,
   [StateLibraryChoice.ReduxToolkitWithQuery]: reduxDeps,
@@ -41,6 +50,18 @@ export const SelectionToTemplateParamsMap: Partial<Record<
   StyleLibraryChoice | StateLibraryChoice | ReactNavigationExampleChoice,
   Partial<TemplateParams>
 >> = {
+  [StyleLibraryChoice.GluestackUIcore]: {
+    hasGluestackUI: true,
+    hasGluestackUIcore: true
+  },
+  [StyleLibraryChoice.GluestackUIThemedDefault]: {
+    hasGluestackUI: true,
+    hasGluestackUIThemedDefault: true
+  },
+  [StyleLibraryChoice.GluestackUIThemedMM]: {
+    hasGluestackUI: true,
+    hasGluestackUIThemedMM: true
+  },
   [StyleLibraryChoice.StyledComponents]: {
     hasStyledComponents: true
   },
@@ -80,6 +101,10 @@ export const SelectionToOptionalFilePathsMap = {
 };
 
 export const DefaultTemplateParams: TemplateParams = {
+  hasGluestackUI: false,
+  hasGluestackUIcore: false,
+  hasGluestackUIThemedDefault: false,
+  hasGluestackUIThemedMM: false,
   hasStyledComponents: false,
   hasReduxToolkit: false,
   hasRTKQuery: false,

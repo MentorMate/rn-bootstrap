@@ -1,4 +1,8 @@
-import { ReactNavigationExampleChoice, StateLibraryChoice, StyleLibraryChoice } from "../tools/options";
+import {
+  ReactNavigationExampleChoice,
+  StateLibraryChoice,
+  StyleLibraryChoice
+} from '../tools/options';
 
 export interface StartProjectOptionSelectionResult {
   styleLibrary: StyleLibraryChoice;

@@ -12,6 +12,17 @@ import { BottomTabNavigator } from './src/common/navigation/bottomTab/BottomTabN
 {{else}}
 import { HomeContainer } from './src/features/home/container/HomeContainer'
 {{/if}}
+{{#if hasGluestackUIcore}}
+import { config, GluestackUIProvider } from '@gluestack-ui/themed';
+{{/if}}
+{{#if hasGluestackUIThemedDefault}}
+import { GluestackUIProvider } from '@gluestack-ui/themed';
+import {config } from '@gluestack-ui/config';
+{{/if}}
+{{#if hasGluestackUIThemedMM}}
+import { GluestackUIProvider } from '@gluestack-ui/themed';
+import { config } from './config/gluestack-ui.config';
+{{/if}}
 
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -21,9 +32,11 @@ const App = () => {
     flex: 1,
   };
 
+
   return (
     {{#if hasReduxToolkit}}<Provider store={store}>{{/if}}
       <NavigationContainer>
+        {{#if hasGluestackUI}}<GluestackUIProvider config={config}>{{/if}}
         <SafeAreaView style={backgroundStyle}>
           <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
           {{#if hasReactNavigationExample}}
@@ -32,6 +45,7 @@ const App = () => {
           <HomeContainer />
           {{/if}}
         </SafeAreaView>
+        {{#if hasGluestackUI}}</GluestackUIProvider>{{/if}}
       </NavigationContainer>
     {{#if hasReduxToolkit}}</Provider>{{/if}}
   );
