@@ -48,7 +48,7 @@ export const SelectionToTemplateParamsMap: Partial<Record<
 >> = {
   [StyleLibraryChoice.GluestackUIDefault]: {
     hasGluestackUI: true,
-    hasGluestackUIDefault: true
+    hasGluestackUIDefaultTheme: true
   },
   [StyleLibraryChoice.GluestackUIThemedMM]: {
     hasGluestackUI: true,
@@ -94,7 +94,7 @@ export const SelectionToOptionalFilePathsMap = {
 
 export const DefaultTemplateParams: TemplateParams = {
   hasGluestackUI: false,
-  hasGluestackUIDefault: false,
+  hasGluestackUIDefaultTheme: false,
   hasGluestackUIThemedMM: false,
   hasStyledComponents: false,
   hasReduxToolkit: false,

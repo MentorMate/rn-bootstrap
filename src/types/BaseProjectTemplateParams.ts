@@ -1,6 +1,6 @@
 export interface TemplateParams {
   hasGluestackUI: boolean;
-  hasGluestackUIDefault: boolean;
+  hasGluestackUIDefaultTheme: boolean;
   hasGluestackUIThemedMM: boolean;
   hasReduxToolkit: boolean;
   hasRTKQuery: boolean;

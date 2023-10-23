@@ -84,7 +84,7 @@ const startProject = async (toolbox: RnBootstrapToolbox) => {
   // Run the eject-theme command when GluestackUIThemedMM is selected and change the generated theme config
   // with MentorMate`s predefined theme config
   if (selectedOptions.styleLibrary === StyleLibraryChoice.GluestackUIThemedMM) {
-    print.info('Ejecting theme config...');
+    print.info('Initiating theme config ejection...');
     await spawnProgress('npx gluestack-ui-scripts eject-theme');
   }
 
