@@ -29,7 +29,6 @@ const App = () => {
     flex: 1,
   };
 
-
   return (
     {{#if hasReduxToolkit}}<Provider store={store}>{{/if}}
       <NavigationContainer>
