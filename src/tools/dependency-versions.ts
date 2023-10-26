@@ -18,3 +18,9 @@ export const gluestackUIDeps = [
   'react-native-svg@13.4.0',
   '@gluestack-ui/config@latest'
 ];
+
+export const glueStackUICoreDeps = [
+  '@gluestack-ui/themed',
+  '@gluestack-style/react',
+  'react-native-svg@13.4.0'
+];

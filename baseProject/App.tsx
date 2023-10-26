@@ -12,12 +12,15 @@ import { BottomTabNavigator } from './src/common/navigation/bottomTab/BottomTabN
 {{else}}
 import { HomeContainer } from './src/features/home/container/HomeContainer'
 {{/if}}
+{{#if hasGluestackUICore}}
+import { GluestackUIProvider } from '@gluestack-ui/themed';
+{{/if}}
 {{#if hasGluestackUI}}
   import { GluestackUIProvider } from '@gluestack-ui/themed';
   {{#if hasGluestackUIDefaultTheme}}
   import {config } from '@gluestack-ui/config';
-  {{else if hasGluestackUIThemedMM}}
-  import { config } from './config/gluestack-ui-MM.config';
+  {{else if hasGluestackUIEjected}}
+  import { config } from './config/gluestack-ui.config';
   {{/if}}
 {{/if}}
 
@@ -33,16 +36,16 @@ const App = () => {
   return (
     {{#if hasReduxToolkit}}<Provider store={store}>{{/if}}
       <NavigationContainer>
-        {{#if hasGluestackUI}}<GluestackUIProvider config={config}>{{/if}}
-        <SafeAreaView style={backgroundStyle}>
-          <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-          {{#if hasReactNavigationExample}}
-          <BottomTabNavigator />
-          {{else}}
-          <HomeContainer />
-          {{/if}}
-        </SafeAreaView>
-        {{#if hasGluestackUI}}</GluestackUIProvider>{{/if}}
+        {{#if hasGluestackUI}}<GluestackUIProvider config={config}>{{else if hasGluestackUICore}}<GluestackUIProvider>{{/if}}
+          <SafeAreaView style={backgroundStyle}>
+            <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
+            {{#if hasReactNavigationExample}}
+            <BottomTabNavigator />
+            {{else}}
+            <HomeContainer />
+            {{/if}}
+          </SafeAreaView>
+        {{#if hasGluestackUI}}</GluestackUIProvider>{{else if hasGluestackUICore}}</GluestackUIProvider>{{/if}}
       </NavigationContainer>
     {{#if hasReduxToolkit}}</Provider>{{/if}}
   );

@@ -81,9 +81,8 @@ const startProject = async (toolbox: RnBootstrapToolbox) => {
     await yarn.add(dependenciesToInstall.devDependencies, { dev: true });
   }
 
-  // Run the eject-theme command when GluestackUIThemedMM is selected and change the generated theme config
-  // with MentorMate`s predefined theme config
-  if (selectedOptions.styleLibrary === StyleLibraryChoice.GluestackUIThemedMM) {
+  // Eject theme if GluestackUIEjected was selected.
+  if (selectedOptions.styleLibrary === StyleLibraryChoice.GluestackUIEjected) {
     print.info('Initiating theme config ejection...');
     await spawnProgress('npx gluestack-ui-scripts eject-theme');
   }
