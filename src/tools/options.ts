@@ -2,12 +2,17 @@ import { PromptOptions } from 'gluegun/build/types/toolbox/prompt-enquirer-types
 import { TemplateParams } from '../types/BaseProjectTemplateParams';
 import {
   navigationDeps,
+  gluestackUIDeps,
   reduxDeps,
   styleDeps,
-  styleDevDeps
+  styleDevDeps,
+  glueStackUICoreDeps
 } from './dependency-versions';
 
 export enum StyleLibraryChoice {
+  GluestackUICore = 'Gluestack-UI Core (Unstyled)',
+  GluestackUIDefault = 'Gluestack-UI Default',
+  GluestackUIEjected = 'Gluestack-UI Ejected',
   StyledComponents = 'Styled Components',
   StyleSheet = 'React-Native built-in StyleSheet'
 }
@@ -25,6 +30,9 @@ export enum ReactNavigationExampleChoice {
 
 // When the user selects an option, the corresponding dependencies are installed
 export const SelectionToDependencyNameMap = {
+  [StyleLibraryChoice.GluestackUICore]: glueStackUICoreDeps,
+  [StyleLibraryChoice.GluestackUIDefault]: gluestackUIDeps,
+  [StyleLibraryChoice.GluestackUIEjected]: gluestackUIDeps,
   [StyleLibraryChoice.StyledComponents]: styleDeps,
   [StateLibraryChoice.ReduxToolkit]: reduxDeps,
   [StateLibraryChoice.ReduxToolkitWithQuery]: reduxDeps,
@@ -41,6 +49,17 @@ export const SelectionToTemplateParamsMap: Partial<Record<
   StyleLibraryChoice | StateLibraryChoice | ReactNavigationExampleChoice,
   Partial<TemplateParams>
 >> = {
+  [StyleLibraryChoice.GluestackUICore]: {
+    hasGluestackUICore: true
+  },
+  [StyleLibraryChoice.GluestackUIDefault]: {
+    hasGluestackUI: true,
+    hasGluestackUIDefaultTheme: true
+  },
+  [StyleLibraryChoice.GluestackUIEjected]: {
+    hasGluestackUI: true,
+    hasGluestackUIEjected: true
+  },
   [StyleLibraryChoice.StyledComponents]: {
     hasStyledComponents: true
   },
@@ -80,6 +99,10 @@ export const SelectionToOptionalFilePathsMap = {
 };
 
 export const DefaultTemplateParams: TemplateParams = {
+  hasGluestackUI: false,
+  hasGluestackUICore: false,
+  hasGluestackUIDefaultTheme: false,
+  hasGluestackUIEjected: false,
   hasStyledComponents: false,
   hasReduxToolkit: false,
   hasRTKQuery: false,

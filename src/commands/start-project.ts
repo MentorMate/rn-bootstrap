@@ -1,4 +1,4 @@
-import { SelectionPrompts } from '../tools/options';
+import { SelectionPrompts, StyleLibraryChoice } from '../tools/options';
 import {
   getDependenciesToInstallFromSelectedOptions,
   getTemplateParamsFromSelectedOptions,
@@ -80,6 +80,13 @@ const startProject = async (toolbox: RnBootstrapToolbox) => {
   if (dependenciesToInstall.devDependencies.length > 0) {
     await yarn.add(dependenciesToInstall.devDependencies, { dev: true });
   }
+
+  // Eject theme if GluestackUIEjected was selected.
+  if (selectedOptions.styleLibrary === StyleLibraryChoice.GluestackUIEjected) {
+    print.info('Initiating theme config ejection...');
+    await spawnProgress('npx gluestack-ui-scripts eject-theme');
+  }
+
   await toolbox.renameProject(projectName, bundleId);
   await yarn.run('prettify:write');
   await yarn.run('pod-install');
