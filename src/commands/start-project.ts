@@ -1,4 +1,8 @@
-import { SelectionPrompts, StyleLibraryChoice } from '../tools/options';
+import {
+  SelectionPrompts,
+  StorybookChoice,
+  StyleLibraryChoice
+} from '../tools/options';
 import {
   getDependenciesToInstallFromSelectedOptions,
   getTemplateParamsFromSelectedOptions,
@@ -79,6 +83,20 @@ const startProject = async (toolbox: RnBootstrapToolbox) => {
   await yarn.add(dependenciesToInstall.dependencies);
   if (dependenciesToInstall.devDependencies.length > 0) {
     await yarn.add(dependenciesToInstall.devDependencies, { dev: true });
+  }
+
+  // Install storybook and all its dependencies if selected.
+  if (selectedOptions.storybook === StorybookChoice.withStorybook) {
+    print.info('Creating storybook...');
+    await spawnProgress('npx sb@latest init --type react_native');
+
+    // const sourceFile = `${toolbox.BASE_PROJECT_PATH}/config/storybook/preview.js`;
+    // const destinationFile = `${projectName}/.storybook/preview.js`;
+
+    // toolbox.copyRecursively({
+    //   from: sourceFile,
+    //   to: destinationFile
+    // });
   }
 
   // Eject theme if GluestackUIEjected was selected.

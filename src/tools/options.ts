@@ -17,6 +17,11 @@ export enum StyleLibraryChoice {
   StyleSheet = 'React-Native built-in StyleSheet'
 }
 
+export enum StorybookChoice {
+  withStorybook = 'Storybook',
+  withoutStorybook = 'No Storybook'
+}
+
 export enum StateLibraryChoice {
   ReduxToolkit = 'Redux Toolkit',
   ReduxToolkitWithQuery = 'Redux Toolkit with RTK Query Example',
@@ -46,7 +51,10 @@ export const SelectionToDevDependencyNameMap = {
 
 // Maps selection to handlebars-friendly object for easier conditionals within templates.
 export const SelectionToTemplateParamsMap: Partial<Record<
-  StyleLibraryChoice | StateLibraryChoice | ReactNavigationExampleChoice,
+  | StyleLibraryChoice
+  | StorybookChoice
+  | StateLibraryChoice
+  | ReactNavigationExampleChoice,
   Partial<TemplateParams>
 >> = {
   [StyleLibraryChoice.GluestackUICore]: {
@@ -62,6 +70,12 @@ export const SelectionToTemplateParamsMap: Partial<Record<
   },
   [StyleLibraryChoice.StyledComponents]: {
     hasStyledComponents: true
+  },
+  [StorybookChoice.withStorybook]: {
+    hasStorybook: true
+  },
+  [StorybookChoice.withoutStorybook]: {
+    hasStorybook: false
   },
   [StateLibraryChoice.ReduxToolkit]: {
     hasReduxToolkit: true
@@ -86,6 +100,7 @@ const getFileNameMatcher = (fileName: string) => {
 // Paths from unselected options get skipped when copying the baseProject
 // You can also specify individual file names as strings
 export const SelectionToOptionalFilePathsMap = {
+  [StorybookChoice.withStorybook]: [getFullPathMatcher('config/storybook/')],
   [StateLibraryChoice.ReduxToolkit]: [getFullPathMatcher('src/common/store/')],
   [StateLibraryChoice.ReduxToolkitWithQuery]: [
     getFullPathMatcher('src/common/store/'),
@@ -104,6 +119,7 @@ export const DefaultTemplateParams: TemplateParams = {
   hasGluestackUIDefaultTheme: false,
   hasGluestackUIEjected: false,
   hasStyledComponents: false,
+  hasStorybook: false,
   hasReduxToolkit: false,
   hasRTKQuery: false,
   hasReactNavigationExample: false
@@ -113,6 +129,10 @@ const PromptSelectionOptions = {
   styleLibrary: {
     choices: Object.values(StyleLibraryChoice),
     message: 'Styling Library:'
+  },
+  storybook: {
+    choices: Object.values(StorybookChoice),
+    message: 'Storybook:'
   },
   stateManagementLibrary: {
     choices: Object.values(StateLibraryChoice),
