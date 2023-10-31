@@ -90,8 +90,8 @@ const startProject = async (toolbox: RnBootstrapToolbox) => {
     print.info('Creating storybook...');
     await spawnProgress('npx sb@latest init --type react_native');
 
-    // const sourceFile = `${toolbox.BASE_PROJECT_PATH}/config/storybook/preview.js`;
-    // const destinationFile = `${projectName}/.storybook/preview.js`;
+    // const sourceFile = `${toolbox.BASE_PROJECT_PATH}/config/storybook/`;
+    // const destinationFile = `${projectName}/.storybook/`;
 
     // toolbox.copyRecursively({
     //   from: sourceFile,
