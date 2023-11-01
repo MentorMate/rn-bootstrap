@@ -47,7 +47,7 @@ const showHelp = () => {
 };
 
 const startProject = async (toolbox: RnBootstrapToolbox) => {
-  const { prompt, print } = toolbox;
+  const { prompt, print, filesystem } = toolbox;
 
   const projectName = toolbox.getProjectName();
   const bundleId = toolbox.getBundleId();
@@ -89,32 +89,46 @@ const startProject = async (toolbox: RnBootstrapToolbox) => {
   if (selectedOptions.storybook === StorybookChoice.withStorybook) {
     print.info('Creating storybook...');
     await spawnProgress('npx sb@latest init --type react_native');
-
-    // const sourceFile = `${toolbox.BASE_PROJECT_PATH}/config/storybook/`;
-    // const destinationFile = `${projectName}/.storybook/`;
-
-    // toolbox.copyRecursively({
-    //   from: sourceFile,
-    //   to: destinationFile
-    // });
-  }
-
-  // Eject theme if GluestackUIEjected was selected.
-  if (selectedOptions.styleLibrary === StyleLibraryChoice.GluestackUIEjected) {
-    print.info('Initiating theme config ejection...');
-    await spawnProgress('npx gluestack-ui-scripts eject-theme');
   }
 
   await toolbox.renameProject(projectName, bundleId);
+
+  const gluestackOptions = [
+    StyleLibraryChoice.GluestackUICore,
+    StyleLibraryChoice.GluestackUIEjected,
+    StyleLibraryChoice.GluestackUIDefault
+  ];
+
+  // Replace storybook preview.js file with the prebuild one.
+  if (
+    gluestackOptions.includes(selectedOptions.styleLibrary) &&
+    selectedOptions.storybook === StorybookChoice.withStorybook
+  ) {
+    const sbPreviewSourcePath = `${toolbox.CLI_PATH}/${projectName}/config/storybook/preview.js`;
+    const destinationPath = `${toolbox.CLI_PATH}/${projectName}/.storybook/preview.js`;
+
+    filesystem.copy(sbPreviewSourcePath, destinationPath, { overwrite: true });
+  }
+
   await yarn.run('prettify:write');
+
   await yarn.run('pod-install');
 
   print.info('Your project has been automatically renamed.');
   print.info(
     'Please note you might have to use Xcode to change the iOS bundle ID!'
   );
+  const isGluestackEjected =
+    selectedOptions.styleLibrary === StyleLibraryChoice.GluestackUIEjected;
+
   print.info('Screenshot for reference: https://bit.ly/ios-bundle-id-change');
-  print.success('Setup done.');
+  print.success(`Setup${isGluestackEjected && ' is almost'} done.`);
+
+  // Eject theme if GluestackUIEjected was selected.
+  if (isGluestackEjected) {
+    print.info('Initiating theme config ejection...');
+    await spawnProgress('npx gluestack-ui-scripts eject-theme');
+  }
 };
 
 module.exports = command;

@@ -24,3 +24,5 @@ export const glueStackUICoreDeps = [
   '@gluestack-style/react',
   'react-native-svg@13.4.0'
 ];
+
+export const storybookDevDeps = ['cross-env'];

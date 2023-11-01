@@ -18,6 +18,11 @@ module.exports = (async () => {
             unstable_allowRequireContext: true,
         },
     };
+
+    if (process.env.STORYBOOK_ENABLED) {
+        defaultConfig.resolver.sourceExts = ['storybook.tsx', ...defaultConfig.resolver.sourceExts];
+      }
+      
     // Merge your custom config with the default config
     return mergeConfig(defaultConfig, customConfig);
 })();

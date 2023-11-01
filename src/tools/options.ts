@@ -6,7 +6,8 @@ import {
   reduxDeps,
   styleDeps,
   styleDevDeps,
-  glueStackUICoreDeps
+  glueStackUICoreDeps,
+  storybookDevDeps
 } from './dependency-versions';
 
 export enum StyleLibraryChoice {
@@ -46,7 +47,8 @@ export const SelectionToDependencyNameMap = {
 };
 
 export const SelectionToDevDependencyNameMap = {
-  [StyleLibraryChoice.StyledComponents]: styleDevDeps
+  [StyleLibraryChoice.StyledComponents]: styleDevDeps,
+  [StorybookChoice.withStorybook]: storybookDevDeps
 };
 
 // Maps selection to handlebars-friendly object for easier conditionals within templates.
