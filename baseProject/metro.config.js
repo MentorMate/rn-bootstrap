@@ -7,6 +7,12 @@ const {getDefaultConfig, mergeConfig} = require('@react-native/metro-config');
  * @type {import('metro-config').MetroConfig}
  */
 {{#if hasStorybook}}
+
+const storybookSourceExt =
+  process.env.STORYBOOK_ENABLED === 'true'
+    ? ['storybook.tsx', 'storybook.ts', 'storybook.js']
+    : [];
+
 module.exports = (async () => {
     const defaultConfig = await getDefaultConfig(__dirname)
     // Add the transformer option to your custom config
@@ -20,8 +26,8 @@ module.exports = (async () => {
     };
 
     if (process.env.STORYBOOK_ENABLED) {
-        defaultConfig.resolver.sourceExts = ['storybook.tsx', ...defaultConfig.resolver.sourceExts];
-      }
+        defaultConfig.resolver.sourceExts = [...storybookSourceExt, ...defaultConfig.resolver.sourceExts];
+    }
       
     // Merge your custom config with the default config
     return mergeConfig(defaultConfig, customConfig);

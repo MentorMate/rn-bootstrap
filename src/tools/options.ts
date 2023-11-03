@@ -115,6 +115,12 @@ export const SelectionToOptionalFilePathsMap = {
   ]
 };
 
+export const gluestackOptions = [
+  StyleLibraryChoice.GluestackUICore,
+  StyleLibraryChoice.GluestackUIEjected,
+  StyleLibraryChoice.GluestackUIDefault
+];
+
 export const DefaultTemplateParams: TemplateParams = {
   hasGluestackUI: false,
   hasGluestackUICore: false,

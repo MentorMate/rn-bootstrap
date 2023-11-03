@@ -1,7 +1,8 @@
 import {
   SelectionPrompts,
   StorybookChoice,
-  StyleLibraryChoice
+  StyleLibraryChoice,
+  gluestackOptions
 } from '../tools/options';
 import {
   getDependenciesToInstallFromSelectedOptions,
@@ -14,8 +15,10 @@ import {
   RnBootstrapToolbox
 } from '../types/RnBootstrapToolbox';
 import { spawnProgress } from '../tools/spawn-progress';
+import { join } from 'path';
 import { commandFormat, RnBootstrapHeading, p } from '../tools/pretty';
 import { StartProjectOptionSelectionResult } from '../types/StartProjectOptionSelectionResult';
+import { IS_WINDOWS } from '../tools/constants';
 
 const command: RnBootstrapCommand = {
   name: 'start-project',
@@ -93,26 +96,30 @@ const startProject = async (toolbox: RnBootstrapToolbox) => {
 
   await toolbox.renameProject(projectName, bundleId);
 
-  const gluestackOptions = [
-    StyleLibraryChoice.GluestackUICore,
-    StyleLibraryChoice.GluestackUIEjected,
-    StyleLibraryChoice.GluestackUIDefault
-  ];
-
   // Replace storybook preview.js file with the prebuild one.
-  if (
-    gluestackOptions.includes(selectedOptions.styleLibrary) &&
-    selectedOptions.storybook === StorybookChoice.withStorybook
-  ) {
-    const sbPreviewSourcePath = `${toolbox.CLI_PATH}/${projectName}/config/storybook/preview.js`;
-    const destinationPath = `${toolbox.CLI_PATH}/${projectName}/.storybook/preview.js`;
-
-    filesystem.copy(sbPreviewSourcePath, destinationPath, { overwrite: true });
-  }
+  // if (
+  //   gluestackOptions.includes(selectedOptions.styleLibrary) &&
+  //   selectedOptions.storybook === StorybookChoice.withStorybook
+  // ) {
+  //   const sbPreviewSourcePath = join(
+  //     toolbox.CLI_PATH,
+  //     projectName,
+  //     'config',
+  //     'storybook',
+  //     'preview.js'
+  //   );
+  //   const destinationPath = join(
+  //     toolbox.CLI_PATH,
+  //     projectName,
+  //     '.storyboook',
+  //     'preview.js'
+  //   );
+  //   filesystem.copy(sbPreviewSourcePath, destinationPath, { overwrite: true });
+  // }
 
   await yarn.run('prettify:write');
 
-  await yarn.run('pod-install');
+  !IS_WINDOWS && (await yarn.run('pod-install'));
 
   print.info('Your project has been automatically renamed.');
   print.info(

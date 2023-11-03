@@ -1,9 +1,6 @@
 const { exec } = require('child_process');
-const isWindows = process.platform === 'win32';
 
-const command = isWindows
-  ? "cross-env STORYBOOK_ENABLED='true' yarn run android"
-  : "cross-env STORYBOOK_ENABLED='true' && yarn run android";
+const command = "cross-env STORYBOOK_ENABLED='true' yarn start";
 
 exec(command, (error, stdout, stderr) => {
   if (error) {

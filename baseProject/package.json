@@ -18,7 +18,7 @@
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "lint:fix": "yarn lint --fix",
     "pod-clean-install": "(cd ios && rm -rf Pods && pod install)",
-    "pod-install": "node scripts/installPods.js",
+    "pod-install": "(cd ./ios && pod install)",
     "prepare": "husky install",
     "prettier:check-format": "prettier --list-different",
     "prettier:format": "prettier --write",
@@ -43,8 +43,7 @@
     "version:minor": "yarn npm:version:minor --no-git-tag-version && yarn fastlane:update-versions",
     "version:major": "yarn npm:version:major && yarn fastlane:update-versions",
     "prettify:write": "prettier --write \"**/*.{json,js,jsx,ts,tsx}\"",
-    "storybook:android": "node scripts/runSBandroid.js",
-    "storybook:ios": "node scripts/runSBios.js"
+    "storybook": "node scripts/runStoryBook.js"
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^1.19.3",
