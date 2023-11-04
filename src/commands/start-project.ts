@@ -15,7 +15,6 @@ import {
   RnBootstrapToolbox
 } from '../types/RnBootstrapToolbox';
 import { spawnProgress } from '../tools/spawn-progress';
-import { join } from 'path';
 import { commandFormat, RnBootstrapHeading, p } from '../tools/pretty';
 import { StartProjectOptionSelectionResult } from '../types/StartProjectOptionSelectionResult';
 import { IS_WINDOWS } from '../tools/constants';
@@ -96,26 +95,34 @@ const startProject = async (toolbox: RnBootstrapToolbox) => {
 
   await toolbox.renameProject(projectName, bundleId);
 
-  // Replace storybook preview.js file with the prebuild one.
-  // if (
-  //   gluestackOptions.includes(selectedOptions.styleLibrary) &&
-  //   selectedOptions.storybook === StorybookChoice.withStorybook
-  // ) {
-  //   const sbPreviewSourcePath = join(
-  //     toolbox.CLI_PATH,
-  //     projectName,
-  //     'config',
-  //     'storybook',
-  //     'preview.js'
-  //   );
-  //   const destinationPath = join(
-  //     toolbox.CLI_PATH,
-  //     projectName,
-  //     '.storyboook',
-  //     'preview.js'
-  //   );
-  //   filesystem.copy(sbPreviewSourcePath, destinationPath, { overwrite: true });
-  // }
+  // Replace storybook files with preconfigured ones if selected.
+  if (
+    gluestackOptions.includes(selectedOptions.styleLibrary) &&
+    selectedOptions.storybook === StorybookChoice.withStorybook
+  ) {
+    const sourceDirectory = filesystem.path(
+      toolbox.CLI_PATH,
+      projectName,
+      'config',
+      'storybook'
+    );
+    const destinationDirectory = filesystem.path(
+      toolbox.CLI_PATH,
+      projectName,
+      '.storybook'
+    );
+
+    // List of files to replace
+    const filesToReplace = ['preview.js', 'storybook.requires.js'];
+
+    for (const file of filesToReplace) {
+      const sbPreviewSourcePath = filesystem.path(sourceDirectory, file);
+      const destinationPath = filesystem.path(destinationDirectory, file);
+      filesystem.copy(sbPreviewSourcePath, destinationPath, {
+        overwrite: true
+      });
+    }
+  }
 
   await yarn.run('prettify:write');
 
@@ -129,7 +136,7 @@ const startProject = async (toolbox: RnBootstrapToolbox) => {
     selectedOptions.styleLibrary === StyleLibraryChoice.GluestackUIEjected;
 
   print.info('Screenshot for reference: https://bit.ly/ios-bundle-id-change');
-  print.success(`Setup${isGluestackEjected && ' is almost'} done.`);
+  print.success(`Setup${isGluestackEjected ? ' is almost' : ''} done.`);
 
   // Eject theme if GluestackUIEjected was selected.
   if (isGluestackEjected) {
