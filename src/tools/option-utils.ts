@@ -64,7 +64,6 @@ export const getFilePathsToExcludeFromSelectedOptions = (
   const SelectionToOptionalFilePathsMapEntries = Object.entries(
     SelectionToOptionalFilePathsMap
   );
-
   const selectedOptions = Object.values(optionSelection);
   const filesToExclude = SelectionToOptionalFilePathsMapEntries.filter(
     ([option]) => !selectedOptions.includes(option)
@@ -83,7 +82,14 @@ export const getFilePathsToExcludeFromSelectedOptions = (
 
   const dedupedExclusions = uniqWith(exclusions, isEqual);
 
-  return map(dedupedExclusions, ({ shouldRegexp, matcher }) =>
-    shouldRegexp ? new RegExp(matcher) : matcher
-  );
+  const escapeRegExp = string => {
+    return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  };
+
+  return map(dedupedExclusions, ({ shouldRegexp, matcher }) => {
+    const escapedMatcher = shouldRegexp
+      ? new RegExp(escapeRegExp(matcher))
+      : matcher;
+    return shouldRegexp ? new RegExp(escapedMatcher) : escapedMatcher;
+  });
 };

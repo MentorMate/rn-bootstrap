@@ -1,3 +1,4 @@
+import { join, sep } from 'path';
 import { PromptOptions } from 'gluegun/build/types/toolbox/prompt-enquirer-types';
 import { TemplateParams } from '../types/BaseProjectTemplateParams';
 import {
@@ -92,7 +93,9 @@ export const SelectionToTemplateParamsMap: Partial<Record<
 };
 
 const getFullPathMatcher = (partialPath: string) => {
-  return { matcher: `^${partialPath}.*`, shouldRegexp: true };
+  const parts = partialPath.split('/');
+  const constructedPath = parts.join(sep);
+  return { matcher: constructedPath, shouldRegexp: true };
 };
 
 const getFileNameMatcher = (fileName: string) => {
