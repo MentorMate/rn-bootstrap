@@ -43,8 +43,7 @@
     "version:minor": "yarn npm:version:minor --no-git-tag-version && yarn fastlane:update-versions",
     "version:major": "yarn npm:version:major && yarn fastlane:update-versions",
     "prettify:write": "prettier --write \"**/*.{json,js,jsx,ts,tsx}\"",
-    "storybook:win": "cross-env STORYBOOK_ENABLED='true' yarn start",
-    "storybook:mac": "cross-env STORYBOOK_ENABLED='true' && yarn start"
+    "storybook": "cross-env STORYBOOK_ENABLED='true' yarn start"
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^1.19.3",

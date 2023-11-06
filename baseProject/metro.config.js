@@ -10,7 +10,7 @@ const {getDefaultConfig, mergeConfig} = require('@react-native/metro-config');
 
 const storybookSourceExt =
   process.env.STORYBOOK_ENABLED === 'true'
-    ? ['storybook.tsx', 'storybook.ts', 'storybook.js']
+    ? ['storybook.tsx', 'storybook.ts', 'storybook.js', 'storybook.jsx']
     : [];
 
 module.exports = (async () => {
