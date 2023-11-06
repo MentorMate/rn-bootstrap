@@ -106,6 +106,13 @@ In case you want to add react-navigation example code in the project:
   });
   ```
 
+### `Storybook`
+
+- `Storybook` - you can design and develop individual React Native components without running your app.
+  - In order to run storybook: `yarn storybook`
+    - `Windows issues:` Please note that npm uses cmd by default and that doesn't support command substitution, so if you want to leverage that,
+      then you need to update your .npmrc to set the script-shell to powershell. [Learn more](https://github.com/kentcdodds/cross-env/issues/192#issuecomment-513341729)
+
 #### `State Management`
 
 - `Redux Toolkit` option - when selected `react-redux` library will be automatically installed.
