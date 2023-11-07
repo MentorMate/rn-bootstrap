@@ -101,27 +101,22 @@ const startProject = async (toolbox: RnBootstrapToolbox) => {
     selectedOptions.storybook === StorybookChoice.withStorybook
   ) {
     const sourceDirectory = filesystem.path(
-      toolbox.CLI_PATH,
-      projectName,
+      process.cwd(),
       'config',
       'storybook'
     );
-    const destinationDirectory = filesystem.path(
-      toolbox.CLI_PATH,
-      projectName,
-      '.storybook'
-    );
+    const destinationDirectory = filesystem.path(process.cwd(), '.storybook');
 
     // List of files to replace
     const filesToReplace = ['preview.js', 'storybook.requires.js'];
 
-    for (const file of filesToReplace) {
+    filesToReplace.forEach(file => {
       const sbPreviewSourcePath = filesystem.path(sourceDirectory, file);
       const destinationPath = filesystem.path(destinationDirectory, file);
       filesystem.copy(sbPreviewSourcePath, destinationPath, {
         overwrite: true
       });
-    }
+    });
   }
 
   await yarn.run('prettify:write');
