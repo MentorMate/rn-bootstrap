@@ -91,6 +91,12 @@ const startProject = async (toolbox: RnBootstrapToolbox) => {
   if (selectedOptions.storybook === StorybookChoice.withStorybook) {
     print.info('Creating storybook...');
     await spawnProgress('npx sb@latest init --type react_native');
+    // Add storybook script to package.json.
+    const packageJsonPath = filesystem.path(process.cwd(), 'package.json');
+    const packageJson = filesystem.read(packageJsonPath, 'json');
+    packageJson.scripts['storybook'] =
+      "cross-env STORYBOOK_ENABLED='true' yarn start";
+    filesystem.write(packageJsonPath, packageJson, { jsonIndent: 2 });
   }
 
   await toolbox.renameProject(projectName, bundleId);
@@ -107,8 +113,8 @@ const startProject = async (toolbox: RnBootstrapToolbox) => {
     );
     const destinationDirectory = filesystem.path(process.cwd(), '.storybook');
 
-    // List of files to replace
-    const filesToReplace = ['preview.js', 'storybook.requires.js'];
+    // List of files to replace. Add more here if needed.
+    const filesToReplace = ['preview.js'];
 
     filesToReplace.forEach(file => {
       const sbPreviewSourcePath = filesystem.path(sourceDirectory, file);

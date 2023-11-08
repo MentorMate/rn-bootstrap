@@ -20,9 +20,6 @@ module.exports = (async () => {
         resolver: {
             resolverMainFields: ['sbmodern', 'react-native', 'browser', 'main'],
         },
-        transformer: {
-            unstable_allowRequireContext: true,
-        },
     };
 
     if (process.env.STORYBOOK_ENABLED) {
