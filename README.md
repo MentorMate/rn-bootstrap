@@ -106,6 +106,17 @@ In case you want to add react-navigation example code in the project:
   });
   ```
 
+### `Storybook`
+
+- `Storybook Mobile` - you can design and develop individual React Native components on a device or simulator without running your app.
+- `Storybook Web` - you can design and develop individual React Native components in the web browser without running your app.
+  - In order to run storybook: `yarn storybook`
+    - `Windows issues:` Please note that npm uses cmd by default and that doesn't support command substitution, so if you want to leverage that,
+      then you need to update your .npmrc to set the script-shell to powershell. [Learn more](https://github.com/kentcdodds/cross-env/issues/192#issuecomment-513341729)
+  - If you add new stories you either need to have the watcher running or run the stories loader
+    - To update the stories one time: `yarn storybook-generate`
+    - To listen the stories files for updates: `yarn storybook-watch`
+
 #### `State Management`
 
 - `Redux Toolkit` option - when selected `react-redux` library will be automatically installed.

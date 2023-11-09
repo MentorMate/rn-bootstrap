@@ -1,3 +1,4 @@
+import { join, sep } from 'path';
 import { PromptOptions } from 'gluegun/build/types/toolbox/prompt-enquirer-types';
 import { TemplateParams } from '../types/BaseProjectTemplateParams';
 import {
@@ -6,7 +7,9 @@ import {
   reduxDeps,
   styleDeps,
   styleDevDeps,
-  glueStackUICoreDeps
+  glueStackUICoreDeps,
+  storybookMobileDevDeps,
+  storybookWebDevDeps
 } from './dependency-versions';
 
 export enum StyleLibraryChoice {
@@ -15,6 +18,12 @@ export enum StyleLibraryChoice {
   GluestackUIEjected = 'Gluestack-UI Ejected',
   StyledComponents = 'Styled Components',
   StyleSheet = 'React-Native built-in StyleSheet'
+}
+
+export enum StorybookChoice {
+  withStorybookMobile = 'Storybook Mobile',
+  withStorybookWeb = 'Storybook Web',
+  withoutStorybook = 'No Storybook'
 }
 
 export enum StateLibraryChoice {
@@ -41,12 +50,17 @@ export const SelectionToDependencyNameMap = {
 };
 
 export const SelectionToDevDependencyNameMap = {
-  [StyleLibraryChoice.StyledComponents]: styleDevDeps
+  [StyleLibraryChoice.StyledComponents]: styleDevDeps,
+  [StorybookChoice.withStorybookMobile]: storybookMobileDevDeps,
+  [StorybookChoice.withStorybookWeb]: storybookWebDevDeps
 };
 
 // Maps selection to handlebars-friendly object for easier conditionals within templates.
 export const SelectionToTemplateParamsMap: Partial<Record<
-  StyleLibraryChoice | StateLibraryChoice | ReactNavigationExampleChoice,
+  | StyleLibraryChoice
+  | StorybookChoice
+  | StateLibraryChoice
+  | ReactNavigationExampleChoice,
   Partial<TemplateParams>
 >> = {
   [StyleLibraryChoice.GluestackUICore]: {
@@ -63,6 +77,15 @@ export const SelectionToTemplateParamsMap: Partial<Record<
   [StyleLibraryChoice.StyledComponents]: {
     hasStyledComponents: true
   },
+  [StorybookChoice.withStorybookMobile]: {
+    hasStorybook: true
+  },
+  [StorybookChoice.withStorybookWeb]: {
+    hasStorybook: true
+  },
+  [StorybookChoice.withoutStorybook]: {
+    hasStorybook: false
+  },
   [StateLibraryChoice.ReduxToolkit]: {
     hasReduxToolkit: true
   },
@@ -76,7 +99,9 @@ export const SelectionToTemplateParamsMap: Partial<Record<
 };
 
 const getFullPathMatcher = (partialPath: string) => {
-  return { matcher: `^${partialPath}.*`, shouldRegexp: true };
+  const parts = partialPath.split('/');
+  const constructedPath = parts.join(sep);
+  return { matcher: constructedPath, shouldRegexp: true };
 };
 
 const getFileNameMatcher = (fileName: string) => {
@@ -86,6 +111,8 @@ const getFileNameMatcher = (fileName: string) => {
 // Paths from unselected options get skipped when copying the baseProject
 // You can also specify individual file names as strings
 export const SelectionToOptionalFilePathsMap = {
+  [StorybookChoice.withStorybookMobile]: [getFullPathMatcher('config/storybook/')],
+  [StorybookChoice.withStorybookWeb]: [getFullPathMatcher('config/storybook/')],
   [StateLibraryChoice.ReduxToolkit]: [getFullPathMatcher('src/common/store/')],
   [StateLibraryChoice.ReduxToolkitWithQuery]: [
     getFullPathMatcher('src/common/store/'),
@@ -98,12 +125,19 @@ export const SelectionToOptionalFilePathsMap = {
   ]
 };
 
+export const gluestackOptions = [
+  StyleLibraryChoice.GluestackUICore,
+  StyleLibraryChoice.GluestackUIEjected,
+  StyleLibraryChoice.GluestackUIDefault
+];
+
 export const DefaultTemplateParams: TemplateParams = {
   hasGluestackUI: false,
   hasGluestackUICore: false,
   hasGluestackUIDefaultTheme: false,
   hasGluestackUIEjected: false,
   hasStyledComponents: false,
+  hasStorybook: false,
   hasReduxToolkit: false,
   hasRTKQuery: false,
   hasReactNavigationExample: false
@@ -113,6 +147,10 @@ const PromptSelectionOptions = {
   styleLibrary: {
     choices: Object.values(StyleLibraryChoice),
     message: 'Styling Library:'
+  },
+  storybook: {
+    choices: Object.values(StorybookChoice),
+    message: 'Storybook:'
   },
   stateManagementLibrary: {
     choices: Object.values(StateLibraryChoice),

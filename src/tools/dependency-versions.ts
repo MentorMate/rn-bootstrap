@@ -24,3 +24,15 @@ export const glueStackUICoreDeps = [
   '@gluestack-style/react',
   'react-native-svg@13.4.0'
 ];
+
+export const storybookMobileDevDeps = ['cross-env'];
+
+export const storybookWebDevDeps = [
+  'react-native-web', 
+  'babel-plugin-react-native-web', 
+  '@storybook/addon-react-native-web', 
+  '@storybook/addon-essentials@^6.5', 
+  '@storybook/builder-webpack5@^6.5', 
+  '@storybook/manager-webpack5@^6.5', 
+  '@storybook/react@^6.5', 
+];
