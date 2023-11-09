@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.2.2](https://github.com/MentorMate/rn-bootstrap/compare/v3.2.1...v3.2.2) (2023-11-09)
+
+
+### Miscellaneous
+
+* swap to npm-publish action ([511df01](https://github.com/MentorMate/rn-bootstrap/commit/511df012552a279cf0e6fcc3e5430f3481eb1009))
+
 ## [3.2.1](https://github.com/MentorMate/rn-bootstrap/compare/v3.2.0...v3.2.1) (2023-11-09)
 
 
