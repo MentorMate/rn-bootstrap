@@ -109,10 +109,7 @@ const startProject = async (toolbox: RnBootstrapToolbox) => {
   await toolbox.renameProject(projectName, bundleId);
 
   // Replace storybook files with preconfigured ones if selected.
-  if (
-    gluestackOptions.includes(selectedOptions.styleLibrary) &&
-    hasSelectedStorybook
-  ) {
+  if (hasSelectedStorybook) {
     const sourceDirectory = filesystem.path(
       process.cwd(),
       'config',
@@ -120,11 +117,19 @@ const startProject = async (toolbox: RnBootstrapToolbox) => {
     );
     const destinationDirectory = filesystem.path(process.cwd(), '.storybook');
 
-    // List of files to replace. Add more here if needed.
-    const filesToReplace =
-      selectedOptions.storybook === StorybookChoice.withStorybookMobile
-        ? ['preview.js']
-        : ['preview.js', 'main.js'];
+    // List of files to replace based on the selected options. Add more here if needed.
+    let filesToReplace: string[] = [];
+
+    if (
+      selectedOptions.storybook === StorybookChoice.withStorybookMobile &&
+      gluestackOptions.includes(selectedOptions.styleLibrary)
+    ) {
+      filesToReplace.push('preview.js');
+    } else if (selectedOptions.storybook === StorybookChoice.withStorybookWeb) {
+      gluestackOptions.includes(selectedOptions.styleLibrary)
+        ? filesToReplace.push('preview.js', 'main.js')
+        : filesToReplace.push('main.js');
+    }
 
     filesToReplace.forEach(file => {
       const sbPreviewSourcePath = filesystem.path(sourceDirectory, file);
