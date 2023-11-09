@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.2.3](https://github.com/MentorMate/rn-bootstrap/compare/v3.2.2...v3.2.3) (2023-11-09)
+
+
+### Miscellaneous
+
+* add pull request template & code of conduct ([8020d7a](https://github.com/MentorMate/rn-bootstrap/commit/8020d7a0441d7cc0aba242f39e60f76df8c83e5a))
+
 ## [3.2.2](https://github.com/MentorMate/rn-bootstrap/compare/v3.2.1...v3.2.2) (2023-11-09)
 
 
