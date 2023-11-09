@@ -87,15 +87,22 @@ const startProject = async (toolbox: RnBootstrapToolbox) => {
     await yarn.add(dependenciesToInstall.devDependencies, { dev: true });
   }
 
+  const hasSelectedStorybook =
+    selectedOptions.storybook === StorybookChoice.withStorybookMobile ||
+    selectedOptions.storybook === StorybookChoice.withStorybookWeb;
+
   // Install storybook and all its dependencies if selected.
-  if (selectedOptions.storybook === StorybookChoice.withStorybook) {
+  if (hasSelectedStorybook) {
     print.info('Creating storybook...');
     await spawnProgress('npx sb@latest init --type react_native');
+
     // Add storybook script to package.json.
     const packageJsonPath = filesystem.path(process.cwd(), 'package.json');
     const packageJson = filesystem.read(packageJsonPath, 'json');
     packageJson.scripts['storybook'] =
-      "cross-env STORYBOOK_ENABLED='true' yarn start";
+      selectedOptions.storybook === StorybookChoice.withStorybookMobile
+        ? "cross-env STORYBOOK_ENABLED='true' yarn start"
+        : 'start-storybook -p 6006 -c .storybook';
     filesystem.write(packageJsonPath, packageJson, { jsonIndent: 2 });
   }
 
@@ -104,7 +111,7 @@ const startProject = async (toolbox: RnBootstrapToolbox) => {
   // Replace storybook files with preconfigured ones if selected.
   if (
     gluestackOptions.includes(selectedOptions.styleLibrary) &&
-    selectedOptions.storybook === StorybookChoice.withStorybook
+    hasSelectedStorybook
   ) {
     const sourceDirectory = filesystem.path(
       process.cwd(),
@@ -114,7 +121,10 @@ const startProject = async (toolbox: RnBootstrapToolbox) => {
     const destinationDirectory = filesystem.path(process.cwd(), '.storybook');
 
     // List of files to replace. Add more here if needed.
-    const filesToReplace = ['preview.js'];
+    const filesToReplace =
+      selectedOptions.storybook === StorybookChoice.withStorybookMobile
+        ? ['preview.js']
+        : ['preview.js', 'main.js'];
 
     filesToReplace.forEach(file => {
       const sbPreviewSourcePath = filesystem.path(sourceDirectory, file);

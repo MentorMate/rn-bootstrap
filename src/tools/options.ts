@@ -8,7 +8,8 @@ import {
   styleDeps,
   styleDevDeps,
   glueStackUICoreDeps,
-  storybookDevDeps
+  storybookMobileDevDeps,
+  storybookWebDevDeps
 } from './dependency-versions';
 
 export enum StyleLibraryChoice {
@@ -20,7 +21,8 @@ export enum StyleLibraryChoice {
 }
 
 export enum StorybookChoice {
-  withStorybook = 'Storybook',
+  withStorybookMobile = 'Storybook Mobile',
+  withStorybookWeb = 'Storybook Web',
   withoutStorybook = 'No Storybook'
 }
 
@@ -49,7 +51,8 @@ export const SelectionToDependencyNameMap = {
 
 export const SelectionToDevDependencyNameMap = {
   [StyleLibraryChoice.StyledComponents]: styleDevDeps,
-  [StorybookChoice.withStorybook]: storybookDevDeps
+  [StorybookChoice.withStorybookMobile]: storybookMobileDevDeps,
+  [StorybookChoice.withStorybookWeb]: storybookWebDevDeps
 };
 
 // Maps selection to handlebars-friendly object for easier conditionals within templates.
@@ -74,7 +77,10 @@ export const SelectionToTemplateParamsMap: Partial<Record<
   [StyleLibraryChoice.StyledComponents]: {
     hasStyledComponents: true
   },
-  [StorybookChoice.withStorybook]: {
+  [StorybookChoice.withStorybookMobile]: {
+    hasStorybook: true
+  },
+  [StorybookChoice.withStorybookWeb]: {
     hasStorybook: true
   },
   [StorybookChoice.withoutStorybook]: {
@@ -105,7 +111,8 @@ const getFileNameMatcher = (fileName: string) => {
 // Paths from unselected options get skipped when copying the baseProject
 // You can also specify individual file names as strings
 export const SelectionToOptionalFilePathsMap = {
-  [StorybookChoice.withStorybook]: [getFullPathMatcher('config/storybook/')],
+  [StorybookChoice.withStorybookMobile]: [getFullPathMatcher('config/storybook/')],
+  [StorybookChoice.withStorybookWeb]: [getFullPathMatcher('config/storybook/')],
   [StateLibraryChoice.ReduxToolkit]: [getFullPathMatcher('src/common/store/')],
   [StateLibraryChoice.ReduxToolkitWithQuery]: [
     getFullPathMatcher('src/common/store/'),
