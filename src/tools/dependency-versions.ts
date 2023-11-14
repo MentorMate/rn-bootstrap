@@ -25,14 +25,20 @@ export const glueStackUICoreDeps = [
   'react-native-svg@13.4.0'
 ];
 
-export const storybookMobileDevDeps = ['cross-env'];
-
-export const storybookWebDevDeps = [
-  'react-native-web', 
-  'babel-plugin-react-native-web', 
-  '@storybook/addon-react-native-web', 
-  '@storybook/addon-essentials@^6.5', 
-  '@storybook/builder-webpack5@^6.5', 
-  '@storybook/manager-webpack5@^6.5', 
-  '@storybook/react@^6.5', 
+export const storybookDevDeps = [
+  'cross-env',
+  'babel-plugin-react-native-web',
+  '@storybook/addon-actions@^6.5.14',
+  '@storybook/addon-controls@^6.5.14',
+  '@storybook/addon-essentials@^6.5.14',
+  '@storybook/addon-links@^6.5.14',
+  '@storybook/addon-ondevice-actions@^6.5.1',
+  '@storybook/addon-ondevice-backgrounds@^6.5.1',
+  '@storybook/addon-ondevice-controls@^6.5.1',
+  '@storybook/addon-ondevice-notes@^6.5.1',
+  '@storybook/addon-react-native-web@^0.0.19',
+  '@storybook/builder-webpack5@^6.5.16',
+  '@storybook/manager-webpack5@^6.5.16',
+  '@storybook/react-native@^6.5.1',
+  '@storybook/react@^6.5.14'
 ];

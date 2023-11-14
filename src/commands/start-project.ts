@@ -18,6 +18,7 @@ import { spawnProgress } from '../tools/spawn-progress';
 import { commandFormat, RnBootstrapHeading, p } from '../tools/pretty';
 import { StartProjectOptionSelectionResult } from '../types/StartProjectOptionSelectionResult';
 import { IS_WINDOWS } from '../tools/constants';
+const { spawn } = require('child_process');
 
 const command: RnBootstrapCommand = {
   name: 'start-project',
@@ -87,58 +88,79 @@ const startProject = async (toolbox: RnBootstrapToolbox) => {
     await yarn.add(dependenciesToInstall.devDependencies, { dev: true });
   }
 
-  const hasSelectedStorybook =
-    selectedOptions.storybook === StorybookChoice.withStorybookMobile ||
-    selectedOptions.storybook === StorybookChoice.withStorybookWeb;
-
   // Install storybook and all its dependencies if selected.
-  if (hasSelectedStorybook) {
-    print.info('Creating storybook...');
+  if (selectedOptions.storybook === StorybookChoice.withStorybook) {
+    print.info('Creating storybook mobile...');
     await spawnProgress('npx sb@latest init --type react_native');
+
+    filesystem.rename('.storybook', '.storybookMobile');
+
+    print.info('Creating storybook web...');
+    spawn('npx', ['sb@latest', 'init', '--type', 'react'], {
+      stdio: 'inherit',
+      shell: true
+    });
 
     // Add storybook script to package.json.
     const packageJsonPath = filesystem.path(process.cwd(), 'package.json');
     const packageJson = filesystem.read(packageJsonPath, 'json');
-    packageJson.scripts['storybook'] =
-      selectedOptions.storybook === StorybookChoice.withStorybookMobile
-        ? "cross-env STORYBOOK_ENABLED='true' yarn start"
-        : 'start-storybook -p 6006 -c .storybook';
+    packageJson.scripts['storybook:mobile'] =
+      "cross-env STORYBOOK_ENABLED='true' yarn start";
+    packageJson.scripts['storybook:web'] =
+      'start-storybook -p 6006 -c .storybook';
     filesystem.write(packageJsonPath, packageJson, { jsonIndent: 2 });
   }
 
   await toolbox.renameProject(projectName, bundleId);
 
   // Replace storybook files with preconfigured ones if selected.
-  if (hasSelectedStorybook) {
-    const sourceDirectory = filesystem.path(
-      process.cwd(),
-      'config',
-      'storybook'
-    );
-    const destinationDirectory = filesystem.path(process.cwd(), '.storybook');
+  // if (selectedOptions.storybook === StorybookChoice.withStorybook) {
+  //   const sourceWebDirectory = filesystem.path(
+  //     process.cwd(),
+  //     'config',
+  //     'storybook'
+  //   );
+  //   const destinationWebDirectory = filesystem.path(
+  //     process.cwd(),
+  //     '.storybook'
+  //   );
 
-    // List of files to replace based on the selected options. Add more here if needed.
-    let filesToReplace: string[] = [];
+  //   const sourceMobileDirectory = filesystem.path(
+  //     process.cwd(),
+  //     'config',
+  //     'ondevice'
+  //   );
+  //   const destinationMobileDirectory = filesystem.path(
+  //     process.cwd(),
+  //     '.ondevice'
+  //   );
 
-    if (
-      selectedOptions.storybook === StorybookChoice.withStorybookMobile &&
-      gluestackOptions.includes(selectedOptions.styleLibrary)
-    ) {
-      filesToReplace.push('preview.js');
-    } else if (selectedOptions.storybook === StorybookChoice.withStorybookWeb) {
-      gluestackOptions.includes(selectedOptions.styleLibrary)
-        ? filesToReplace.push('preview.js', 'main.js')
-        : filesToReplace.push('main.js');
-    }
+  //   // List of files to replace based on the selected options. Add more here if needed.
+  //   let filesToReplace: string[] = ['main.js'];
 
-    filesToReplace.forEach(file => {
-      const sbPreviewSourcePath = filesystem.path(sourceDirectory, file);
-      const destinationPath = filesystem.path(destinationDirectory, file);
-      filesystem.copy(sbPreviewSourcePath, destinationPath, {
-        overwrite: true
-      });
-    });
-  }
+  //   if (gluestackOptions.includes(selectedOptions.styleLibrary)) {
+  //     filesToReplace.push('preview.js');
+  //   }
+
+  //   filesToReplace.forEach(file => {
+  //     const sbWebPreviewSourcePath = filesystem.path(sourceWebDirectory, file);
+  //     const destinationWebPath = filesystem.path(destinationWebDirectory, file);
+  //     const sbMobilePreviewSourcePath = filesystem.path(
+  //       sourceMobileDirectory,
+  //       file
+  //     );
+  //     const destinationMobilePath = filesystem.path(
+  //       destinationMobileDirectory,
+  //       file
+  //     );
+  //     filesystem.copy(sbWebPreviewSourcePath, destinationWebPath, {
+  //       overwrite: true
+  //     });
+  //     filesystem.copy(sbMobilePreviewSourcePath, destinationMobilePath, {
+  //       overwrite: true
+  //     });
+  // });
+  // }
 
   await yarn.run('prettify:write');
 
