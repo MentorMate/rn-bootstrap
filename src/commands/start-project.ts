@@ -88,99 +88,104 @@ const startProject = async (toolbox: RnBootstrapToolbox) => {
     await yarn.add(dependenciesToInstall.devDependencies, { dev: true });
   }
 
-  // Install storybook and all its dependencies if selected.
+  await toolbox.renameProject(projectName, bundleId);
+  print.info('Your project has been automatically renamed.');
+
+  await yarn.run('prettify:write');
+
+  !IS_WINDOWS && (await yarn.run('pod-install'));
+
+  print.info(
+    'Please note you might have to use Xcode to change the iOS bundle ID!'
+  );
+  print.info('Screenshot for reference: https://bit.ly/ios-bundle-id-change');
+
+  const isGluestackEjected =
+    selectedOptions.styleLibrary === StyleLibraryChoice.GluestackUIEjected;
+
+  // Eject theme if GluestackUIEjected was selected.
+  if (isGluestackEjected) {
+    print.info('Initiating theme config ejection...');
+    try {
+      await spawnProgress('npx gluestack-ui-scripts eject-theme');
+    } catch {
+      print.error(
+        'Gluestack Ejected still awaiting for fix from gluestack team! This error doesn"t break the build.'
+      );
+    }
+  }
+
   if (selectedOptions.storybook === StorybookChoice.withStorybook) {
     print.info('Creating storybook mobile...');
     await spawnProgress('npx sb@latest init --type react_native');
 
     filesystem.rename('.storybook', '.storybookMobile');
 
-    print.info('Creating storybook web...');
-    spawn('npx', ['sb@latest', 'init', '--type', 'react'], {
-      stdio: 'inherit',
-      shell: true
-    });
-
     // Add storybook script to package.json.
     const packageJsonPath = filesystem.path(process.cwd(), 'package.json');
     const packageJson = filesystem.read(packageJsonPath, 'json');
     packageJson.scripts['storybook:mobile'] =
       "cross-env STORYBOOK_ENABLED='true' yarn start";
-    packageJson.scripts['storybook:web'] =
-      'start-storybook -p 6006 -c .storybook';
     filesystem.write(packageJsonPath, packageJson, { jsonIndent: 2 });
+
+    print.info('Creating storybook web...');
+    // Wrap the spawn command in a promise
+    const storybookWebPromise = new Promise<void>((resolve, reject) => {
+      const storybookWebProcess = spawn(
+        'npx',
+        ['sb@latest', 'init', '--type', 'react'],
+        {
+          stdio: 'inherit',
+          shell: true,
+          env: {
+            ...process.env,
+            CI: 'true'
+          }
+        }
+      );
+
+      storybookWebProcess.on('close', code => {
+        if (code === 0) {
+          resolve();
+        } else {
+          reject(
+            new Error(
+              `Storybook web initialization failed with exit code ${code}`
+            )
+          );
+        }
+      });
+    });
+    // Wait for the promise to resolve
+    await storybookWebPromise;
+
+    //Replace storybook files with preconfigured ones if selected.
+    if (gluestackOptions.includes(selectedOptions.styleLibrary)) {
+      const sourceMobilePreviewPath = filesystem.path(
+        process.cwd(),
+        'config',
+        'storybook',
+        'preview.js'
+      );
+      const destinationMobilePreviewPath = filesystem.path(
+        process.cwd(),
+        '.storybookMobile',
+        'preview.js'
+      );
+
+      filesystem.copy(sourceMobilePreviewPath, destinationMobilePreviewPath, {
+        overwrite: true
+      });
+    }
   }
 
-  await toolbox.renameProject(projectName, bundleId);
+  const packageJsonPath = filesystem.path(process.cwd(), 'package.json');
+  const packageJson = filesystem.read(packageJsonPath, 'json');
+  const isViteSelected = '@storybook/react-vite' in packageJson.devDependencies;
 
-  // Replace storybook files with preconfigured ones if selected.
-  // if (selectedOptions.storybook === StorybookChoice.withStorybook) {
-  //   const sourceWebDirectory = filesystem.path(
-  //     process.cwd(),
-  //     'config',
-  //     'storybook'
-  //   );
-  //   const destinationWebDirectory = filesystem.path(
-  //     process.cwd(),
-  //     '.storybook'
-  //   );
+  isViteSelected && (await spawnProgress('yarn add vite --dev'));
 
-  //   const sourceMobileDirectory = filesystem.path(
-  //     process.cwd(),
-  //     'config',
-  //     'ondevice'
-  //   );
-  //   const destinationMobileDirectory = filesystem.path(
-  //     process.cwd(),
-  //     '.ondevice'
-  //   );
-
-  //   // List of files to replace based on the selected options. Add more here if needed.
-  //   let filesToReplace: string[] = ['main.js'];
-
-  //   if (gluestackOptions.includes(selectedOptions.styleLibrary)) {
-  //     filesToReplace.push('preview.js');
-  //   }
-
-  //   filesToReplace.forEach(file => {
-  //     const sbWebPreviewSourcePath = filesystem.path(sourceWebDirectory, file);
-  //     const destinationWebPath = filesystem.path(destinationWebDirectory, file);
-  //     const sbMobilePreviewSourcePath = filesystem.path(
-  //       sourceMobileDirectory,
-  //       file
-  //     );
-  //     const destinationMobilePath = filesystem.path(
-  //       destinationMobileDirectory,
-  //       file
-  //     );
-  //     filesystem.copy(sbWebPreviewSourcePath, destinationWebPath, {
-  //       overwrite: true
-  //     });
-  //     filesystem.copy(sbMobilePreviewSourcePath, destinationMobilePath, {
-  //       overwrite: true
-  //     });
-  // });
-  // }
-
-  await yarn.run('prettify:write');
-
-  !IS_WINDOWS && (await yarn.run('pod-install'));
-
-  print.info('Your project has been automatically renamed.');
-  print.info(
-    'Please note you might have to use Xcode to change the iOS bundle ID!'
-  );
-  const isGluestackEjected =
-    selectedOptions.styleLibrary === StyleLibraryChoice.GluestackUIEjected;
-
-  print.info('Screenshot for reference: https://bit.ly/ios-bundle-id-change');
-  print.success(`Setup${isGluestackEjected ? ' is almost' : ''} done.`);
-
-  // Eject theme if GluestackUIEjected was selected.
-  if (isGluestackEjected) {
-    print.info('Initiating theme config ejection...');
-    await spawnProgress('npx gluestack-ui-scripts eject-theme');
-  }
+  print.success('Setup is done.');
 };
 
 module.exports = command;

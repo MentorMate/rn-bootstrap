@@ -107,7 +107,7 @@ const getFileNameMatcher = (fileName: string) => {
 export const SelectionToOptionalFilePathsMap = {
   [StorybookChoice.withStorybook]: [
     getFullPathMatcher('config/storybook/'),
-    getFullPathMatcher('config/ondevice/')
+    getFileNameMatcher('App.storybook.tsx')
   ],
   [StateLibraryChoice.ReduxToolkit]: [getFullPathMatcher('src/common/store/')],
   [StateLibraryChoice.ReduxToolkitWithQuery]: [
