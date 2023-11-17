@@ -159,23 +159,32 @@ const startProject = async (toolbox: RnBootstrapToolbox) => {
     // Wait for the promise to resolve
     await storybookWebPromise;
 
-    //Replace storybook files with preconfigured ones if selected.
-    if (gluestackOptions.includes(selectedOptions.styleLibrary)) {
-      const sourceMobilePreviewPath = filesystem.path(
+    //Replace storybook files with preconfigured ones
+    const replaceFile = (sourceFile: string, destinationFile: string) => {
+      const sourceDirectory = filesystem.path(
         process.cwd(),
         'config',
         'storybook',
-        'preview.js'
+        sourceFile
       );
-      const destinationMobilePreviewPath = filesystem.path(
+      const destinationDirectory = filesystem.path(
         process.cwd(),
-        '.storybookMobile',
-        'preview.js'
+        destinationFile
       );
-
-      filesystem.copy(sourceMobilePreviewPath, destinationMobilePreviewPath, {
+      filesystem.copy(sourceDirectory, destinationDirectory, {
         overwrite: true
       });
+    };
+
+    replaceFile('main.ts', '.storybook/main.ts');
+
+    if (gluestackOptions.includes(selectedOptions.styleLibrary)) {
+      replaceFile('preview.tsx', '.storybook/preview.ts');
+      filesystem.rename(
+        `${process.cwd()}/.storybook/preview.ts`,
+        'preview.tsx'
+      );
+      replaceFile('preview.js', '.storybookMobile/preview.js');
     }
   }
 
