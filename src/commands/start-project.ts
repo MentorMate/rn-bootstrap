@@ -121,13 +121,6 @@ const startProject = async (toolbox: RnBootstrapToolbox) => {
 
     filesystem.rename('.storybook', '.storybookMobile');
 
-    // Add storybook script to package.json.
-    const packageJsonPath = filesystem.path(process.cwd(), 'package.json');
-    const packageJson = filesystem.read(packageJsonPath, 'json');
-    packageJson.scripts['storybook:mobile'] =
-      "cross-env STORYBOOK_ENABLED='true' yarn start";
-    filesystem.write(packageJsonPath, packageJson, { jsonIndent: 2 });
-
     print.info('Creating storybook web...');
     // Wrap the spawn command in a promise
     const storybookWebPromise = new Promise<void>((resolve, reject) => {
@@ -159,6 +152,18 @@ const startProject = async (toolbox: RnBootstrapToolbox) => {
     // Wait for the promise to resolve
     await storybookWebPromise;
 
+    // Add storybook script to package.json.
+    const packageJsonPath = filesystem.path(process.cwd(), 'package.json');
+    const packageJson = filesystem.read(packageJsonPath, 'json');
+    packageJson.scripts['storybook:mobile'] =
+      "cross-env STORYBOOK_ENABLED='true' yarn start";
+    filesystem.write(packageJsonPath, packageJson, { jsonIndent: 2 });
+
+    // Check if vite is selected
+    const isViteSelected =
+      '@storybook/react-vite' in packageJson.devDependencies;
+    isViteSelected && (await spawnProgress('yarn add vite --dev'));
+
     //Replace storybook files with preconfigured ones
     const replaceFile = (sourceFile: string, destinationFile: string) => {
       const sourceDirectory = filesystem.path(
@@ -176,7 +181,14 @@ const startProject = async (toolbox: RnBootstrapToolbox) => {
       });
     };
 
-    replaceFile('main.ts', '.storybook/main.ts');
+    if (isViteSelected) {
+      const viteConfigPath = filesystem.path(process.cwd(), 'vite.config.ts');
+      filesystem.write(viteConfigPath, '');
+
+      replaceFile('vite.config.ts', 'vite.config.ts');
+    } else {
+      replaceFile('main.ts', '.storybook/main.ts');
+    }
 
     if (gluestackOptions.includes(selectedOptions.styleLibrary)) {
       replaceFile('preview.tsx', '.storybook/preview.ts');
@@ -187,12 +199,6 @@ const startProject = async (toolbox: RnBootstrapToolbox) => {
       replaceFile('preview.js', '.storybookMobile/preview.js');
     }
   }
-
-  const packageJsonPath = filesystem.path(process.cwd(), 'package.json');
-  const packageJson = filesystem.read(packageJsonPath, 'json');
-  const isViteSelected = '@storybook/react-vite' in packageJson.devDependencies;
-
-  isViteSelected && (await spawnProgress('yarn add vite --dev'));
 
   print.success('Setup is done.');
 };
