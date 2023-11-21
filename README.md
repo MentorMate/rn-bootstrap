@@ -20,7 +20,8 @@ When starting a new project with `rn-bootstrap` it automatically installs and se
 - React Native
 - TypeScript
 - React Navigation - read more [here](#Navigation)
-- Styles(optional) - styled-components vs Stylesheet vs Gluestack - read more [here](#Styles)
+- Styles (optional) - styled-components vs Stylesheet vs Gluestack - read more [here](#Styles)
+- Storybook (optional) - workshop for building UI components - read more [here](#Storybook)
 - Redux State management(optional) - read more [here](#State-Management)
 - Jest - unit test setup, threshold for coverage - read more [here](#Testing)
 - Predefined environments - read more [here](#Environments)
