@@ -71,5 +71,12 @@
   "prettier": {
     "semi": true,
     "singleQuote": true
-  }
+  },
+  "keywords": [
+    "boilerplate",
+    "cli",
+    "themed",
+    "react-native",
+    "templates"
+  ]
 }
