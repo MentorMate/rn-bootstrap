@@ -1,5 +1,14 @@
 # Changelog
 
+## [3.2.4](https://github.com/MentorMate/rn-bootstrap/compare/v3.2.3...v3.2.4) (2023-11-21)
+
+
+### Miscellaneous
+
+* add keywords for npm registry ([a74d823](https://github.com/MentorMate/rn-bootstrap/commit/a74d823f74d94b9c020d8d7bb8ddc78aa8f40c4c))
+* add themed ([a74d823](https://github.com/MentorMate/rn-bootstrap/commit/a74d823f74d94b9c020d8d7bb8ddc78aa8f40c4c))
+* update docs ([d255fa9](https://github.com/MentorMate/rn-bootstrap/commit/d255fa97fa54ba6cd658d5eecc7c163080bfe723))
+
 ## [3.2.3](https://github.com/MentorMate/rn-bootstrap/compare/v3.2.2...v3.2.3) (2023-11-21)
 
 
