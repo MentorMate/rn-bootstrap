@@ -50,7 +50,7 @@ const showHelp = () => {
 };
 
 const startProject = async (toolbox: RnBootstrapToolbox) => {
-  const { prompt, print, filesystem } = toolbox;
+  const { prompt, print, filesystem, replaceFile } = toolbox;
 
   const projectName = toolbox.getProjectName();
   const bundleId = toolbox.getBundleId();
@@ -157,7 +157,9 @@ const startProject = async (toolbox: RnBootstrapToolbox) => {
     const packageJson = filesystem.read(packageJsonPath, 'json');
     packageJson.scripts['storybook:mobile'] =
       "cross-env STORYBOOK_ENABLED='true' yarn start";
-    filesystem.write(packageJsonPath, packageJson, { jsonIndent: 2 });
+    filesystem.write(packageJsonPath, packageJson, {
+      jsonIndent: 2
+    });
 
     // Check if vite is selected
     const isViteSelected =
@@ -165,22 +167,6 @@ const startProject = async (toolbox: RnBootstrapToolbox) => {
     isViteSelected && (await spawnProgress('yarn add vite --dev'));
 
     //Replace storybook files with preconfigured ones
-    const replaceFile = (sourceFile: string, destinationFile: string) => {
-      const sourceDirectory = filesystem.path(
-        process.cwd(),
-        'config',
-        'storybook',
-        sourceFile
-      );
-      const destinationDirectory = filesystem.path(
-        process.cwd(),
-        destinationFile
-      );
-      filesystem.copy(sourceDirectory, destinationDirectory, {
-        overwrite: true
-      });
-    };
-
     if (isViteSelected) {
       const viteConfigPath = filesystem.path(process.cwd(), 'vite.config.ts');
       filesystem.write(viteConfigPath, '');
@@ -198,9 +184,15 @@ const startProject = async (toolbox: RnBootstrapToolbox) => {
       );
       replaceFile('preview.js', '.storybookMobile/preview.js');
     }
+
+    print.info('Removing storybook config folder reference...');
+    toolbox.filesystem.remove('config/storybook');
+    print.success(
+      print.checkmark + ' Storybook config folder reference removed!'
+    );
   }
 
-  print.success('Setup is done.');
+  print.success(print.checkmark + ' Setup is done.');
 };
 
 module.exports = command;

@@ -15,6 +15,7 @@ export interface RnBootstrapToolbox
   ): void;
   renameProject(projectName: string, bundleIdentifier: string): Promise<string>;
   getProjectName(): string | never;
+  replaceFile(sourceFile: string, destinationFile: string): void;
   getBundleId(): string | never;
   makeRcFile(selectedOptions: StartProjectOptionSelectionResult): void;
   CLI_PATH: string;
