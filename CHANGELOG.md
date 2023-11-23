@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.2.5](https://github.com/MentorMate/rn-bootstrap/compare/v3.2.4...v3.2.5) (2023-11-23)
+
+
+### Bug Fixes
+
+* storybook init process ([71c8a61](https://github.com/MentorMate/rn-bootstrap/commit/71c8a61914848a216975d2be359cf28a1532c898))
+
 ## [3.2.4](https://github.com/MentorMate/rn-bootstrap/compare/v3.2.3...v3.2.4) (2023-11-21)
 
 
