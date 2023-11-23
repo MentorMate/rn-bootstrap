@@ -22,14 +22,14 @@ const config: StorybookConfig = {
     autodocs: 'tag',
   },
 
-  webpackFinal: async config => {
-    if (config.resolve) {
-      config.resolve.alias = {
-        ...config.resolve.alias,
+  webpackFinal: async cfg => {
+    if (cfg.resolve) {
+      cfg.resolve.alias = {
+        ...cfg.resolve.alias,
         'react-native$': 'react-native-web',
       };
     }
-    return config;
+    return cfg;
   },
 };
 
