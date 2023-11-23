@@ -1,3 +1,4 @@
+/* eslint-disable react/react-in-jsx-scope */
 import type { Preview } from '@storybook/react';
 {{#if hasGluestackUICore}}
 import { GluestackUIProvider } from '@gluestack-ui/themed';
@@ -9,7 +10,7 @@ import { StyleSheet, View } from 'react-native';
   {{#if hasGluestackUIDefaultTheme}}
   import {config } from '@gluestack-ui/config';
   {{else if hasGluestackUIEjected}}
-  import { config } from '../config/gluestack-ui.config';
+  import { config } from 'config/gluestack-ui.config';
   {{/if}}
 {{/if}}
 
