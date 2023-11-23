@@ -189,12 +189,12 @@ const startProject = async (toolbox: RnBootstrapToolbox) => {
       );
       // Remove files with specified extensions from the 'src/stories' folder
       const extensionsToRemove = ['ts', 'tsx', 'css'];
-      const files = filesystem.list('src/stories');
-      files
-        ?.filter(file =>
-          extensionsToRemove.some(ext => file.endsWith(`.${ext}`))
+      const stories = filesystem.list('src/stories');
+      stories
+        ?.filter(storyFiles =>
+          extensionsToRemove.some(ext => storyFiles.endsWith(`.${ext}`))
         )
-        .forEach(file => filesystem.remove(`src/stories/${file}`));
+        .forEach(storyFile => filesystem.remove(`src/stories/${storyFile}`));
       replaceFile('gluestackExamples/storiesWeb', 'src/stories');
 
       // Replace storybook mobile files with preconfigured ones specific for gluestack
