@@ -114,9 +114,11 @@ In case you want to add react-navigation example code in the project:
   - In order to run storybook web: `yarn storybook`
     - `Windows issues:` Please note that npm uses cmd by default and that doesn't support command substitution, so if you want to leverage that,
       then you need to update your .npmrc to set the script-shell to powershell. [Learn more](https://github.com/kentcdodds/cross-env/issues/192#issuecomment-513341729)
-  - If you add new stories you either need to have the watcher running or run the stories loader
-    - To update the stories one time: `yarn storybook-generate`
-    - To listen the stories files for updates: `yarn storybook-watch`
+  - If you add new stories, the web version usually auto-updates, so manual commands may not be needed. However, for mobile devices, you'll need to     either have the watcher running or run the stories loader.
+    - To update the stories one time on web: `yarn storybook-generate`
+    - To listen to the stories files for updates on web: `yarn storybook-watch`
+    - To update the stories one time on mobile devices: `yarn storybook-generate:mobile`
+    - To listen to the stories files for updates on mobile devices: `yarn storybook-watch:mobile`
 
 #### `State Management`
 

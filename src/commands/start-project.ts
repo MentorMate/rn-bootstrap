@@ -157,6 +157,10 @@ const startProject = async (toolbox: RnBootstrapToolbox) => {
     const packageJson = filesystem.read(packageJsonPath, 'json');
     packageJson.scripts['storybook:mobile'] =
       "cross-env STORYBOOK_ENABLED='true' yarn start";
+    packageJson.scripts['storybook-watch:mobile'] =
+      'sb-rn-watcher -c .storybookMobile';
+    packageJson.scripts['storybook-generate:mobile'] =
+      'sb-rn-get-stories -c .storybookMobile';
     filesystem.write(packageJsonPath, packageJson, { jsonIndent: 2 });
 
     // Check if vite is selected
@@ -191,13 +195,22 @@ const startProject = async (toolbox: RnBootstrapToolbox) => {
     }
 
     if (gluestackOptions.includes(selectedOptions.styleLibrary)) {
+      // Replace storybook web files with preconfigured ones specific for gluestack
       replaceFile('preview.tsx', '.storybook/preview.ts');
       filesystem.rename(
         `${process.cwd()}/.storybook/preview.ts`,
         'preview.tsx'
       );
+      filesystem.remove('src/stories/');
+      replaceFile('gluestackExamples/storiesWeb', 'src/stories');
+
+      // Replace storybook mobile files with preconfigured ones specific for gluestack
       replaceFile('preview.js', '.storybookMobile/preview.js');
+      filesystem.remove('.storybookMobile/stories/');
+      replaceFile('gluestackExamples/stories', '.storybookMobile/stories');
     }
+
+    filesystem.remove(`${process.cwd()}/config/storybook`);
   }
 
   print.success('Setup is done.');
