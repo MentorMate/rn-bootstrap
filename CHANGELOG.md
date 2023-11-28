@@ -1,5 +1,17 @@
 # Changelog
 
+## [3.2.6](https://github.com/MentorMate/rn-bootstrap/compare/v3.2.5...v3.2.6) (2023-11-28)
+
+
+### Miscellaneous
+
+* addressed comment regarding naming improvements ([c73b2f7](https://github.com/MentorMate/rn-bootstrap/commit/c73b2f7e8ace8fcc4d475f11b0965aa2a4d4b195))
+* addressed requested change regarding file extensions ([cac92a7](https://github.com/MentorMate/rn-bootstrap/commit/cac92a7e4a7b133a8412b736c6ab77b5caad9a84))
+* improved storybook file replacement logic ([10cc05f](https://github.com/MentorMate/rn-bootstrap/commit/10cc05f43ce4fc4d51bfe3ec4e8755019e0198df))
+* remodel storybook options & remove web addon ([37792da](https://github.com/MentorMate/rn-bootstrap/commit/37792da4b7b7f855d94961c8d570fca077f5e48e))
+* update readme file ([d6a2a2d](https://github.com/MentorMate/rn-bootstrap/commit/d6a2a2d4c8dd5cf756813992f073db1d04b5807f))
+* updated storybook export ([744406b](https://github.com/MentorMate/rn-bootstrap/commit/744406b503035184e53c6dbd94d8437ea90a3572))
+
 ## [3.2.5](https://github.com/MentorMate/rn-bootstrap/compare/v3.2.4...v3.2.5) (2023-11-23)
 
 
