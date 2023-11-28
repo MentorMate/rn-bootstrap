@@ -89,7 +89,7 @@ const startProject = async (toolbox: RnBootstrapToolbox) => {
   }
 
   await toolbox.renameProject(projectName, bundleId);
-  print.info('Your project has been automatically renamed.');
+  print.highlight('Your project has been automatically renamed.');
 
   await yarn.run('prettify:write');
 
@@ -105,7 +105,7 @@ const startProject = async (toolbox: RnBootstrapToolbox) => {
 
   // Eject theme if GluestackUIEjected was selected.
   if (isGluestackEjected) {
-    print.info('Initiating theme config ejection...');
+    print.highlight('Initiating theme config ejection...');
     try {
       await spawnProgress('npx gluestack-ui-scripts eject-theme');
     } catch {
@@ -116,78 +116,28 @@ const startProject = async (toolbox: RnBootstrapToolbox) => {
   }
 
   if (selectedOptions.storybook === StorybookChoice.withStorybook) {
-    print.info('Creating storybook mobile...');
-    await spawnProgress('npx sb@latest init --type react_native');
-
-    filesystem.rename('.storybook', '.storybookMobile');
-
-    print.info('Creating storybook web...');
-    // Wrap the spawn command in a promise
-    const storybookWebPromise = new Promise<void>((resolve, reject) => {
-      const storybookWebProcess = spawn(
-        'npx',
-        ['sb@latest', 'init', '--type', 'react'],
-        {
-          stdio: 'inherit',
-          shell: true,
-          env: {
-            ...process.env,
-            CI: 'true'
-          }
-        }
-      );
-
-      storybookWebProcess.on('close', code => {
-        if (code === 0) {
-          resolve();
-        } else {
-          reject(
-            new Error(
-              `Storybook web initialization failed with exit code ${code}`
-            )
-          );
-        }
-      });
-    });
-    // Wait for the promise to resolve
-    await storybookWebPromise;
+    print.highlight('Creating storybook...');
+    await spawnProgress('npx sb@latest init');
 
     // Add storybook script to package.json.
     const packageJsonPath = filesystem.path(process.cwd(), 'package.json');
     const packageJson = filesystem.read(packageJsonPath, 'json');
-    packageJson.scripts['storybook:mobile'] =
+    packageJson.scripts['storybook'] =
       "cross-env STORYBOOK_ENABLED='true' yarn start";
     filesystem.write(packageJsonPath, packageJson, {
       jsonIndent: 2
     });
 
-    // Check if vite is selected
-    const isViteSelected =
-      '@storybook/react-vite' in packageJson.devDependencies;
-    isViteSelected && (await spawnProgress('yarn add vite --dev'));
-
-    //Replace storybook files with preconfigured ones
-    if (isViteSelected) {
-      const viteConfigPath = filesystem.path(process.cwd(), 'vite.config.ts');
-      filesystem.write(viteConfigPath, '');
-
-      replaceFile('vite.config.ts', 'vite.config.ts');
-    } else {
-      replaceFile('main.ts', '.storybook/main.ts');
-    }
-
     if (gluestackOptions.includes(selectedOptions.styleLibrary)) {
-      replaceFile('preview.tsx', '.storybook/preview.ts');
-      filesystem.rename(
-        `${process.cwd()}/.storybook/preview.ts`,
-        'preview.tsx'
-      );
-      replaceFile('preview.js', '.storybookMobile/preview.js');
+      // Replace storybook files with preconfigured ones specific for gluestack
+      replaceFile('preview.js', '.storybook/preview.js');
+      filesystem.remove('.storybook/stories/');
+      replaceFile('gluestackStories', '.storybook/stories');
     }
 
     print.info('Removing storybook config folder reference...');
     toolbox.filesystem.remove('config/storybook');
-    print.success(
+    print.highlight(
       print.checkmark + ' Storybook config folder reference removed!'
     );
   }

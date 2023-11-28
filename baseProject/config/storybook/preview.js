@@ -1,4 +1,5 @@
 /* eslint-disable react/react-in-jsx-scope */
+import React from 'react';
 {{#if hasGluestackUICore}}
 import { GluestackUIProvider } from '@gluestack-ui/themed';
 import { StyleSheet, View } from 'react-native';

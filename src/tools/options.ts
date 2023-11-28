@@ -20,8 +20,8 @@ export enum StyleLibraryChoice {
 }
 
 export enum StorybookChoice {
-  withStorybook = 'Storybook',
-  withoutStorybook = 'No Storybook'
+  withStorybook = 'Yes',
+  withoutStorybook = 'No'
 }
 
 export enum StateLibraryChoice {

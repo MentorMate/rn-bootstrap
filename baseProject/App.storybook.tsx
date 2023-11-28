@@ -1,1 +1,1 @@
-export { default } from './.storybookMobile';
+export { default } from './.storybook';
