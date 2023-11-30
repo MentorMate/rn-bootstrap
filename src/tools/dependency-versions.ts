@@ -25,11 +25,4 @@ export const glueStackUICoreDeps = [
   'react-native-svg@14.0.0'
 ];
 
-export const storybookDevDeps = [
-  'cross-env',
-  'react-dom',
-  'react-native-web',
-  'babel-plugin-react-native-web',
-  '@storybook/addon-react-native-web',
-  'metro-react-native-babel-preset'
-];
+export const storybookDevDeps = ['cross-env'];
