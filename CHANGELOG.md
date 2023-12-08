@@ -1,5 +1,17 @@
 # Changelog
 
+## [3.2.7](https://github.com/MentorMate/rn-bootstrap/compare/v3.2.6...v3.2.7) (2023-12-08)
+
+
+### Bug Fixes
+
+* resolved jest errors ([74a4faf](https://github.com/MentorMate/rn-bootstrap/commit/74a4faf10b4201fe16d14c5bb58951f0c37149c8))
+
+
+### Miscellaneous
+
+* updated jest config ([e907db3](https://github.com/MentorMate/rn-bootstrap/commit/e907db30da32fba2d5cd8841d2e5075ffa7e422f))
+
 ## [3.2.6](https://github.com/MentorMate/rn-bootstrap/compare/v3.2.5...v3.2.6) (2023-11-28)
 
 
