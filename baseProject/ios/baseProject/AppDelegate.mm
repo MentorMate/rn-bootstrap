@@ -18,9 +18,7 @@
 {
   return [self getBundleURL];
 }
-- (NSURL *)getBundleURL{
-  return [self getBundleURL];
-}
+
 - (NSURL *)getBundleURL
 {
 #if DEBUG
