@@ -1,4 +1,10 @@
 import 'react-native-gesture-handler';
+{{#if hasReactotron}}
+if (__DEV__) {
+  const Reactotron = require('./reactotronConfig').default;
+  Reactotron.log('Reactotron Configured');
+}
+{{/if}}
 import React from 'react';
 import { useColorScheme, SafeAreaView, StatusBar, } from 'react-native';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
@@ -21,6 +27,12 @@ import { GluestackUIProvider } from '@gluestack-ui/themed';
   import {config } from '@gluestack-ui/config';
   {{else if hasGluestackUIEjected}}
   import { config } from './config/gluestack-ui.config';
+  {{/if}}
+{{/if}}
+{{#if hasReactotron}}
+  {{#if hasStorybook}}
+import StorybookUIRoot from './.storybook';
+import Reactotron from './reactotronConfig';
   {{/if}}
 {{/if}}
 
@@ -50,4 +62,12 @@ const App = () => {
   );
 };
 
+{{#if hasReactotron}}
+  {{#if hasStorybook}}
+    export default Reactotron.storybookSwitcher(StorybookUIRoot)(App);
+  {{else}}
+    export default App;
+  {{/if}}
+{{else}}
 export default App;
+{{/if}}
