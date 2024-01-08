@@ -1,6 +1,17 @@
-import { configureStore, createReducer, ThunkAction, Action } from '@reduxjs/toolkit';
+import { 
+  configureStore, 
+  createReducer,
+  ThunkAction, 
+  Action, 
+  {{#if hasReactotron}}
+  StoreEnhancer
+  {{/if}}
+} from '@reduxjs/toolkit';
 {{#if hasRTKQuery}}
 import {postApi} from '../services/api/api'
+{{/if}}
+{{#if hasReactotron}}
+import Reactotron from '../../../reactotronConfig';
 {{/if}}
 
 export const store = configureStore({
@@ -11,6 +22,9 @@ export const store = configureStore({
     {{/if}}
   },
   middleware: {{#if hasRTKQuery}}(getDefaultMiddleware) => getDefaultMiddleware().concat(postApi.middleware),{{else}}[],{{/if}}
+  {{#if hasReactotron}}
+  enhancers: [Reactotron.createEnhancer?.()] as StoreEnhancer[],
+  {{/if}}
 });
 
 export type AppDispatch = typeof store.dispatch;
