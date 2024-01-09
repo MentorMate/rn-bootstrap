@@ -8,7 +8,7 @@ import {name as appName} from './app.json';
 Reactotron.setAsyncStorageHandler(AsyncStorage)
   .use(trackGlobalErrors())
   .configure({
-    name: 'appName'
+    name: appName
   }) // controls connection & communication settings
   .useReactNative({
     storybook: true,
