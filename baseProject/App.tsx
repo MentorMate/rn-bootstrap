@@ -1,10 +1,4 @@
 import 'react-native-gesture-handler';
-{{#if hasReactotron}}
-if (__DEV__) {
-  const Reactotron = require('./reactotronConfig').default;
-  Reactotron.log('Reactotron Configured');
-}
-{{/if}}
 import React from 'react';
 import { useColorScheme, SafeAreaView, StatusBar, } from 'react-native';
 import { Colors } from 'react-native/Libraries/NewAppScreen';

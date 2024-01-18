@@ -5,19 +5,22 @@ import { reactotronRedux } from 'reactotron-redux';
 {{/if}}
 import {name as appName} from './app.json';
 
-Reactotron.setAsyncStorageHandler(AsyncStorage)
-  .use(trackGlobalErrors())
-  .configure({
-    name: appName
-  }) // controls connection & communication settings
-  .useReactNative({
-    storybook: true,
-  }) // add all built-in react native plugins
-  {{#if hasReduxToolkit}}
-  .use(reactotronRedux())
-  {{/if}}
-  .connect(); // let's connect!
+if (__DEV__) {
+  Reactotron.setAsyncStorageHandler(AsyncStorage)
+    .use(trackGlobalErrors())
+    .configure({
+      name: appName
+    }) // controls connection & communication settings
+    .useReactNative({
+      storybook: true,
+    }) // add all built-in react native plugins
+    {{#if hasReduxToolkit}}
+    .use(reactotronRedux())
+    {{/if}}
+    .connect()
+    .clear();
 
-console.tron = Reactotron;
+  console.tron = Reactotron;
+}
 
 export default Reactotron;

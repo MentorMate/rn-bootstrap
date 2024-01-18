@@ -1,11 +1,16 @@
 import { 
+ {{#if hasRTKQuery}}
+ configureStore, 
+ createReducer,
+ ThunkAction, 
+ Action,
+{{else}}
   configureStore, 
   createReducer,
   ThunkAction, 
-  Action, 
-  {{#if hasReactotron}}
-  StoreEnhancer
-  {{/if}}
+  Action,
+  Tuple 
+{{/if}}
 } from '@reduxjs/toolkit';
 {{#if hasRTKQuery}}
 import {postApi} from '../services/api/api'
@@ -21,9 +26,9 @@ export const store = configureStore({
     [postApi.reducerPath]: postApi.reducer,
     {{/if}}
   },
-  middleware: {{#if hasRTKQuery}}(getDefaultMiddleware) => getDefaultMiddleware().concat(postApi.middleware),{{else}}[],{{/if}}
+  middleware: {{#if hasRTKQuery}}getDefaultMiddleware => getDefaultMiddleware().concat(postApi.middleware),{{else}}() => new Tuple(),{{/if}}
   {{#if hasReactotron}}
-  enhancers: [Reactotron.createEnhancer?.()] as StoreEnhancer[],
+  enhancers: defaultEnhancers => defaultEnhancers().concat(Reactotron.createEnhancer!()),
   {{/if}}
 });
 

@@ -129,7 +129,8 @@ export const SelectionToOptionalFilePathsMap = {
     getFullPathMatcher('src/common/services/')
   ],
   [ReactotronChoice.withReactotron]: [
-    getFileNameMatcher('reactotronConfig.js')
+    getFileNameMatcher('reactotronConfig.js'),
+    getFullPathMatcher('__mocks__/reactotron-react-native.ts')
   ],
   [ReactNavigationExampleChoice.WithReactNavigationExample]: [
     getFullPathMatcher('src/common/navigation/'),
