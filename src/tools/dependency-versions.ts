@@ -7,7 +7,7 @@ export const navigationDeps = [
   'react-native-screens@^3.27.0'
 ];
 
-export const reduxDeps = ['@reduxjs/toolkit@^1.9.7', 'react-redux@^8.1.3'];
+export const reduxDeps = ['@reduxjs/toolkit@^2.0.1', 'react-redux@^8.1.3'];
 
 export const styleDeps = ['styled-components@^6.1.1'];
 export const styleDevDeps = ['@types/styled-components-react-native@^5.2.5'];
@@ -26,3 +26,8 @@ export const glueStackUICoreDeps = [
 ];
 
 export const storybookDevDeps = ['cross-env'];
+
+export const reactotronDevDeps = [
+  'reactotron-react-native',
+  'reactotron-redux'
+];

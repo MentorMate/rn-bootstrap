@@ -8,7 +8,8 @@ import {
   styleDeps,
   styleDevDeps,
   glueStackUICoreDeps,
-  storybookDevDeps
+  storybookDevDeps,
+  reactotronDevDeps
 } from './dependency-versions';
 
 export enum StyleLibraryChoice {
@@ -30,6 +31,11 @@ export enum StateLibraryChoice {
   NoStateManagement = 'No State Management'
 }
 
+export enum ReactotronChoice {
+  withReactotron = 'Add Reactotron',
+  withoutReactotron = 'No Reactotron'
+}
+
 export enum ReactNavigationExampleChoice {
   WithReactNavigationExample = 'With set-up and example screens',
   WithoutReactNavigationExample = 'Without examples'
@@ -49,7 +55,8 @@ export const SelectionToDependencyNameMap = {
 
 export const SelectionToDevDependencyNameMap = {
   [StyleLibraryChoice.StyledComponents]: styleDevDeps,
-  [StorybookChoice.withStorybook]: storybookDevDeps
+  [StorybookChoice.withStorybook]: storybookDevDeps,
+  [ReactotronChoice.withReactotron]: reactotronDevDeps
 };
 
 // Maps selection to handlebars-friendly object for easier conditionals within templates.
@@ -57,6 +64,7 @@ export const SelectionToTemplateParamsMap: Partial<Record<
   | StyleLibraryChoice
   | StorybookChoice
   | StateLibraryChoice
+  | ReactotronChoice
   | ReactNavigationExampleChoice,
   Partial<TemplateParams>
 >> = {
@@ -87,6 +95,12 @@ export const SelectionToTemplateParamsMap: Partial<Record<
     hasRTKQuery: true,
     hasReduxToolkit: true
   },
+  [ReactotronChoice.withReactotron]: {
+    hasReactotron: true
+  },
+  [ReactotronChoice.withoutReactotron]: {
+    hasReactotron: false
+  },
   [ReactNavigationExampleChoice.WithReactNavigationExample]: {
     hasReactNavigationExample: true
   }
@@ -114,6 +128,10 @@ export const SelectionToOptionalFilePathsMap = {
     getFullPathMatcher('src/common/store/'),
     getFullPathMatcher('src/common/services/')
   ],
+  [ReactotronChoice.withReactotron]: [
+    getFileNameMatcher('reactotronConfig.js'),
+    getFullPathMatcher('__mocks__/reactotron-react-native.ts')
+  ],
   [ReactNavigationExampleChoice.WithReactNavigationExample]: [
     getFullPathMatcher('src/common/navigation/'),
     getFullPathMatcher('src/features/fancy-feature/'),
@@ -136,6 +154,7 @@ export const DefaultTemplateParams: TemplateParams = {
   hasStorybook: false,
   hasReduxToolkit: false,
   hasRTKQuery: false,
+  hasReactotron: false,
   hasReactNavigationExample: false
 };
 
@@ -151,6 +170,10 @@ const PromptSelectionOptions = {
   stateManagementLibrary: {
     choices: Object.values(StateLibraryChoice),
     message: 'State Management:'
+  },
+  reactotron: {
+    choices: Object.values(ReactotronChoice),
+    message: 'Reactotron:'
   },
   reactNavigationExample: {
     choices: Object.values(ReactNavigationExampleChoice),

@@ -23,6 +23,12 @@ import { GluestackUIProvider } from '@gluestack-ui/themed';
   import { config } from './config/gluestack-ui.config';
   {{/if}}
 {{/if}}
+{{#if hasReactotron}}
+  {{#if hasStorybook}}
+import StorybookUIRoot from './.storybook';
+import Reactotron from './reactotronConfig';
+  {{/if}}
+{{/if}}
 
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -50,4 +56,12 @@ const App = () => {
   );
 };
 
+{{#if hasReactotron}}
+  {{#if hasStorybook}}
+    export default Reactotron.storybookSwitcher(StorybookUIRoot)(App);
+  {{else}}
+    export default App;
+  {{/if}}
+{{else}}
 export default App;
+{{/if}}

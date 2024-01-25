@@ -8,4 +8,5 @@ export interface TemplateParams {
   hasRTKQuery: boolean;
   hasStyledComponents: boolean;
   hasReactNavigationExample: boolean;
+  hasReactotron: boolean;
 }

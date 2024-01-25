@@ -124,6 +124,11 @@ In case you want to add react-navigation example code in the project:
 - `Redux Toolkit with RTK Query` option - will include Redux Toolkit and also predefined RTK Query Example:
   Checkout `baseProject/src/common/services/api/api.ts` and the RTK Query documentation: https://redux-toolkit.js.org/rtk-query/overview
 
+#### `Reactotron`
+
+- `Reactotron` is a powerful debugger for React and React Native applications. It provides developers with an intuitive interface to monitor application state, network requests, and performance metrics.
+  `reactotronConfig.js` file will be added in the project's root for easy integration
+
 #### `Navigation`
 
 - `With set-up and example screens` option - when selected the App will automatically include an example BottomTabNavigator
