@@ -1,5 +1,24 @@
 # Changelog
 
+## [4.0.0](https://github.com/MentorMate/rn-bootstrap/compare/v3.2.7...v4.0.0) (2024-01-25)
+
+
+### ⚠ BREAKING CHANGES
+
+* react native updated to 0.73.0
+
+### Features
+
+* react native updated to 0.73.0 ([3713eac](https://github.com/MentorMate/rn-bootstrap/commit/3713eac777c4e8035154c2f4a5edf2658680e93d))
+
+
+### Miscellaneous
+
+* added missing updates ([5cbe455](https://github.com/MentorMate/rn-bootstrap/commit/5cbe455659c40617721dd216d9b8d794c6c153b5))
+* bump RN version to 0.73.2 ([2a43f08](https://github.com/MentorMate/rn-bootstrap/commit/2a43f08b5cc5b16e85638a0312dcd784e3d5adc7))
+* react-native-renatme version bump ([510181d](https://github.com/MentorMate/rn-bootstrap/commit/510181da5463c4955d655f1242bf7dd394563775))
+* updated missing deployment target ([ef1545f](https://github.com/MentorMate/rn-bootstrap/commit/ef1545f199e03fcb5bba1debf37b74d668a32255))
+
 ## [3.2.7](https://github.com/MentorMate/rn-bootstrap/compare/v3.2.6...v3.2.7) (2023-12-08)
 
 

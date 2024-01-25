@@ -1,6 +1,6 @@
 {
   "name": "@mentormate/rn-bootstrap",
-  "version": "3.2.7",
+  "version": "4.0.0",
   "description": "rn-bootstrap CLI",
   "types": "build/types/types.d.ts",
   "bin": {
