@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.0.1](https://github.com/MentorMate/rn-bootstrap/compare/v4.0.0...v4.0.1) (2024-01-25)
+
+
+### Miscellaneous
+
+* reactotron readme ([1d9187c](https://github.com/MentorMate/rn-bootstrap/commit/1d9187c0e9f2a2f1469ea60ec1f18ed2e0ffec30))
+
 ## [4.0.0](https://github.com/MentorMate/rn-bootstrap/compare/v3.2.7...v4.0.0) (2024-01-25)
 
 
