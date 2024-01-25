@@ -126,7 +126,7 @@ In case you want to add react-navigation example code in the project:
 
 #### `Reactotron`
 
-- `Reactotron` is a powerful debugger for React and React Native applications. It provides developers with an intuitive interface to monitor application state, network requests, and performance metrics.
+- `Reactotron` (Optional) is a powerful debugger for React and React Native applications. It provides developers with an intuitive interface to monitor application state, network requests, and performance metrics.
   `reactotronConfig.js` file will be added in the project's root for easy integration
 
 #### `Navigation`
