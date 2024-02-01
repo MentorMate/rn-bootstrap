@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.0.2](https://github.com/MentorMate/rn-bootstrap/compare/v4.0.1...v4.0.2) (2024-02-01)
+
+
+### Bug Fixes
+
+* cli build output ([9c994bb](https://github.com/MentorMate/rn-bootstrap/commit/9c994bb88b9fd482c404826d5e6d93192553cd9b))
+
 ## [4.0.1](https://github.com/MentorMate/rn-bootstrap/compare/v4.0.0...v4.0.1) (2024-01-25)
 
 
