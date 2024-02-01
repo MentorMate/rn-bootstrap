@@ -82,8 +82,8 @@ export const getFilePathsToExcludeFromSelectedOptions = (
 
   const dedupedExclusions = uniqWith(exclusions, isEqual);
 
-  const escapeRegExp = string => {
-    return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const escapeRegExp = (incomingString: string) => {
+    return incomingString.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
   };
 
   return map(dedupedExclusions, ({ shouldRegexp, matcher }) => {
