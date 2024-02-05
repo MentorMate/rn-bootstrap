@@ -1,5 +1,6 @@
 /* eslint-disable react/react-in-jsx-scope */
 import React from 'react';
+import type { Preview } from '@storybook/react';
 {{#if hasGluestackUICore}}
 import { GluestackUIProvider } from '@gluestack-ui/themed';
 import { StyleSheet, View } from 'react-native';
@@ -32,6 +33,13 @@ export const decorators = [
     </View>
   ),
 ];
+
+const preview: Preview = {
+  parameters: parameters,
+  decorators: decorators,
+};
+
+export default preview;
 
 const styles = StyleSheet.create({
   container: {

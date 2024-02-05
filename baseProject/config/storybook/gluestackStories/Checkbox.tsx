@@ -7,6 +7,7 @@ interface ExampleGluestackCheckboxProps {
   label?: string;
   isInvalid?: boolean;
   isDisabled?: boolean;
+  onPress?: () => void;
 }
 
 export const ExampleGluestackCheckbox = ({
@@ -15,9 +16,17 @@ export const ExampleGluestackCheckbox = ({
   label = '',
   isInvalid,
   isDisabled,
+  onPress,
 }: ExampleGluestackCheckboxProps) => {
   return (
-    <Checkbox value={value} size={size} isInvalid={isInvalid} isDisabled={isDisabled} aria-label={label}>
+    <Checkbox
+      value={value}
+      size={size}
+      isInvalid={isInvalid}
+      isDisabled={isDisabled}
+      aria-label={label}
+      onPress={onPress}
+    >
       <CheckboxIndicator mr="$2">
         <CheckboxIcon as={CheckIcon} />
       </CheckboxIndicator>
@@ -25,3 +34,4 @@ export const ExampleGluestackCheckbox = ({
     </Checkbox>
   );
 };
+

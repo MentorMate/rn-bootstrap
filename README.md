@@ -111,10 +111,8 @@ In case you want to add react-navigation example code in the project:
 
 - `Storybook` - you can design and develop individual React Native components on a device & simulator.
   - In order to run storybook : `yarn storybook`
-  - `Windows issues:` Please note that npm uses cmd by default and that doesn't support command substitution, so if you want to leverage that,then you need to update your .npmrc to set the script-shell to powershell. [Learn more](https://github.com/kentcdodds/cross-env/issues/192#issuecomment-513341729)
-  - If you add new stories you'll need to either have the watcher running or run the stories loader.
-    - To update the stories one time on mobile devices: `yarn storybook-generate`
-    - To listen to the stories files for updates on mobile devices: `yarn storybook-watch`
+  - `Windows issues:` Please note that npm uses cmd by default and that doesn't support command substitution, so if you want to leverage that, then you need to update your .npmrc to set the script-shell to powershell. [Learn more](https://github.com/kentcdodds/cross-env/issues/192#issuecomment-513341729)
+  - To generate the initial set of stories for a very first time: `yarn storybook-generate`
 
 #### `State Management`
 

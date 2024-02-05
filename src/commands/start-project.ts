@@ -17,8 +17,7 @@ import {
 import { spawnProgress } from '../tools/spawn-progress';
 import { commandFormat, RnBootstrapHeading, p } from '../tools/pretty';
 import { StartProjectOptionSelectionResult } from '../types/StartProjectOptionSelectionResult';
-import { IS_WINDOWS } from '../tools/constants';
-const { spawn } = require('child_process');
+import { IS_MAC } from '../tools/constants';
 
 const command: RnBootstrapCommand = {
   name: 'start-project',
@@ -93,8 +92,6 @@ const startProject = async (toolbox: RnBootstrapToolbox) => {
 
   await yarn.run('prettify:write');
 
-  !IS_WINDOWS && (await yarn.run('pod-install'));
-
   print.info(
     'Please note you might have to use Xcode to change the iOS bundle ID!'
   );
@@ -130,7 +127,7 @@ const startProject = async (toolbox: RnBootstrapToolbox) => {
 
     if (gluestackOptions.includes(selectedOptions.styleLibrary)) {
       // Replace storybook files with preconfigured ones specific for gluestack
-      replaceFile('preview.js', '.storybook/preview.js');
+      replaceFile('preview.tsx', '.storybook/preview.tsx');
       filesystem.remove('.storybook/stories/');
       replaceFile('gluestackStories', '.storybook/stories');
     }
@@ -141,6 +138,8 @@ const startProject = async (toolbox: RnBootstrapToolbox) => {
       print.checkmark + ' Storybook config folder reference removed!'
     );
   }
+
+  IS_MAC && (await yarn.run('pod-install'));
 
   print.success(print.checkmark + ' Setup is done.');
 };

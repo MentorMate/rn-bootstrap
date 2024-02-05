@@ -7,6 +7,7 @@ interface ExampleGluestackRadioButtonProps {
   isInvalid?: boolean;
   isDisabled?: boolean;
   label: string;
+  onPress?: () => void;
 }
 
 export const ExampleGluestackRadioButton = ({
@@ -15,12 +16,13 @@ export const ExampleGluestackRadioButton = ({
   isInvalid,
   isDisabled,
   label,
+  onPress,
 }: ExampleGluestackRadioButtonProps) => {
   return (
     <RadioGroup>
-      <Radio value={value} size={size} isDisabled={isDisabled} isInvalid={isInvalid}>
+      <Radio value={value} size={size} isDisabled={isDisabled} isInvalid={isInvalid} onPress={onPress}>
         <RadioIndicator mr="$2">
-          <RadioIcon as={CircleIcon} strokeWidth={1} />
+          <RadioIcon as={CircleIcon} />
         </RadioIndicator>
         <RadioLabel>{label}</RadioLabel>
       </Radio>

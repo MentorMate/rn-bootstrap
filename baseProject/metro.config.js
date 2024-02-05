@@ -1,35 +1,31 @@
 const {getDefaultConfig, mergeConfig} = require('@react-native/metro-config');
-
+{{#if hasStorybook}}
+const path = require('path');
+const { generate } = require('@storybook/react-native/scripts/generate');
+{{/if}}
 /**
  * Metro configuration
  * https://facebook.github.io/metro/docs/configuration
  *
  * @type {import('metro-config').MetroConfig}
  */
+
+const defaultConfig = getDefaultConfig(__dirname);
+let config = {};
 {{#if hasStorybook}}
 
-const storybookSourceExt =
-  process.env.STORYBOOK_ENABLED === 'true'
-    ? ['storybook.tsx', 'storybook.ts', 'storybook.js', 'storybook.jsx']
-    : [];
+generate({
+    configPath: path.resolve(__dirname, './.storybook'),
+  });
 
-module.exports = (async () => {
-    const defaultConfig = await getDefaultConfig(__dirname)
-    // Add the transformer option to your custom config
-    const customConfig = {
-        resolver: {
-            resolverMainFields: ['sbmodern', 'react-native', 'browser', 'main'],
-        },
-    };
-
-    if (process.env.STORYBOOK_ENABLED) {
-        defaultConfig.resolver.sourceExts = [...storybookSourceExt, ...defaultConfig.resolver.sourceExts];
-    }
-      
-    // Merge your custom config with the default config
-    return mergeConfig(defaultConfig, customConfig);
-})();
-{{else}}
-const config = {};
-module.exports = mergeConfig(getDefaultConfig(__dirname), config);
+config = {
+    transformer: {
+      unstable_allowRequireContext: true,
+    },
+    resolver: {
+      sourceExts: [...defaultConfig.resolver.sourceExts, 'mjs'],
+    },
+  };
 {{/if}}
+
+module.exports = mergeConfig(defaultConfig, config);
