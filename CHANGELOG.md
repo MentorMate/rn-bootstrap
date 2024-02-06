@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.0.3](https://github.com/MentorMate/rn-bootstrap/compare/v4.0.2...v4.0.3) (2024-02-06)
+
+
+### Miscellaneous
+
+* storybook updated to version 7 ([b646630](https://github.com/MentorMate/rn-bootstrap/commit/b646630d203010152f9b3bbb229630483c1a780d))
+
 ## [4.0.2](https://github.com/MentorMate/rn-bootstrap/compare/v4.0.1...v4.0.2) (2024-02-01)
 
 
