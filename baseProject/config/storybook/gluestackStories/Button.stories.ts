@@ -1,6 +1,7 @@
 import { ExampleGluestackButton } from './Button';
+import type { Meta, StoryObj } from '@storybook/react';
 
-const MyButtonMeta = {
+const meta = {
   title: 'Button',
   component: ExampleGluestackButton,
   argTypes: {
@@ -13,11 +14,13 @@ const MyButtonMeta = {
     isDisabled: false,
     isFocusVisible: false,
   },
-};
+} satisfies Meta<typeof ExampleGluestackButton>;
 
-export default MyButtonMeta;
+export default meta;
 
-export const Primary = {
+type Story = StoryObj<typeof meta>;
+
+export const Primary: Story = {
   args: {
     action: 'primary',
     variant: 'solid',
@@ -25,7 +28,7 @@ export const Primary = {
   },
 };
 
-export const Secondary = {
+export const Secondary: Story = {
   args: {
     action: 'secondary',
     variant: 'outline',
@@ -33,14 +36,14 @@ export const Secondary = {
   },
 };
 
-export const Large = {
+export const Large: Story = {
   args: {
     size: 'lg',
     label: 'Button',
   },
 };
 
-export const Small = {
+export const Small: Story = {
   args: {
     size: 'sm',
     label: 'Button',

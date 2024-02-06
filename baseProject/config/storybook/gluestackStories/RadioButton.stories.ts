@@ -1,40 +1,43 @@
 import { ExampleGluestackRadioButton } from './RadioButton';
+import type { Meta, StoryObj } from '@storybook/react';
 
-const MyRadioButtonMeta = {
+const meta = {
   title: 'RadioButton',
   component: ExampleGluestackRadioButton,
   argTypes: {
-    value: 'change',
+    onPress: { action: 'radio button is selected!' },
   },
   args: {
-    isInvalid: false,
-    isDisabled: false,
     size: 'md',
     label: 'Label',
   },
-};
+} satisfies Meta<typeof ExampleGluestackRadioButton>;
 
-export default MyRadioButtonMeta;
+export default meta;
+
+type Story = StoryObj<typeof meta>;
 
 export const Basic = {};
 
-export const Default = {
+export const Default: Story = {
   args: {
     value: 'change',
-    label: 'Radio button'
+    label: 'Radio button',
   },
 };
 
-export const Large = {
+export const Large: Story = {
   args: {
+    value: 'change',
     size: 'lg',
-    label: 'Radio button'
+    label: 'Radio button',
   },
 };
 
-export const Small = {
+export const Small: Story = {
   args: {
+    value: 'change',
     size: 'sm',
-    label: 'Radio button'
+    label: 'Radio button',
   },
 };

@@ -2,7 +2,7 @@ export const NAME_REGEX = /^[$A-Z_][0-9A-Z_$]*$/i;
 // tslint:disable-next-line
 export const BUNDLE_ID_REGEX = /^([a-zA-Z]([a-zA-Z0-9_])*\.)+[a-zA-Z]([a-zA-Z0-9_])*$/u;
 
-export const IS_WINDOWS = process.platform === 'win32';
+export const IS_MAC = process.platform === 'darwin';
 
 // According to react-native's CLI init command
 const JAVA_KEYWORDS = [
