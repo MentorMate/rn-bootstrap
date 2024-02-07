@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.0.4](https://github.com/MentorMate/rn-bootstrap/compare/v4.0.3...v4.0.4) (2024-02-07)
+
+
+### Miscellaneous
+
+* rn updated to 0.73.4 ([dd4dfda](https://github.com/MentorMate/rn-bootstrap/commit/dd4dfda8b51cebf6e6fceb77d79471a9eb89f3a1))
+
 ## [4.0.3](https://github.com/MentorMate/rn-bootstrap/compare/v4.0.2...v4.0.3) (2024-02-06)
 
 
