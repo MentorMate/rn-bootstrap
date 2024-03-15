@@ -1,5 +1,14 @@
 # Changelog
 
+## [4.0.5](https://github.com/MentorMate/rn-bootstrap/compare/v4.0.4...v4.0.5) (2024-03-15)
+
+
+### Miscellaneous
+
+* bump rn version to 0.73.6 ([49a0715](https://github.com/MentorMate/rn-bootstrap/commit/49a07151f10b89019131c02d3d82f26aa543a159))
+* remove package lock ([8d0f2ca](https://github.com/MentorMate/rn-bootstrap/commit/8d0f2cab3a5bf70400945d930fdfdb51c7d07bea))
+* update cli dependencies ([105b86b](https://github.com/MentorMate/rn-bootstrap/commit/105b86b4f217a15fa819a4ca8a21addf597bca8d))
+
 ## [4.0.4](https://github.com/MentorMate/rn-bootstrap/compare/v4.0.3...v4.0.4) (2024-02-07)
 
 
