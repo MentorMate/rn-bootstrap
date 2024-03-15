@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, ReactNode } from 'react';
 import { ScrollView, {{#unless hasStyledComponents}}StyleSheet, {{/unless}}Text, useColorScheme, View } from 'react-native';
 import {
   Colors,
@@ -12,7 +12,7 @@ import styled from 'styled-components/native';
 {{/if}}
 
 const Section: FunctionComponent<{
-  children: string | React.JSX.Element | React.JSX.Element[];
+  children: ReactNode;
   title: string;
 }> = ({ children, title }) => {
   return (
