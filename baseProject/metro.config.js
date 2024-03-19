@@ -14,6 +14,15 @@ const defaultConfig = getDefaultConfig(__dirname);
 let config = {};
 {{#if hasStorybook}}
 
+const storybookSourceExt =
+  process.env.STORYBOOK_ENABLED === 'true'
+    ? ['storybook.tsx', 'storybook.ts', 'storybook.js', 'storybook.jsx']
+    : [];
+
+if (process.env.STORYBOOK_ENABLED) {
+  defaultConfig.resolver.sourceExts = [...storybookSourceExt, ...defaultConfig.resolver.sourceExts];
+}
+
 generate({
     configPath: path.resolve(__dirname, './.storybook'),
   });
