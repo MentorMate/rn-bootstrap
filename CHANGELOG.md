@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.0.6](https://github.com/MentorMate/rn-bootstrap/compare/v4.0.5...v4.0.6) (2024-03-21)
+
+
+### Bug Fixes
+
+* added missing storybook metro config ([e967aec](https://github.com/MentorMate/rn-bootstrap/commit/e967aec6398b5aeba4f763598f6f4e85b958b7da))
+
 ## [4.0.5](https://github.com/MentorMate/rn-bootstrap/compare/v4.0.4...v4.0.5) (2024-03-15)
 
 
