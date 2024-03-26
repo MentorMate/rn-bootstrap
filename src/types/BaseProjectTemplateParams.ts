@@ -4,6 +4,7 @@ export interface TemplateParams {
   hasGluestackUIDefaultTheme: boolean;
   hasGluestackUIEjected: boolean;
   hasStorybook: boolean;
+  hasStorybookExample: boolean;
   hasReduxToolkit: boolean;
   hasRTKQuery: boolean;
   hasStyledComponents: boolean;

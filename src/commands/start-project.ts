@@ -112,7 +112,7 @@ const startProject = async (toolbox: RnBootstrapToolbox) => {
     }
   }
 
-  if (selectedOptions.storybook === StorybookChoice.withStorybook) {
+  if (selectedOptions.storybook !== StorybookChoice.NoStorybook) {
     print.highlight('Creating storybook...');
     await spawnProgress('npx sb@latest init');
 
@@ -125,18 +125,22 @@ const startProject = async (toolbox: RnBootstrapToolbox) => {
       jsonIndent: 2
     });
 
-    if (gluestackOptions.includes(selectedOptions.styleLibrary)) {
-      // Replace storybook files with preconfigured ones specific for gluestack
-      replaceFile('preview.tsx', '.storybook/preview.tsx');
+    if (selectedOptions.storybook === StorybookChoice.StorybookWithStories) {
+      if (gluestackOptions.includes(selectedOptions.styleLibrary)) {
+        // Replace storybook files with preconfigured ones specific for gluestack
+        replaceFile('preview.tsx', '.storybook/preview.tsx');
+        filesystem.remove('.storybook/stories/');
+        replaceFile('gluestackStories', '.storybook/stories');
+      }
+  
+      print.info('Removing storybook config folder reference...');
+      toolbox.filesystem.remove('config/storybook');
+      print.highlight(
+        print.checkmark + ' Storybook config folder reference removed!'
+      );
+    } else {
       filesystem.remove('.storybook/stories/');
-      replaceFile('gluestackStories', '.storybook/stories');
     }
-
-    print.info('Removing storybook config folder reference...');
-    toolbox.filesystem.remove('config/storybook');
-    print.highlight(
-      print.checkmark + ' Storybook config folder reference removed!'
-    );
   }
 
   IS_MAC && (await yarn.run('pod-install'));
