@@ -21,8 +21,9 @@ export enum StyleLibraryChoice {
 }
 
 export enum StorybookChoice {
-  withStorybook = 'Yes',
-  withoutStorybook = 'No'
+  Storybook = 'Storybook no examples',
+  StorybookWithStories = 'Storybook with Stories example',
+  NoStorybook = 'No Storybook' 
 }
 
 export enum StateLibraryChoice {
@@ -55,7 +56,8 @@ export const SelectionToDependencyNameMap = {
 
 export const SelectionToDevDependencyNameMap = {
   [StyleLibraryChoice.StyledComponents]: styleDevDeps,
-  [StorybookChoice.withStorybook]: storybookDevDeps,
+  [StorybookChoice.Storybook]: storybookDevDeps,
+  [StorybookChoice.StorybookWithStories]: storybookDevDeps,
   [ReactotronChoice.withReactotron]: reactotronDevDeps
 };
 
@@ -82,11 +84,12 @@ export const SelectionToTemplateParamsMap: Partial<Record<
   [StyleLibraryChoice.StyledComponents]: {
     hasStyledComponents: true
   },
-  [StorybookChoice.withStorybook]: {
-    hasStorybook: true
+  [StorybookChoice.Storybook]: {
+    hasStorybook: true,
   },
-  [StorybookChoice.withoutStorybook]: {
-    hasStorybook: false
+  [StorybookChoice.StorybookWithStories]: {
+    hasStorybook: true,
+    hasStorybookExample: true
   },
   [StateLibraryChoice.ReduxToolkit]: {
     hasReduxToolkit: true
@@ -119,7 +122,10 @@ const getFileNameMatcher = (fileName: string) => {
 // Paths from unselected options get skipped when copying the baseProject
 // You can also specify individual file names as strings
 export const SelectionToOptionalFilePathsMap = {
-  [StorybookChoice.withStorybook]: [
+  [StorybookChoice.Storybook]: [
+    getFileNameMatcher('App.storybook.tsx')
+  ],
+  [StorybookChoice.StorybookWithStories]: [
     getFullPathMatcher('config/storybook/'),
     getFileNameMatcher('App.storybook.tsx')
   ],
@@ -152,6 +158,7 @@ export const DefaultTemplateParams: TemplateParams = {
   hasGluestackUIEjected: false,
   hasStyledComponents: false,
   hasStorybook: false,
+  hasStorybookExample: false,
   hasReduxToolkit: false,
   hasRTKQuery: false,
   hasReactotron: false,
