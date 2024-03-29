@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.0.8](https://github.com/MentorMate/rn-bootstrap/compare/v4.0.7...v4.0.8) (2024-03-29)
+
+
+### Bug Fixes
+
+* resolve failing handlebars check ([9b450f6](https://github.com/MentorMate/rn-bootstrap/commit/9b450f6798b05a3ca299f27c7f925a8d983e2b08))
+
 ## [4.0.7](https://github.com/MentorMate/rn-bootstrap/compare/v4.0.6...v4.0.7) (2024-03-26)
 
 
