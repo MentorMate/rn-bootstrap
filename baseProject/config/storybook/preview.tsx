@@ -1,11 +1,7 @@
 /* eslint-disable react/react-in-jsx-scope */
 import React from 'react';
 import type { Preview } from '@storybook/react';
-{{#if hasGluestackUICore}}
-import { GluestackUIProvider } from '@gluestack-ui/themed';
-import { StyleSheet, View } from 'react-native';
-{{/if}}
-{{#if hasGluestackUI}}
+{{#if hasAnyGluestackUIOption}}
 import { GluestackUIProvider } from '@gluestack-ui/themed';
 import { StyleSheet, View } from 'react-native';
   {{#if hasGluestackUIDefaultTheme}}
@@ -29,7 +25,7 @@ export const decorators = [
     <View style={styles.container}>
       {{#if hasGluestackUI}}<GluestackUIProvider config={config}>{{else if hasGluestackUICore}}<GluestackUIProvider>{{/if}}
         <Story />
-      {{#if hasGluestackUI}}</GluestackUIProvider>{{else if hasGluestackUICore}}</GluestackUIProvider>{{/if}}
+      {{#if hasAnyGluestackUIOption}}</GluestackUIProvider>{{/if}}
     </View>
   ),
 ];

@@ -8,7 +8,7 @@ module.exports = {
     '.+\\.(css|styl|less|sass|scss|png|jpg|ttf|woff|woff2)$': 'babel-jest',
     '\\.(png|jpg|jpeg|gif|svg)$': '<rootDir>/config/jest/transformAssets.js',
   },
-  {{#if (or hasGluestackUI hasGluestackUICore)}}
+  {{#if hasAnyGluestackUIOption}}
     transformIgnorePatterns: [
       '<rootDir>/node_modules/(?!((jest-)?react-native|@react-native(-community)?)|@expo?/.*|@gluestack-ui|@gluestack-ui/.*|@legendapp/motion)',
     ],
