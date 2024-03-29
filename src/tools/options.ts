@@ -71,15 +71,18 @@ export const SelectionToTemplateParamsMap: Partial<Record<
   Partial<TemplateParams>
 >> = {
   [StyleLibraryChoice.GluestackUICore]: {
-    hasGluestackUICore: true
+    hasGluestackUICore: true,
+    hasAnyGluestackUIOption: true
   },
   [StyleLibraryChoice.GluestackUIDefault]: {
     hasGluestackUI: true,
-    hasGluestackUIDefaultTheme: true
+    hasGluestackUIDefaultTheme: true,
+    hasAnyGluestackUIOption: true
   },
   [StyleLibraryChoice.GluestackUIEjected]: {
     hasGluestackUI: true,
-    hasGluestackUIEjected: true
+    hasGluestackUIEjected: true,
+    hasAnyGluestackUIOption: true
   },
   [StyleLibraryChoice.StyledComponents]: {
     hasStyledComponents: true
@@ -156,6 +159,7 @@ export const DefaultTemplateParams: TemplateParams = {
   hasGluestackUICore: false,
   hasGluestackUIDefaultTheme: false,
   hasGluestackUIEjected: false,
+  hasAnyGluestackUIOption: false,
   hasStyledComponents: false,
   hasStorybook: false,
   hasStorybookExample: false,

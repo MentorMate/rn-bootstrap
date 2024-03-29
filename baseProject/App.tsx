@@ -12,10 +12,7 @@ import { BottomTabNavigator } from './src/common/navigation/bottomTab/BottomTabN
 {{else}}
 import { HomeContainer } from './src/features/home/container/HomeContainer'
 {{/if}}
-{{#if hasGluestackUICore}}
-import { GluestackUIProvider } from '@gluestack-ui/themed';
-{{/if}}
-{{#if hasGluestackUI}}
+{{#if hasAnyGluestackUIOption}}
   import { GluestackUIProvider } from '@gluestack-ui/themed';
   {{#if hasGluestackUIDefaultTheme}}
   import {config } from '@gluestack-ui/config';
@@ -50,7 +47,7 @@ const App = () => {
             <HomeContainer />
             {{/if}}
           </SafeAreaView>
-        {{#if hasGluestackUI}}</GluestackUIProvider>{{else if hasGluestackUICore}}</GluestackUIProvider>{{/if}}
+        {{#if hasAnyGluestackUIOption}}</GluestackUIProvider>{{/if}}
       </NavigationContainer>
     {{#if hasReduxToolkit}}</Provider>{{/if}}
   );
