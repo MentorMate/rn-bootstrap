@@ -27,6 +27,10 @@ export const glueStackUICoreDeps = [
 
 export const storybookDevDeps = ['cross-env'];
 
+export const iconsDevDeps = [
+  'lucide-react-native'
+]
+
 export const reactotronDevDeps = [
   'reactotron-react-native',
   'reactotron-redux'

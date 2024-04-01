@@ -9,7 +9,8 @@ import {
   styleDevDeps,
   glueStackUICoreDeps,
   storybookDevDeps,
-  reactotronDevDeps
+  reactotronDevDeps,
+  iconsDevDeps
 } from './dependency-versions';
 
 export enum StyleLibraryChoice {
@@ -17,13 +18,19 @@ export enum StyleLibraryChoice {
   GluestackUIDefault = 'Gluestack-UI Default',
   GluestackUIEjected = 'Gluestack-UI Ejected',
   StyledComponents = 'Styled Components',
-  StyleSheet = 'React-Native built-in StyleSheet'
+  StyleSheet = 'React-Native built-in StyleSheet',
 }
 
 export enum StorybookChoice {
   Storybook = 'Storybook no examples',
   StorybookWithStories = 'Storybook with Stories example',
   NoStorybook = 'No Storybook' 
+}
+
+export enum IconChoice {
+  withIcons = 'Yes',
+  withoutIcons = 'No',
+  
 }
 
 export enum StateLibraryChoice {
@@ -58,7 +65,8 @@ export const SelectionToDevDependencyNameMap = {
   [StyleLibraryChoice.StyledComponents]: styleDevDeps,
   [StorybookChoice.Storybook]: storybookDevDeps,
   [StorybookChoice.StorybookWithStories]: storybookDevDeps,
-  [ReactotronChoice.withReactotron]: reactotronDevDeps
+  [ReactotronChoice.withReactotron]: reactotronDevDeps,
+  [IconChoice.withIcons]: iconsDevDeps,
 };
 
 // Maps selection to handlebars-friendly object for easier conditionals within templates.
@@ -67,7 +75,8 @@ export const SelectionToTemplateParamsMap: Partial<Record<
   | StorybookChoice
   | StateLibraryChoice
   | ReactotronChoice
-  | ReactNavigationExampleChoice,
+  | ReactNavigationExampleChoice
+  | IconChoice,
   Partial<TemplateParams>
 >> = {
   [StyleLibraryChoice.GluestackUICore]: {
@@ -109,7 +118,11 @@ export const SelectionToTemplateParamsMap: Partial<Record<
   },
   [ReactNavigationExampleChoice.WithReactNavigationExample]: {
     hasReactNavigationExample: true
-  }
+  },
+  [IconChoice.withIcons]: {
+    hasIcons: true,
+  },
+  
 };
 
 const getFullPathMatcher = (partialPath: string) => {
@@ -166,7 +179,8 @@ export const DefaultTemplateParams: TemplateParams = {
   hasReduxToolkit: false,
   hasRTKQuery: false,
   hasReactotron: false,
-  hasReactNavigationExample: false
+  hasReactNavigationExample: false,
+  hasIcons: false
 };
 
 const PromptSelectionOptions = {
@@ -189,6 +203,10 @@ const PromptSelectionOptions = {
   reactNavigationExample: {
     choices: Object.values(ReactNavigationExampleChoice),
     message: 'React Navigation:'
+  },
+  icons: {
+    choices: Object.values(IconChoice),
+    message: 'Lucide icons:'
   }
 };
 

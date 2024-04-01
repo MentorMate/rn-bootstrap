@@ -1,4 +1,5 @@
 import {
+  IconChoice,
   SelectionPrompts,
   StorybookChoice,
   StyleLibraryChoice,
@@ -141,6 +142,12 @@ const startProject = async (toolbox: RnBootstrapToolbox) => {
     } else {
       filesystem.remove('.storybook/stories/');
     }
+  }
+
+  if (selectedOptions.icons === IconChoice.withIcons && 
+    (selectedOptions.styleLibrary === StyleLibraryChoice.StyleSheet || selectedOptions.styleLibrary === StyleLibraryChoice.StyledComponents)) {
+    print.highlight('Installing additional dependencies...');
+    await spawnProgress('yarn add react-native-svg@14.0.0');
   }
 
   IS_MAC && (await yarn.run('pod-install'));
