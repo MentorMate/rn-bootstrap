@@ -18,7 +18,7 @@ export enum StyleLibraryChoice {
   GluestackUIDefault = 'Gluestack-UI Default',
   GluestackUIEjected = 'Gluestack-UI Ejected',
   StyledComponents = 'Styled Components',
-  StyleSheet = 'React-Native built-in StyleSheet',
+  StyleSheet = 'React-Native built-in StyleSheet'
 }
 
 export enum StorybookChoice {
@@ -29,7 +29,7 @@ export enum StorybookChoice {
 
 export enum IconToolkitChoice {
   LucideIcons = 'Lucide Icons',
-  noIconToolkit = 'No Icon Toolkit',
+  noIconToolkit = 'No Icon Toolkit'
 }
 
 export enum StateLibraryChoice {
@@ -119,7 +119,7 @@ export const SelectionToTemplateParamsMap: Partial<Record<
     hasReactNavigationExample: true
   },
   [IconToolkitChoice.LucideIcons]: {
-    hasIconToolkit: true,
+    hasIconToolkit: true
   },
   
 };
