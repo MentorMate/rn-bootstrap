@@ -146,9 +146,8 @@ const startProject = async (toolbox: RnBootstrapToolbox) => {
 
   if (selectedOptions.icons === IconChoice.withIcons && 
     (selectedOptions.styleLibrary === StyleLibraryChoice.StyleSheet || selectedOptions.styleLibrary === StyleLibraryChoice.StyledComponents)) {
-    print.highlight('Installing additional dependencies...');
-    await spawnProgress('yarn add react-native-svg@14.0.0');
-  }
+      await spawnProgress('yarn add react-native-svg');
+    }
 
   IS_MAC && (await yarn.run('pod-install'));
 
