@@ -10,7 +10,7 @@ import {
   glueStackUICoreDeps,
   storybookDevDeps,
   reactotronDevDeps,
-  iconsDevDeps
+  lucideIconDeps
 } from './dependency-versions';
 
 export enum StyleLibraryChoice {
@@ -27,10 +27,9 @@ export enum StorybookChoice {
   NoStorybook = 'No Storybook' 
 }
 
-export enum IconChoice {
-  withIcons = 'Yes',
-  withoutIcons = 'No',
-  
+export enum IconToolkitChoice {
+  LucideIcons = 'Lucide Icons',
+  noIconToolkit = 'No Icon Toolkit',
 }
 
 export enum StateLibraryChoice {
@@ -58,15 +57,15 @@ export const SelectionToDependencyNameMap = {
   [StateLibraryChoice.ReduxToolkit]: reduxDeps,
   [StateLibraryChoice.ReduxToolkitWithQuery]: reduxDeps,
   [ReactNavigationExampleChoice.WithReactNavigationExample]: navigationDeps,
-  [ReactNavigationExampleChoice.WithoutReactNavigationExample]: navigationDeps
+  [ReactNavigationExampleChoice.WithoutReactNavigationExample]: navigationDeps,
+  [IconToolkitChoice.LucideIcons]: lucideIconDeps
 };
 
 export const SelectionToDevDependencyNameMap = {
   [StyleLibraryChoice.StyledComponents]: styleDevDeps,
   [StorybookChoice.Storybook]: storybookDevDeps,
   [StorybookChoice.StorybookWithStories]: storybookDevDeps,
-  [ReactotronChoice.withReactotron]: reactotronDevDeps,
-  [IconChoice.withIcons]: iconsDevDeps,
+  [ReactotronChoice.withReactotron]: reactotronDevDeps
 };
 
 // Maps selection to handlebars-friendly object for easier conditionals within templates.
@@ -76,7 +75,7 @@ export const SelectionToTemplateParamsMap: Partial<Record<
   | StateLibraryChoice
   | ReactotronChoice
   | ReactNavigationExampleChoice
-  | IconChoice,
+  | IconToolkitChoice,
   Partial<TemplateParams>
 >> = {
   [StyleLibraryChoice.GluestackUICore]: {
@@ -119,8 +118,8 @@ export const SelectionToTemplateParamsMap: Partial<Record<
   [ReactNavigationExampleChoice.WithReactNavigationExample]: {
     hasReactNavigationExample: true
   },
-  [IconChoice.withIcons]: {
-    hasIcons: true,
+  [IconToolkitChoice.LucideIcons]: {
+    hasIconToolkit: true,
   },
   
 };
@@ -180,7 +179,7 @@ export const DefaultTemplateParams: TemplateParams = {
   hasRTKQuery: false,
   hasReactotron: false,
   hasReactNavigationExample: false,
-  hasIcons: false
+  hasIconToolkit: false
 };
 
 const PromptSelectionOptions = {
@@ -204,9 +203,9 @@ const PromptSelectionOptions = {
     choices: Object.values(ReactNavigationExampleChoice),
     message: 'React Navigation:'
   },
-  icons: {
-    choices: Object.values(IconChoice),
-    message: 'Lucide icons:'
+  iconToolkit: {
+    choices: Object.values(IconToolkitChoice),
+    message: 'Icon Toolkit:'
   }
 };
 

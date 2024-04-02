@@ -15,20 +15,21 @@ export const styleDevDeps = ['@types/styled-components-react-native@^5.2.5'];
 export const gluestackUIDeps = [
   '@gluestack-ui/themed',
   '@gluestack-style/react',
-  'react-native-svg@14.0.0',
+  'react-native-svg@^15.1.0',
   '@gluestack-ui/config@latest'
 ];
 
 export const glueStackUICoreDeps = [
   '@gluestack-ui/themed',
   '@gluestack-style/react',
-  'react-native-svg@14.0.0'
+  'react-native-svg@^15.1.0'
 ];
 
 export const storybookDevDeps = ['cross-env'];
 
-export const iconsDevDeps = [
-  'lucide-react-native'
+export const lucideIconDeps = [
+  'lucide-react-native',
+  'react-native-svg@^15.1.0'
 ]
 
 export const reactotronDevDeps = [

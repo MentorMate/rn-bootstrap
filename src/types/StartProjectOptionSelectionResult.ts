@@ -1,5 +1,5 @@
 import {
-  IconChoice,
+  IconToolkitChoice,
   ReactNavigationExampleChoice,
   StateLibraryChoice,
   StorybookChoice,
@@ -11,5 +11,5 @@ export interface StartProjectOptionSelectionResult {
   storybook: StorybookChoice;
   stateManagementLibrary: StateLibraryChoice;
   reactNavigationExample: ReactNavigationExampleChoice;
-  icons: IconChoice;
+  iconToolkit: IconToolkitChoice;
 }

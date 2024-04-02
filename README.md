@@ -132,7 +132,7 @@ In case you want to add react-navigation example code in the project:
 - `With set-up and example screens` option - when selected the App will automatically include an example BottomTabNavigator
   (`src/common/navigation/bottomTab/BottomTabNavigator.tsx`)
 
-#### `Icons`
+#### `Icon Toolkit`
 
 - `Lucide Icons` (Optional) Provides rich set of well styled icons.
   
