@@ -1,4 +1,5 @@
 import {
+  IconToolkitChoice,
   SelectionPrompts,
   StorybookChoice,
   StyleLibraryChoice,

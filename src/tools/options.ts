@@ -9,7 +9,8 @@ import {
   styleDevDeps,
   glueStackUICoreDeps,
   storybookDevDeps,
-  reactotronDevDeps
+  reactotronDevDeps,
+  lucideIconDeps
 } from './dependency-versions';
 
 export enum StyleLibraryChoice {
@@ -24,6 +25,11 @@ export enum StorybookChoice {
   Storybook = 'Storybook no examples',
   StorybookWithStories = 'Storybook with Stories example',
   NoStorybook = 'No Storybook' 
+}
+
+export enum IconToolkitChoice {
+  LucideIcons = 'Lucide Icons',
+  noIconToolkit = 'No Icon Toolkit'
 }
 
 export enum StateLibraryChoice {
@@ -51,7 +57,8 @@ export const SelectionToDependencyNameMap = {
   [StateLibraryChoice.ReduxToolkit]: reduxDeps,
   [StateLibraryChoice.ReduxToolkitWithQuery]: reduxDeps,
   [ReactNavigationExampleChoice.WithReactNavigationExample]: navigationDeps,
-  [ReactNavigationExampleChoice.WithoutReactNavigationExample]: navigationDeps
+  [ReactNavigationExampleChoice.WithoutReactNavigationExample]: navigationDeps,
+  [IconToolkitChoice.LucideIcons]: lucideIconDeps
 };
 
 export const SelectionToDevDependencyNameMap = {
@@ -67,7 +74,8 @@ export const SelectionToTemplateParamsMap: Partial<Record<
   | StorybookChoice
   | StateLibraryChoice
   | ReactotronChoice
-  | ReactNavigationExampleChoice,
+  | ReactNavigationExampleChoice
+  | IconToolkitChoice,
   Partial<TemplateParams>
 >> = {
   [StyleLibraryChoice.GluestackUICore]: {
@@ -109,7 +117,11 @@ export const SelectionToTemplateParamsMap: Partial<Record<
   },
   [ReactNavigationExampleChoice.WithReactNavigationExample]: {
     hasReactNavigationExample: true
-  }
+  },
+  [IconToolkitChoice.LucideIcons]: {
+    hasIconToolkit: true
+  },
+  
 };
 
 const getFullPathMatcher = (partialPath: string) => {
@@ -166,7 +178,8 @@ export const DefaultTemplateParams: TemplateParams = {
   hasReduxToolkit: false,
   hasRTKQuery: false,
   hasReactotron: false,
-  hasReactNavigationExample: false
+  hasReactNavigationExample: false,
+  hasIconToolkit: false
 };
 
 const PromptSelectionOptions = {
@@ -189,6 +202,10 @@ const PromptSelectionOptions = {
   reactNavigationExample: {
     choices: Object.values(ReactNavigationExampleChoice),
     message: 'React Navigation:'
+  },
+  iconToolkit: {
+    choices: Object.values(IconToolkitChoice),
+    message: 'Icon Toolkit:'
   }
 };
 
