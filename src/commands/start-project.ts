@@ -128,7 +128,7 @@ const startProject = async (toolbox: RnBootstrapToolbox) => {
 
     if (selectedOptions.storybook === StorybookChoice.StorybookWithStories) {
       if (gluestackOptions.includes(selectedOptions.styleLibrary)) {
-        // Replace storybook files with preconfigured ones specific for gluestack
+        // Replace storybook files with pre-configured ones specific for gluestack
         replaceFile('preview.tsx', '.storybook/preview.tsx');
         filesystem.remove('.storybook/stories/');
         replaceFile('gluestackStories', '.storybook/stories');
