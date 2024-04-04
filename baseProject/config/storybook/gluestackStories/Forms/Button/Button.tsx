@@ -1,5 +1,6 @@
 import React from 'react';
-import {  Center } from '@gluestack-ui/themed';import {
+import {  Center } from '@gluestack-ui/themed';
+import {
   Button,
   ButtonText,
   ButtonIcon,
@@ -15,10 +16,9 @@ import {  Center } from '@gluestack-ui/themed';import {
   ThreeDotsIcon,
   Input,
   InputField,
+  ArrowLeftIcon, 
+  ArrowRightIcon
 } from '@gluestack-ui/themed';
-{{#if hasIconToolkit}}
-import {  ArrowLeftIcon, ArrowRightIcon } from 'lucide-react-native';
-{{/if}}
 
 const ButtonBasic = ({ ...props }: any) => {
   return (
@@ -56,4 +56,6 @@ export {
   Input,
   InputField,
   Center,
+  ArrowLeftIcon, 
+  ArrowRightIcon
 };

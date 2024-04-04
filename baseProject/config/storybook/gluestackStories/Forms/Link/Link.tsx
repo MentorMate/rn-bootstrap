@@ -1,8 +1,5 @@
 import React from 'react';
-import { Link, LinkText, Icon, HStack, Text } from '@gluestack-ui/themed';
-{{#if hasIconToolkit}}
-import { ArrowRightIcon, ArrowLeftIcon } from 'lucide-react-native';
-{{/if}}
+import { Link, LinkText, Icon, HStack, Text, ArrowRightIcon, ArrowLeftIcon } from '@gluestack-ui/themed';
 
 const LinkBasic = ({ ...props }: any) => {
   return (
@@ -25,4 +22,4 @@ LinkBasic.description =
 
 export default LinkBasic;
 
-export { Link, LinkText, Icon, HStack, Text };
+export { Link, LinkText, Icon, HStack, Text, ArrowRightIcon, ArrowLeftIcon };

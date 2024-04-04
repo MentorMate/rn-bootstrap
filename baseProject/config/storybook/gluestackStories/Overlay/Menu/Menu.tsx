@@ -17,10 +17,10 @@ import {
   InputSlot,
   InputIcon,
   InputField,
+  ChevronUpIcon,
+  ChevronDownIcon,
+  StarIcon,
 } from '@gluestack-ui/themed';
-{{#if hasIconToolkit}}
-import { PaintBucket, PuzzleIcon, StarIcon, ChevronDown, ChevronUp } from 'lucide-react-native';
-{{/if}}
 
 const MenuBasic = ({ placement = 'bottom' }: any) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -45,7 +45,7 @@ const MenuBasic = ({ placement = 'bottom' }: any) => {
                 </InputSlot>
                 <InputField type="text" defaultValue="Option" />
                 {{#if hasIconToolkit}}
-                <InputSlot as={isOpen ? ChevronUp : ChevronDown} color="$black" alignSelf="center" mr="$3" />
+                <InputSlot as={isOpen ? ChevronUpIcon : ChevronDownIcon} color="$black" alignSelf="center" mr="$3" />
                 {{/if}}
               </Input>
             </Button>
@@ -56,16 +56,6 @@ const MenuBasic = ({ placement = 'bottom' }: any) => {
           <Icon as={GlobeIcon} size="sm" />
           <MenuItemLabel size="sm">Community</MenuItemLabel>
         </MenuItem>
-        {{#if hasIconToolkit}}
-        <MenuItem key="Plugins" textValue="Plugins" gap="$2">
-          <Icon as={PuzzleIcon} size="sm" />
-          <MenuItemLabel size="sm">Plugins</MenuItemLabel>
-        </MenuItem>
-        <MenuItem key="Theme" textValue="Theme" gap="$2">
-          <Icon as={PaintBucket} size="sm" />
-          <MenuItemLabel size="sm">Theme</MenuItemLabel>
-        </MenuItem>
-        {{/if}}
         <MenuItem key="Settings" textValue="Settings" gap="$2">
           <Icon as={SettingsIcon} size="sm" />
           <MenuItemLabel size="sm">Settings</MenuItemLabel>
@@ -97,4 +87,7 @@ export {
   Text,
   SettingsIcon,
   AddIcon,
+  ChevronUpIcon,
+  ChevronDownIcon,
+  StarIcon,
 };

@@ -46,10 +46,9 @@ import {
   ChevronDownIcon,
   InputSlot,
   InputIcon,
+  StarIcon
 } from '@gluestack-ui/themed';
-{{#if hasIconToolkit}}
-import { StarIcon } from 'lucide-react-native';
-{{/if}}
+
 
 const FormControlBasic = ({ colorMode, ...props }) => {
   let inputState = 'default';
@@ -132,4 +131,5 @@ export {
   ChevronDownIcon,
   CircleIcon,
   CheckIcon,
+  StarIcon
 };
