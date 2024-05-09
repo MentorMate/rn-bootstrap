@@ -59,4 +59,11 @@ export const registerHbsHelpers = () => {
   Handlebars.registerHelper('spacedCurlyBraces', function(hbString: string) {
     return '{ ' + hbString + ' }';
   });
+
+  Handlebars.registerHelper(
+    'append',
+    function (hbString: string, append: string) {
+      return hbString + append;
+    },
+  );
 };
