@@ -1,5 +1,25 @@
 # Changelog
 
+## [4.0.9](https://github.com/MentorMate/rn-bootstrap/compare/v4.0.8...v4.0.9) (2024-05-09)
+
+
+### Bug Fixes
+
+* added handlebars append helper to resolve tests template generator error ([dfe908e](https://github.com/MentorMate/rn-bootstrap/commit/dfe908e9d4787f7b4ed41f979206e164372faf33))
+
+
+### Miscellaneous
+
+* add icons option ([4999f08](https://github.com/MentorMate/rn-bootstrap/commit/4999f0874d2a3f1a5d765d75b3ed3b50aa60f86b))
+* add icons option ( fix svg version and unnecessary print ) ([473045e](https://github.com/MentorMate/rn-bootstrap/commit/473045ebaef4ad90dfa7aadc9bff5c3987a2b79e))
+* add icons option(fix print and svg version) ([4c74c15](https://github.com/MentorMate/rn-bootstrap/commit/4c74c15e411dd478b316009c8d0bc371f8aacd86))
+* fix formatting ([5fbe3c6](https://github.com/MentorMate/rn-bootstrap/commit/5fbe3c6f9aec16e98198ccdeef5d642c9e12b856))
+* modify option ([8f2b75b](https://github.com/MentorMate/rn-bootstrap/commit/8f2b75b983ee8afbf9834b937cfb89e307e08184))
+* modify option for future scalability ([e20ad4f](https://github.com/MentorMate/rn-bootstrap/commit/e20ad4fcb4dea804951cd0b60e21618c24839e76))
+* removed storybook examples images ([a42cbb8](https://github.com/MentorMate/rn-bootstrap/commit/a42cbb8cfcb4b16c27f562d881eb25bb0771edd2))
+* replaced lucide icons with their corresponding icons from gluestack-UI ([198b2f8](https://github.com/MentorMate/rn-bootstrap/commit/198b2f89bfa472d8ab96f9c90d815f8dd9097589))
+* updated gluestack-ui storybook examples ([8e52858](https://github.com/MentorMate/rn-bootstrap/commit/8e52858bc2b6fe5d8572fcf84f5bcff6b852ac78))
+
 ## [4.0.8](https://github.com/MentorMate/rn-bootstrap/compare/v4.0.7...v4.0.8) (2024-03-29)
 
 
