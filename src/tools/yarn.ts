@@ -19,7 +19,7 @@ const defaultPackageListOptions: PackageListOptions = {
 
 type PackageListOutput = [string, (str) => [string, string][]];
 function list(
-  options: PackageListOptions = defaultPackageListOptions
+  options: PackageListOptions = defaultPackageListOptions,
 ): PackageListOutput {
   return [
     `yarn${options.global ? ' global' : ''} list`,
@@ -41,7 +41,7 @@ export const yarn = {
   },
   add: (
     pkgs: string | string[],
-    options: PackageInstallOptions = defaultPackageInstallOptions
+    options: PackageInstallOptions = defaultPackageInstallOptions,
   ) => {
     const dev = options.dev ? ' --dev' : '';
     const exact = options.exact ? ' --exact' : '';
@@ -58,5 +58,11 @@ export const yarn = {
   list: async (options: PackageListOptions = defaultPackageListOptions) => {
     const [cmd, parseFn] = list(options);
     return parseFn(await spawnProgress(cmd, {}));
+  },
+  set: async (version: string) => {
+    return spawnProgress(`yarn set version ${version}`);
+  },
+  nodeLinker: async () => {
+    return spawnProgress('yarn config set nodeLinker node-modules');
   },
 };
