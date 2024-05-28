@@ -1,5 +1,4 @@
 import {
-  IconToolkitChoice,
   SelectionPrompts,
   StorybookChoice,
   StyleLibraryChoice,
@@ -19,6 +18,7 @@ import { spawnProgress } from '../tools/spawn-progress';
 import { commandFormat, RnBootstrapHeading, p } from '../tools/pretty';
 import { StartProjectOptionSelectionResult } from '../types/StartProjectOptionSelectionResult';
 import { IS_MAC } from '../tools/constants';
+import { yarnVersion } from '../tools/dependency-versions';
 
 const command: RnBootstrapCommand = {
   name: 'start-project',
@@ -142,11 +142,15 @@ const startProject = async (toolbox: RnBootstrapToolbox) => {
     }
   }
 
-  await yarn.set('3.6.4');
+  IS_MAC && (await yarn.run('pod-install'));
+
+  print.highlight('Updating classic yarn to yarn 3 (Modern)...');
+  await yarn.set(yarnVersion);
   await yarn.nodeLinker();
   await yarn.install();
 
-  IS_MAC && (await yarn.run('pod-install'));
+  IS_MAC && print.highlight('Running pod install...');
+  IS_MAC && (await yarn.run('pod-clean-install'));
 
   print.success(print.checkmark + ' Setup is done.');
 };
