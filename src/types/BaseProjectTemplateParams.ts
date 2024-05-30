@@ -12,4 +12,5 @@ export interface TemplateParams {
   hasStyledComponents: boolean;
   hasReactNavigationExample: boolean;
   hasReactotron: boolean;
+  hasI18n: boolean;
 }

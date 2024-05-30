@@ -36,3 +36,8 @@ export const reactotronDevDeps = [
   'reactotron-react-native',
   'reactotron-redux'
 ];
+
+export const i18nDeps = [
+  'react-i18next',
+  'i18next'
+]
