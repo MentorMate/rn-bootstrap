@@ -5,7 +5,7 @@ import { HomePage } from 'features/home/page/HomePage';
 import { ScreenName } from 'common/navigation/ScreenName';
 import { TabNavigationType } from 'common/navigation/type';
 {{#if hasI18n}}
-import ChangeLanguage from '../../../i18n/ChangeLanguageButton/ChangeLanguage';
+import ChangeLanguage from 'i18n/ChangeLanguageButton/ChangeLanguage';
 {{/if}}
 
 const Tab = createBottomTabNavigator<TabNavigationType>();

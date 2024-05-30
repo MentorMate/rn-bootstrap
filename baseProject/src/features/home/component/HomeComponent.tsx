@@ -1,21 +1,21 @@
 import React, { FunctionComponent, ReactNode } from 'react';
-import { ScrollView, {{#unless hasStyledComponents}}StyleSheet, {{/unless}}Text, useColorScheme, View } from 'react-native';
+import { ScrollView, 
+{{#unless hasStyledComponents}}StyleSheet, {{/unless}}Text, useColorScheme, View } from 'react-native';
 {{#if hasI18n}}
 import { useTranslation } from 'react-i18next';
-import {
-  Colors,
-  Header,
-  LearnMoreLinks,
-} from 'react-native/Libraries/NewAppScreen';
-{{else}}
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions
-} from 'react-native/Libraries/NewAppScreen';
+{{#unless hasReactNavigationExample}}
+import ChangeLanguage from 'i18n/ChangeLanguageButton/ChangeLanguage';
+{{/unless}}
 {{/if}}
+import {
+  Colors,
+  Header,
+  LearnMoreLinks,
+  {{#unless hasI18n}}
+  DebugInstructions, 
+  ReloadInstructions
+  {{/unless}}
+} from 'react-native/Libraries/NewAppScreen';
 {{#if hasStyledComponents}}
 import styled from 'styled-components/native';
 {{/if}}
@@ -86,7 +86,10 @@ export const HomeComponent = () => {
   };
 
   return (
-    <ScrollView contentInsetAdjustmentBehavior="automatic" style={backgroundStyle}>      
+    <ScrollView contentInsetAdjustmentBehavior="automatic" style={backgroundStyle}> 
+      {{#unless hasReactNavigationExample}} 
+      <ChangeLanguage />
+      {{/unless}}     
       <Header />
       <Body />
     </ScrollView>

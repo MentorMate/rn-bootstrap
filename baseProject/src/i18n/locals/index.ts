@@ -1,2 +1,2 @@
 export { default as en } from './en.json';
-export { default as bg } from './bg.json';
+export { default as en1 } from './en1.json';
