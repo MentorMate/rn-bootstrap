@@ -1,5 +1,17 @@
 # Changelog
 
+## [4.1.0](https://github.com/MentorMate/rn-bootstrap/compare/v4.0.9...v4.1.0) (2024-06-06)
+
+
+### Features
+
+* added internationalization option ([1cf8c84](https://github.com/MentorMate/rn-bootstrap/commit/1cf8c841258671df8e5b87801f6e2a091d15eadc))
+
+
+### Miscellaneous
+
+* add change language button to homescreen and change locals ([bc73f9b](https://github.com/MentorMate/rn-bootstrap/commit/bc73f9b3b10de626c034d195e44fe1fa7904f178))
+
 ## [4.0.9](https://github.com/MentorMate/rn-bootstrap/compare/v4.0.8...v4.0.9) (2024-05-09)
 
 
