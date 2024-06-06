@@ -1,11 +1,20 @@
 import React, { FunctionComponent, ReactNode } from 'react';
-import { ScrollView, {{#unless hasStyledComponents}}StyleSheet, {{/unless}}Text, useColorScheme, View } from 'react-native';
+import { ScrollView, 
+{{#unless hasStyledComponents}}StyleSheet, {{/unless}}Text, useColorScheme, View } from 'react-native';
+{{#if hasI18n}}
+import { useTranslation } from 'react-i18next';
+{{#unless hasReactNavigationExample}}
+import ChangeLanguage from 'i18n/ChangeLanguageButton/ChangeLanguage';
+{{/unless}}
+{{/if}}
 import {
   Colors,
-  DebugInstructions,
   Header,
   LearnMoreLinks,
+  {{#unless hasI18n}}
+  DebugInstructions, 
   ReloadInstructions
+  {{/unless}}
 } from 'react-native/Libraries/NewAppScreen';
 {{#if hasStyledComponents}}
 import styled from 'styled-components/native';
@@ -30,17 +39,29 @@ const Section: FunctionComponent<{
   );
 };
 
-export const HomeComponent = () => {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter
-  };
-
+const Body: FunctionComponent = () => {
+  {{#if hasI18n}}
+  const { t } = useTranslation();
+  {{/if}}
+  
   return (
-    <ScrollView contentInsetAdjustmentBehavior="automatic" style={backgroundStyle}>
-      <Header />
+    {{#if hasI18n}}
       <View>
+        <Section title={t('Step One')}>
+          {t('Edit')} {<Text style={styles.highlight}>App.tsx</Text>} {t('Screen Change')}
+        </Section>
+        <Section title={t('See Your Changes')}>
+          {t('Press')} {<Text style={styles.highlight}>Cmd + R</Text>} {t('Simulator')} {t('Reload')}
+        </Section>
+        <Section title={t('Debug')}>
+          {t('Press')} {<Text style={styles.highlight}>Cmd + D</Text>} {t('Simulator')} {t('Or')}{' '}
+          {<Text style={styles.highlight}>{t('Shake')}</Text>} {t('Dev Menu')}
+        </Section>
+        <Section title={t('Learn More')}>{t('Read Docs')}</Section>
+        <LearnMoreLinks />
+      </View>
+    {{else}}
+    <View>
         <Section title="Step One">
           Edit {{#if hasStyledComponents}}<HighlightedText>App.tsx</HighlightedText>{{else}}<Text style={styles.highlight}>App.tsx</Text>{{/if}} to change this screen and then come back to see your edits.
         </Section>
@@ -53,6 +74,24 @@ export const HomeComponent = () => {
         <Section title="Learn More">Read the docs to discover what to do next:</Section>
         <LearnMoreLinks />
       </View>
+  {{/if}}
+  )
+}
+
+export const HomeComponent = () => {
+  const isDarkMode = useColorScheme() === 'dark';
+
+  const backgroundStyle = {
+    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter
+  };
+
+  return (
+    <ScrollView contentInsetAdjustmentBehavior="automatic" style={backgroundStyle}> 
+      {{#unless hasReactNavigationExample}} 
+      <ChangeLanguage />
+      {{/unless}}     
+      <Header />
+      <Body />
     </ScrollView>
   );
 };
