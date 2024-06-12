@@ -39,3 +39,8 @@ export const reactotronDevDeps = [
 
 // Yarn 3 is now the default JavaScript package manager for new projects
 export const yarnVersion = '3.6.4';
+
+export const i18nDeps = [
+  'react-i18next',
+  'i18next'
+]

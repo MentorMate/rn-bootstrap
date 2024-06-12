@@ -8,6 +8,7 @@
       "common/*": ["./src/common/*"],
       "navigation/*": ["./src/common/navigation/*"],
       "features/*": ["./src/features/*"],
+      "i18n/*": ["./src/i18n/*"],
     },
     /* Visit https://aka.ms/tsconfig.json to read more about this file */
 

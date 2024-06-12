@@ -10,7 +10,8 @@ import {
   glueStackUICoreDeps,
   storybookDevDeps,
   reactotronDevDeps,
-  lucideIconDeps
+  lucideIconDeps,
+  i18nDeps
 } from './dependency-versions';
 
 export enum StyleLibraryChoice {
@@ -48,6 +49,11 @@ export enum ReactNavigationExampleChoice {
   WithoutReactNavigationExample = 'Without examples'
 }
 
+export enum InternationalizationChoice {
+  i18n = 'i18n',
+  noI18n = 'No'
+}
+
 // When the user selects an option, the corresponding dependencies are installed
 export const SelectionToDependencyNameMap = {
   [StyleLibraryChoice.GluestackUICore]: glueStackUICoreDeps,
@@ -58,6 +64,7 @@ export const SelectionToDependencyNameMap = {
   [StateLibraryChoice.ReduxToolkitWithQuery]: reduxDeps,
   [ReactNavigationExampleChoice.WithReactNavigationExample]: navigationDeps,
   [ReactNavigationExampleChoice.WithoutReactNavigationExample]: navigationDeps,
+  [InternationalizationChoice.i18n]: i18nDeps,
   [IconToolkitChoice.LucideIcons]: lucideIconDeps
 };
 
@@ -73,8 +80,9 @@ export const SelectionToTemplateParamsMap: Partial<Record<
   | StyleLibraryChoice
   | StorybookChoice
   | StateLibraryChoice
-  | ReactotronChoice
   | ReactNavigationExampleChoice
+  | InternationalizationChoice
+  | ReactotronChoice
   | IconToolkitChoice,
   Partial<TemplateParams>
 >> = {
@@ -109,14 +117,17 @@ export const SelectionToTemplateParamsMap: Partial<Record<
     hasRTKQuery: true,
     hasReduxToolkit: true
   },
+  [ReactNavigationExampleChoice.WithReactNavigationExample]: {
+    hasReactNavigationExample: true
+  },
+  [InternationalizationChoice.i18n]: {
+    hasI18n: true
+  },
   [ReactotronChoice.withReactotron]: {
     hasReactotron: true
   },
   [ReactotronChoice.withoutReactotron]: {
     hasReactotron: false
-  },
-  [ReactNavigationExampleChoice.WithReactNavigationExample]: {
-    hasReactNavigationExample: true
   },
   [IconToolkitChoice.LucideIcons]: {
     hasIconToolkit: true
@@ -157,7 +168,11 @@ export const SelectionToOptionalFilePathsMap = {
     getFullPathMatcher('src/common/navigation/'),
     getFullPathMatcher('src/features/fancy-feature/'),
     getFullPathMatcher('src/features/another-fancy-feature/')
-  ]
+  ],
+  [InternationalizationChoice.i18n]: [
+    getFullPathMatcher('src/i18n/'),
+    getFullPathMatcher('src/common/navigation/bottomTab/ChangeLanguage.tsx')
+  ],
 };
 
 export const gluestackOptions = [
@@ -179,7 +194,8 @@ export const DefaultTemplateParams: TemplateParams = {
   hasRTKQuery: false,
   hasReactotron: false,
   hasReactNavigationExample: false,
-  hasIconToolkit: false
+  hasIconToolkit: false,
+  hasI18n: false
 };
 
 const PromptSelectionOptions = {
@@ -195,13 +211,17 @@ const PromptSelectionOptions = {
     choices: Object.values(StateLibraryChoice),
     message: 'State Management:'
   },
-  reactotron: {
-    choices: Object.values(ReactotronChoice),
-    message: 'Reactotron:'
-  },
   reactNavigationExample: {
     choices: Object.values(ReactNavigationExampleChoice),
     message: 'React Navigation:'
+  },
+  Internationalization: {
+    choices: Object.values(InternationalizationChoice),
+    message: 'Internationalization:'
+  },
+  reactotron: {
+    choices: Object.values(ReactotronChoice),
+    message: 'Reactotron:'
   },
   iconToolkit: {
     choices: Object.values(IconToolkitChoice),
