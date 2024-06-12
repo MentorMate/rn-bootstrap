@@ -142,6 +142,7 @@ const startProject = async (toolbox: RnBootstrapToolbox) => {
     }
   }
 
+  // Pods are installed once before the yarn 3 migration and once after in order to properly link the pods.
   IS_MAC && (await yarn.run('pod-install'));
 
   print.highlight('Updating classic yarn to yarn 3 (Modern)...');
