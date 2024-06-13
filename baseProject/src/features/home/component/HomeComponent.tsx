@@ -48,14 +48,14 @@ const Body: FunctionComponent = () => {
     {{#if hasI18n}}
       <View>
         <Section title={t('Step One')}>
-          {t('Edit')} {<Text style={styles.highlight}>App.tsx</Text>} {t('Screen Change')}
+          {t('Edit')} {{#if hasStyledComponents}}<HighlightedText>App.tsx</HighlightedText>{{else}}<Text style={styles.highlight}>App.tsx</Text>{{/if}} {t('Screen Change')}
         </Section>
         <Section title={t('See Your Changes')}>
-          {t('Press')} {<Text style={styles.highlight}>Cmd + R</Text>} {t('Simulator')} {t('Reload')}
+          {t('Press')} {{#if hasStyledComponents}}<HighlightedText>Cmd + R</HighlightedText>{{else}}<Text style={styles.highlight}>Cmd + R</Text>{{/if}} {t('Simulator')} {t('Reload')}
         </Section>
         <Section title={t('Debug')}>
-          {t('Press')} {<Text style={styles.highlight}>Cmd + D</Text>} {t('Simulator')} {t('Or')}{' '}
-          {<Text style={styles.highlight}>{t('Shake')}</Text>} {t('Dev Menu')}
+          {t('Press')} {{#if hasStyledComponents}}<HighlightedText>Cmd + D</HighlightedText>{{else}}<Text style={styles.highlight}>Cmd + D</Text>{{/if}} {t('Simulator')} {t('Or')}{' '}
+          {{#if hasStyledComponents}}<HighlightedText>{t('Shake')}</HighlightedText>{{else}}<Text style={styles.highlight}>{t('Shake')}</Text>{{/if}} {t('Dev Menu')}
         </Section>
         <Section title={t('Learn More')}>{t('Read Docs')}</Section>
         <LearnMoreLinks />
@@ -88,7 +88,9 @@ export const HomeComponent = () => {
   return (
     <ScrollView contentInsetAdjustmentBehavior="automatic" style={backgroundStyle}> 
       {{#unless hasReactNavigationExample}} 
+      {{#if hasI18n}}
       <ChangeLanguage />
+      {{/if}}
       {{/unless}}     
       <Header />
       <Body />
