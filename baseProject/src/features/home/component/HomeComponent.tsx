@@ -88,7 +88,9 @@ export const HomeComponent = () => {
   return (
     <ScrollView contentInsetAdjustmentBehavior="automatic" style={backgroundStyle}> 
       {{#unless hasReactNavigationExample}} 
+      {{#if hasI18n}}
       <ChangeLanguage />
+      {{/if}}
       {{/unless}}     
       <Header />
       <Body />
