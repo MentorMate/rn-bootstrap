@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.1.1](https://github.com/MentorMate/rn-bootstrap/compare/v4.1.0...v4.1.1) (2024-06-14)
+
+
+### Bug Fixes
+
+* internationalization with different styling options ([c0e9b16](https://github.com/MentorMate/rn-bootstrap/commit/c0e9b16435b9b01ea79e52333d7ae70270048570))
+
 ## [4.1.0](https://github.com/MentorMate/rn-bootstrap/compare/v4.0.9...v4.1.0) (2024-06-06)
 
 
