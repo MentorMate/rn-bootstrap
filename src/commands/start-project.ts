@@ -1,32 +1,32 @@
 import {
-  IconToolkitChoice,
   SelectionPrompts,
   StorybookChoice,
   StyleLibraryChoice,
-  gluestackOptions
+  gluestackOptions,
 } from '../tools/options';
 import {
   getDependenciesToInstallFromSelectedOptions,
   getTemplateParamsFromSelectedOptions,
-  getFilePathsToExcludeFromSelectedOptions
+  getFilePathsToExcludeFromSelectedOptions,
 } from '../tools/option-utils';
 import { yarn } from '../tools/yarn';
 import {
   RnBootstrapCommand,
-  RnBootstrapToolbox
+  RnBootstrapToolbox,
 } from '../types/RnBootstrapToolbox';
 import { spawnProgress } from '../tools/spawn-progress';
 import { commandFormat, RnBootstrapHeading, p } from '../tools/pretty';
 import { StartProjectOptionSelectionResult } from '../types/StartProjectOptionSelectionResult';
 import { IS_MAC } from '../tools/constants';
+import { yarnVersion } from '../tools/dependency-versions';
 
 const command: RnBootstrapCommand = {
   name: 'start-project',
   description: 'Creates a new project',
   alias: 'sp',
-  run: async toolbox => {
+  run: async (toolbox) => {
     const {
-      parameters: { options }
+      parameters: { options },
     } = toolbox;
 
     if (options.h) {
@@ -34,14 +34,14 @@ const command: RnBootstrapCommand = {
     } else {
       await startProject(toolbox);
     }
-  }
+  },
 };
 
 const showHelp = () => {
   p();
   RnBootstrapHeading();
   commandFormat('start-project         ', 'Creates a new React Native app', [
-    'rn-bootstrap start-project MyApp com.myappbundleid'
+    'rn-bootstrap start-project MyApp com.myappbundleid',
   ]);
   p();
   p('Use this command to generate a new React Native project.');
@@ -50,18 +50,18 @@ const showHelp = () => {
 };
 
 const startProject = async (toolbox: RnBootstrapToolbox) => {
-  const { prompt, print, filesystem, replaceFile } = toolbox;
+  const { prompt, print, filesystem, replaceFile, clearXcodeLocalEnv } =
+    toolbox;
 
   const projectName = toolbox.getProjectName();
   const bundleId = toolbox.getBundleId();
-  const selectedOptions = await prompt.ask<StartProjectOptionSelectionResult>(
-    SelectionPrompts
-  );
+  const selectedOptions =
+    await prompt.ask<StartProjectOptionSelectionResult>(SelectionPrompts);
 
   toolbox.copyRecursively({
     from: toolbox.BASE_PROJECT_PATH,
     to: projectName,
-    excluded: getFilePathsToExcludeFromSelectedOptions(selectedOptions)
+    excluded: getFilePathsToExcludeFromSelectedOptions(selectedOptions),
   });
 
   // From here on we operate within the actual project directory.
@@ -71,15 +71,14 @@ const startProject = async (toolbox: RnBootstrapToolbox) => {
   const templateParams = getTemplateParamsFromSelectedOptions(selectedOptions);
   toolbox
     .getSourceFilesRecursivelyFromCurrentDir()
-    .forEach(sourceFile =>
-      toolbox.compileTemplate([sourceFile], templateParams)
+    .forEach((sourceFile) =>
+      toolbox.compileTemplate([sourceFile], templateParams),
     );
 
   print.success('Compiled templates.');
 
-  const dependenciesToInstall = getDependenciesToInstallFromSelectedOptions(
-    selectedOptions
-  );
+  const dependenciesToInstall =
+    getDependenciesToInstallFromSelectedOptions(selectedOptions);
 
   await spawnProgress('git init');
   await yarn.install();
@@ -94,7 +93,7 @@ const startProject = async (toolbox: RnBootstrapToolbox) => {
   await yarn.run('prettify:write');
 
   print.info(
-    'Please note you might have to use Xcode to change the iOS bundle ID!'
+    'Please note you might have to use Xcode to change the iOS bundle ID!',
   );
   print.info('Screenshot for reference: https://bit.ly/ios-bundle-id-change');
 
@@ -108,7 +107,7 @@ const startProject = async (toolbox: RnBootstrapToolbox) => {
       await spawnProgress('npx gluestack-ui-scripts eject-theme');
     } catch {
       print.error(
-        'Gluestack Ejected still awaiting for fix from gluestack team! This error doesn"t break the build.'
+        'Gluestack Ejected still awaiting for fix from gluestack team! This error doesn"t break the build.',
       );
     }
   }
@@ -123,7 +122,7 @@ const startProject = async (toolbox: RnBootstrapToolbox) => {
     packageJson.scripts['storybook'] =
       "cross-env STORYBOOK_ENABLED='true' yarn start";
     filesystem.write(packageJsonPath, packageJson, {
-      jsonIndent: 2
+      jsonIndent: 2,
     });
 
     if (selectedOptions.storybook === StorybookChoice.StorybookWithStories) {
@@ -133,18 +132,27 @@ const startProject = async (toolbox: RnBootstrapToolbox) => {
         filesystem.remove('.storybook/stories/');
         replaceFile('gluestackStories', '.storybook/stories');
       }
-  
+
       print.info('Removing storybook config folder reference...');
       toolbox.filesystem.remove('config/storybook');
       print.highlight(
-        print.checkmark + ' Storybook config folder reference removed!'
+        print.checkmark + ' Storybook config folder reference removed!',
       );
     } else {
       filesystem.remove('.storybook/stories/');
     }
   }
 
-  IS_MAC && (await yarn.run('pod-install'));
+  print.highlight('Updating classic yarn to yarn 3 (Modern)...');
+  await yarn.set(yarnVersion);
+  await yarn.nodeLinker();
+  await yarn.install();
+
+  if (IS_MAC) {
+    print.highlight('Running pod install...');
+    await yarn.run('pod-install');
+    clearXcodeLocalEnv();
+  }
 
   print.success(print.checkmark + ' Setup is done.');
 };

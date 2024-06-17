@@ -5,7 +5,7 @@ const { generate } = require('@storybook/react-native/scripts/generate');
 {{/if}}
 /**
  * Metro configuration
- * https://facebook.github.io/metro/docs/configuration
+ * https://reactnative.dev/docs/metro
  *
  * @type {import('metro-config').MetroConfig}
  */

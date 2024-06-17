@@ -37,7 +37,7 @@ npm i -g @mentormate/rn-bootstrap
 
 ## Prerequisites
 
-Yarn - If you don't already have yarn installed, please follow the steps listed [here](https://yarnpkg.com/getting-started/install).
+Yarn (v1.22+ is required) - If you don't already have yarn installed, please follow the steps listed [here](https://yarnpkg.com/getting-started/install).
 
 Before you can start using this tool you need to prepare you local environment for React Native development as described [here](https://reactnative.dev/docs/environment-setup).
 
