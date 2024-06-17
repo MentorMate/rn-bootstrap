@@ -50,7 +50,8 @@ const showHelp = () => {
 };
 
 const startProject = async (toolbox: RnBootstrapToolbox) => {
-  const { prompt, print, filesystem, replaceFile } = toolbox;
+  const { prompt, print, filesystem, replaceFile, clearXcodeLocalEnv } =
+    toolbox;
 
   const projectName = toolbox.getProjectName();
   const bundleId = toolbox.getBundleId();
@@ -142,16 +143,16 @@ const startProject = async (toolbox: RnBootstrapToolbox) => {
     }
   }
 
-  // Pods are installed once before the yarn 3 migration and once after in order to properly link the pods.
-  IS_MAC && (await yarn.run('pod-install'));
-
   print.highlight('Updating classic yarn to yarn 3 (Modern)...');
   await yarn.set(yarnVersion);
   await yarn.nodeLinker();
   await yarn.install();
 
-  IS_MAC && print.highlight('Running pod install...');
-  IS_MAC && (await yarn.run('pod-clean-install'));
+  if (IS_MAC) {
+    print.highlight('Running pod install...');
+    await yarn.run('pod-install');
+    clearXcodeLocalEnv();
+  }
 
   print.success(print.checkmark + ' Setup is done.');
 };
